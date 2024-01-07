@@ -1,0 +1,15 @@
+<svg id="icon_-_arrow_dark" data-name="icon - arrow dark" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #03263b;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <circle id="椭圆" class="cls-1" cx="14" cy="14" r="14"/>
+  <path id="路径" class="cls-2" d="M.437-.5a.942.942,0,0,1,.683.293L4.354,3.107,7.866-.232A.923.923,0,0,1,8.517-.5.937.937,0,0,1,9.2-.2a.94.94,0,0,1-.036,1.324L4.981,5.105a.911.911,0,0,1-.652.268.946.946,0,0,1-.67-.286l0,0L-.225,1.1A.908.908,0,0,1-.5.449.942.942,0,0,1-.214-.227.909.909,0,0,1,.437-.5Z" transform="translate(11.5 18.456) rotate(-90)"/>
+</svg>

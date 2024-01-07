@@ -1,0 +1,47 @@
+<svg data-name="header - bg - 2" xmlns="http://www.w3.org/2000/svg" width="375" height="160" viewBox="0 0 375 160">
+    <defs>
+        <filter id="eebp5is7bc" x="170" y="42" width="203.126" height="137.984" filterUnits="userSpaceOnUse">
+            <feOffset dy="5"/>
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feFlood flood-color="#03263b"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <filter id="xpl7d77ubd" x="-15" y="78" width="120" height="100" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="5" result="blur-2"/>
+            <feFlood flood-color="#03263b"/>
+            <feComposite operator="in" in2="blur-2"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <filter id="5xb6xi738e" x="-2.5" y="60.495" width="142" height="115" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="7.5" result="blur-3"/>
+            <feFlood flood-color="#03263b"/>
+            <feComposite operator="in" in2="blur-3"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <linearGradient id="a9o82y842a" x1=".793" y1=".136" x2=".266" y2="1.693" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#0b486d"/>
+            <stop offset="1" stop-color="#03263b"/>
+        </linearGradient>
+        <clipPath id="o9i74urweb">
+            <path transform="translate(2539)" style="fill:url(#a9o82y842a)" d="M0 0h375v160H0z"/>
+        </clipPath>
+    </defs>
+    <path data-name="矩形" style="fill:url(#a9o82y842a)" d="M0 0h375v160H0z"/>
+    <g style="clip-path:url(#o9i74urweb)">
+        <g style="opacity:.2" transform="translate(-2539)">
+            <path data-name="路径" d="M81.741 53.745 24.166 114.49h70.642l21.149-22.29 81.335-85.694H126.52z" transform="translate(2739.834 -32.484)" style="fill:#dcdedd"/>
+            <g style="filter:url(#eebp5is7bc)">
+                <path data-name="路径" d="M81.741 53.745 24.166 114.49h70.642l21.149-22.29 81.335-85.694H126.52z" transform="translate(2699.83 45.49)" style="fill:#00ada2"/>
+            </g>
+            <g style="filter:url(#xpl7d77ubd)">
+                <path data-name="路径" d="M79.647 37.128 43.166 76.506h25.062l13.4-14.45 38.1-41.064 13.438-14.486h-25.145z" transform="translate(2495.83 83.49)" style="fill:#00ada2"/>
+            </g>
+            <g style="filter:url(#5xb6xi738e)">
+                <path data-name="路径" d="M79.647 37.128 43.166 76.506h32.062l13.4-14.45 51.537-55.55h-32.144z" transform="translate(2515.83 73.49)" style="opacity:.6;fill:#dcdedd"/>
+            </g>
+        </g>
+    </g>
+</svg>
