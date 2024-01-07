@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <clipPath id="m9fddsovya">
+            <path style="fill:none" d="M0 0h24v24H0z"/>
+        </clipPath>
+    </defs>
+    <g style="clip-path:url(#m9fddsovya)">
+        <path style="fill:none" d="M0 0h24v24H0z"/>
+        <path d="m10.85 18.221-6.312-6.307 6.312-6.287" transform="translate(0 .042)" style="stroke-linejoin:round;stroke:#fff;stroke-linecap:round;stroke-width:1.65px;fill:none"/>
+        <path data-name="路径" d="M19.248 12h-14.5" transform="translate(0 -.05)" style="stroke:#fff;stroke-linecap:round;stroke-width:1.65px;fill:none"/>
+    </g>
+</svg>

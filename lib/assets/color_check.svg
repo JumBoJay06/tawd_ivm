@@ -1,0 +1,58 @@
+<svg id="color-check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: #00ada2;
+      }
+
+      .cls-1 {
+        opacity: 0.1;
+      }
+
+      .cls-2, .cls-5 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #00ada2;
+        stroke-width: 2px;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+
+      .cls-6 {
+        filter: url(#椭圆-2);
+      }
+
+      .cls-7 {
+        filter: url(#椭圆);
+      }
+    </style>
+    <filter id="椭圆" x="4.5" y="5.5" width="31" height="31" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-color="#03263b" flood-opacity="0.149"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="椭圆-2" x="8.5" y="9.5" width="23" height="23" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-2"/>
+      <feFlood flood-color="#03263b" flood-opacity="0.149"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <circle id="椭圆-3" data-name="椭圆" class="cls-1" cx="20" cy="20" r="20"/>
+  <g class="cls-7" transform="matrix(1, 0, 0, 1, 0, 0)">
+    <g id="椭圆-4" data-name="椭圆" class="cls-2" transform="translate(9 9)">
+      <circle class="cls-4" cx="11" cy="11" r="11"/>
+      <circle class="cls-5" cx="11" cy="11" r="10"/>
+    </g>
+  </g>
+  <g class="cls-6" transform="matrix(1, 0, 0, 1, 0, 0)">
+    <circle id="椭圆-5" data-name="椭圆" class="cls-3" cx="7" cy="7" r="7" transform="translate(13 13)"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg id="icon_-_flag_-_da" data-name="icon - flag - da" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d80027;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect id="矩形" class="cls-1" width="32" height="32" rx="8"/>
+  <path id="联合" class="cls-2" d="M8.5-1968v-14H0v-4H8.5v-14h4v14H32v4H12.5v14Z" transform="translate(0 2000)"/>
+</svg>
