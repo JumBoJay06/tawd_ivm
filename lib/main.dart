@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_cmd_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:tawd_ivm/src/bloc/ivm/scan/scan_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'config.dart';
+import 'generated/l10n.dart';
 import 'src/manager/ivm_manager.dart';
 
 
@@ -36,7 +38,18 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        supportedLocales: const [
+          // 預設語系為繁體中文
+          Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+          Locale('en'),
+        ],
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        title: S.of(context).language,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
