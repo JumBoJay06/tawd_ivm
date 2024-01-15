@@ -6,7 +6,7 @@ import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_cmd_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/scan/scan_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tawd_ivm/src/route.dart';
+import 'package:tawd_ivm/route.dart';
 
 import 'config.dart';
 import 'generated/l10n.dart';
