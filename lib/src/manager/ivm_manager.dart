@@ -56,6 +56,7 @@ class IvmManager {
     }
   }
 
+  // 指令都會以下面方式實作，搭配IvmCmdBloc使用
   Future<String?> getVersion() async {
     try {
       final send = [0x25, 0x00, 0x00];
