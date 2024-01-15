@@ -24,7 +24,7 @@ class _ScanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).ivm_service_paired_device),
+        title: Text(S.of(context).ivm_service_device_connect),
       ),
       body: BlocProvider(
         create: (context) => ScanBloc(),
