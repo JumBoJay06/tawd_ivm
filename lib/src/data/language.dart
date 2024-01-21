@@ -3,8 +3,11 @@ import 'package:hive/hive.dart';
 
 @HiveType(typeId: 0)
 class Language extends HiveObject {
-  Language({required this.selectLanguage});
+  Language({required this.selectLanguageCode});
 
   @HiveField(0)
-  String selectLanguage;
+  int index = 0;
+
+  @HiveField(1)
+  String selectLanguageCode;
 }
