@@ -42,6 +42,6 @@ class _AdsPageState extends State<AdsPage> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 5000)).then((value) =>
         Navigator.pushNamedAndRemoveUntil(
-            context, kRouteScanPage, (route) => false));
+            context, kRouteSelectLanguage, (route) => false));
   }
 }

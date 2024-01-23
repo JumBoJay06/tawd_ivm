@@ -1,6 +1,8 @@
 // Language data class , 用 Hive 套件 , 裡面有 String 的 selectLanguage
 import 'package:hive/hive.dart';
 
+part 'language.g.dart';
+
 @HiveType(typeId: 0)
 class Language extends HiveObject {
   Language({required this.selectLanguageCode});
