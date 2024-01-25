@@ -66,7 +66,7 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
   }
 
   Widget _createListItem(BuildContext context, int index) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         setState(() {
           selectIndex = index;
@@ -150,8 +150,8 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
                 context.read<LangBloc>().add(SettingLangZhTW());
                 break;
             }
-            Navigator.pushNamedAndRemoveUntil(
-                context, kRouteScanPage, (route) => false);
+            Navigator.pushNamed(
+                context, kRouteScanStartPage);
           },
           child: Container(
             width: 343.w,
@@ -192,8 +192,8 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
           child: Padding(
             padding: EdgeInsetsDirectional.only(top: 16.h),
             child: SizedBox(
-              width: 240,
-              height: 185,
+              width: 240.w,
+              height: 185.h,
               child: Stack(
                 children: [
                   Align(

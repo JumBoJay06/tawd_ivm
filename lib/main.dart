@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
@@ -58,6 +59,8 @@ class MyApp extends StatelessWidget {
     return BlocBuilder<LangBloc, LangState>(
       builder: (context, state) {
         return MaterialApp(
+          navigatorObservers: [FlutterSmartDialog.observer],
+          builder: FlutterSmartDialog.init(),
           supportedLocales: const [
             // 預設語系為繁體中文
             Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),

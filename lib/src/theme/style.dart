@@ -3,9 +3,11 @@ import 'dart:ui';
 
 class ColorTheme {
   static const Color primary = Color(0xff03263B);
+  static const Color primaryAlpha_7f = Color(0x7f03263B);
   static const Color primaryGradient = Color(0xff0b486d);
   static const Color primaryVariant = Color(0xff0D4D74);
   static const Color secondary = Color(0xff00ADA2);
+  static const Color secondaryGradient = Color(0xff00E5D6);
   static const Color red = Color(0xffFF0000);
   static const Color pink = Color(0xffFF00B8);
   static const Color yellow = Color(0xffFFD600);
