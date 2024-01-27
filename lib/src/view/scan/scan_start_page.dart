@@ -85,9 +85,7 @@ class ScanStartPage extends StatelessWidget {
                 if (!isOn) {
                   _openBleOffDialog();
                 } else {
-                  // todo goto pair page
-                  DialogLoading.showLoading(
-                      'load', content: S.of(context).available_device_searching);
+                  Navigator.pushNamed(context, kRoutePairedPage);
                 }
               },
               child: _createPairedDeviceWidget(context),

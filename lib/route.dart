@@ -1,9 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tawd_ivm/src/view/action_menu/action_menu_page.dart';
 import 'package:tawd_ivm/src/view/ads_page.dart';
 import 'package:tawd_ivm/src/view/language/select_language_page.dart';
 import 'package:tawd_ivm/src/view/scan/available_devices_page.dart';
+import 'package:tawd_ivm/src/view/scan/paired_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_start_page.dart';
 
@@ -29,6 +31,9 @@ const String kRouteAds = '/';
 const String kRouteSelectLanguage = '/select_language';
 const String kRouteScanStartPage = '/scan/start';
 const String kRouteAvailableDevicesPage = '/scan/available_devices';
+const String kRoutePairedPage = '/scan/paired_page';
+const String kRouteActionMenu = '/action_menu';
+
 const String kRouteScanPage = '/scan/scan';
 
 Map<String, WidgetBuilder> getRoutes() {
@@ -37,7 +42,9 @@ Map<String, WidgetBuilder> getRoutes() {
     kRouteScanPage: (context) => const ScanPage(),
     kRouteScanStartPage: (context) => const ScanStartPage(),
     kRouteAvailableDevicesPage: (context) => const AvailableDevicesPage(),
+    kRoutePairedPage: (context) => const PairedPage(),
     kRouteSelectLanguage: (context) => const SelectLanguagePage(),
+    kRouteActionMenu: (context) => const ActionMenu(),
   };
 }
 

@@ -17,6 +17,8 @@ import '../../util/dialog_widget_util.dart';
 /// 用Bloc實作撈取DB與查詢，並有已配對裝置與無裝置兩種狀態
 /// 另外 bloc 要暫存已配對裝置，方便過濾與還原
 class PairedPage extends StatelessWidget {
+  const PairedPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return _PairedPage();
