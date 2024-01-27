@@ -24,7 +24,7 @@ class _SelectLanguagePage extends StatefulWidget {
 }
 
 class _SelectLanguagePageState extends State<_SelectLanguagePage> {
-  int selectIndex = 1;
+  int selectIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -66,24 +66,22 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
   }
 
   Widget _createListItem(BuildContext context, int index) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         setState(() {
           selectIndex = index;
         });
       },
-      child: Column(
-        children: [
-          SizedBox(
-            height: 64.w,
-            child: Stack(
-              children: [
-                _createCheckWidget(index),
-                _createLangWidget(context, index)
-              ],
-            ),
-          ),
-        ],
+      child: SizedBox(
+        height: 64.w,
+        width: 343.w,
+        child: Stack(
+          children: [
+            _createCheckWidget(index),
+            _createLangWidget(context, index),
+            _createDivide()
+          ],
+        ),
       ),
     );
   }
@@ -116,13 +114,13 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
       children: [
         Positioned(
             left: 40.w,
-              top: 16.h,
-              bottom: 16.h,
+            top: 16.h,
+            bottom: 16.h,
             child: _getItemImage(context, index)),
         Positioned(
             left: 88.w,
-              top: 23.h,
-              bottom: 23.h,
+            top: 23.h,
+            bottom: 23.h,
             child: Text(_getItemName(context, index),
                 style: const TextStyle(
                     color: ColorTheme.primary,
@@ -132,6 +130,18 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
                     fontSize: 16.0)))
       ],
     );
+  }
+
+  Widget _createDivide() {
+    return Positioned(
+        top: 63.h,
+        left: 0,
+        right: 0,
+        child: Container(
+            width: 343.w,
+            height: 1.h,
+            decoration:
+                const BoxDecoration(color: ColorTheme.primaryAlpha_10)));
   }
 
   Widget _createSaveButton(BuildContext context) {
@@ -150,8 +160,7 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
                 context.read<LangBloc>().add(SettingLangZhTW());
                 break;
             }
-            Navigator.pushNamed(
-                context, kRouteScanStartPage);
+            Navigator.pushNamed(context, kRouteScanStartPage);
           },
           child: Container(
             width: 343.w,
@@ -189,32 +198,29 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
         right: 67.w,
         left: 67.w,
         child: Align(
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(top: 16.h),
-            child: SizedBox(
-              width: 240.w,
-              height: 185.h,
-              child: Stack(
-                children: [
-                  Align(
-                    child: Image.asset(
-                      'assets/background_round.png',
-                      width: MediaQuery.sizeOf(context).width,
-                      height: MediaQuery.sizeOf(context).height,
-                      fit: BoxFit.cover,
-                    ),
+          child: SizedBox(
+            width: 240.w,
+            height: 185.h,
+            child: Stack(
+              children: [
+                Align(
+                  child: Image.asset(
+                    'assets/background_round.png',
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                    fit: BoxFit.cover,
                   ),
-                  Align(
-                    alignment: const AlignmentDirectional(0, 1),
-                    child: Image.asset(
-                      'assets/icon_language.png',
-                      width: 145.w,
-                      height: 145.h,
-                      fit: BoxFit.cover,
-                    ),
+                ),
+                Align(
+                  alignment: const AlignmentDirectional(0, 1),
+                  child: Image.asset(
+                    'assets/icon_language.png',
+                    width: 145.w,
+                    height: 145.h,
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ));

@@ -7,12 +7,14 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
+import 'package:tawd_ivm/src/bloc/device_text_field/device_text_field_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_cmd_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/scan/scan_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawd_ivm/route.dart';
 import 'package:tawd_ivm/src/bloc/language/lang_bloc.dart';
+import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
 import 'package:tawd_ivm/src/data/language.dart';
 import 'package:tawd_ivm/src/data/paired_device.dart';
 
@@ -34,7 +36,9 @@ void main() async {
 
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider<LangBloc>(create: (context) => LangBloc()),
+      BlocProvider<LangBloc>(
+        create: (context) => LangBloc(),
+      ),
       BlocProvider<ScanBloc>(
         create: (context) => ScanBloc(),
       ),
@@ -43,6 +47,12 @@ void main() async {
       ),
       BlocProvider<IvmCmdBloc>(
         create: (context) => IvmCmdBloc(),
+      ),
+      BlocProvider<DeviceTextFieldBloc>(
+        create: (context) => DeviceTextFieldBloc(),
+      ),
+      BlocProvider<PairedDeviceBloc>(
+        create: (context) => PairedDeviceBloc(),
       ),
     ],
     child: const MyApp(),

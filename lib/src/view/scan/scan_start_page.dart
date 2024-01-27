@@ -4,7 +4,8 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:tawd_ivm/src/theme/style.dart';
-import 'package:tawd_ivm/src/util/dialog_util.dart';
+import 'package:tawd_ivm/src/util/dialog_loading.dart';
+import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../route.dart';
@@ -69,7 +70,7 @@ class ScanStartPage extends StatelessWidget {
                 if (!isOn) {
                   _openBleOffDialog();
                 } else {
-                  // todo scan page
+                  Navigator.pushNamed(context, kRouteAvailableDevicesPage);
                 }
               },
               child: _createConnectDeviceWidget(context),
@@ -85,6 +86,8 @@ class ScanStartPage extends StatelessWidget {
                   _openBleOffDialog();
                 } else {
                   // todo goto pair page
+                  DialogLoading.showLoading(
+                      'load', content: S.of(context).available_device_searching);
                 }
               },
               child: _createPairedDeviceWidget(context),
@@ -188,9 +191,8 @@ class ScanStartPage extends StatelessWidget {
     SmartDialog.show(
         tag: 'ble_off',
         builder: (context) {
-          return DialogUtil.bleOffDialog(context, () {
-            AppSettings.openAppSettings(
-                type: AppSettingsType.bluetooth);
+          return DialogWidgetUtil.bleOffDialog(context, () {
+            AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
             SmartDialog.dismiss(tag: 'ble_off');
           }, () => {SmartDialog.dismiss(tag: 'ble_off')});
         });

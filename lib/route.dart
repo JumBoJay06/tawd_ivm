@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tawd_ivm/src/view/ads_page.dart';
 import 'package:tawd_ivm/src/view/language/select_language_page.dart';
+import 'package:tawd_ivm/src/view/scan/available_devices_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_start_page.dart';
 
@@ -27,6 +28,7 @@ enum TransitionType {
 const String kRouteAds = '/';
 const String kRouteSelectLanguage = '/select_language';
 const String kRouteScanStartPage = '/scan/start';
+const String kRouteAvailableDevicesPage = '/scan/available_devices';
 const String kRouteScanPage = '/scan/scan';
 
 Map<String, WidgetBuilder> getRoutes() {
@@ -34,6 +36,7 @@ Map<String, WidgetBuilder> getRoutes() {
     kRouteAds: (context) => const AdsPage(),
     kRouteScanPage: (context) => const ScanPage(),
     kRouteScanStartPage: (context) => const ScanStartPage(),
+    kRouteAvailableDevicesPage: (context) => const AvailableDevicesPage(),
     kRouteSelectLanguage: (context) => const SelectLanguagePage(),
   };
 }

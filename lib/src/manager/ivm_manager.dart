@@ -5,8 +5,14 @@ import 'package:logging/logging.dart';
 
 class IvmManager {
   static final IvmManager _instance = IvmManager._();
+
   static IvmManager getInstance() => _instance;
-  IvmManager._();
+
+  IvmManager._() {
+    FlutterBluePlus.scanResults.listen((event) {
+      _scanController.sink.add(event);
+    });
+  }
 
   final Guid serviceUuid = Guid("7e400001-b5a3-f393-e0a9-e50e24dcca9e");
   final Guid _writeUuid = Guid("7e400002-b5a3-f393-e0a9-e50e24dcca9e");
@@ -18,9 +24,52 @@ class IvmManager {
 
   BluetoothDevice? get device => _device;
 
-  final StreamController<List<int>> _rxController = StreamController<List<int>>.broadcast();
+  final StreamController<List<ScanResult>> _scanController =
+      StreamController<List<ScanResult>>.broadcast();
+
+  Stream<List<ScanResult>> get scanStream => _scanController.stream;
+
+  final StreamController<List<int>> _rxController =
+      StreamController<List<int>>.broadcast();
 
   Logger get _logger => Logger("IvmManager");
+
+  Future<void> startScan(int timeout) async {
+    await FlutterBluePlus.startScan(
+        withServices: [serviceUuid], timeout: Duration(seconds: timeout));
+  }
+
+  Future<ScanResult?> startScanWithName(String name, int timeout) async {
+    final completer = Completer<ScanResult?>();
+    FlutterBluePlus.startScan(
+        withServices: [serviceUuid],
+        withNames: [name],
+        timeout: Duration(seconds: timeout));
+
+    StreamSubscription<List<ScanResult>>? subscription;
+    subscription = scanStream.listen((event) {
+      for (var element in event) {
+        if (element.device.platformName == name) {
+          completer.complete(element);
+          subscription?.cancel();
+        }
+      }
+    });
+
+    await Future.any([
+      completer.future,
+      Future.delayed(Duration(seconds: timeout), () {
+        _logger.warning("not found $name");
+        completer.complete(null);
+      })
+    ]);
+
+    return completer.future.whenComplete(() => subscription?.cancel());
+  }
+
+  Future<void> stopScan() async {
+    await FlutterBluePlus.stopScan();
+  }
 
   Future<bool> connect(BluetoothDevice device) async {
     _device = device;
@@ -65,7 +114,7 @@ class IvmManager {
   Future<String?> getVersion() async {
     try {
       final send = _createCmd(CmdId.getVersion.id);
-      final list =  await _write(send);
+      final list = await _write(send);
       if (list != null) {
         return _ascii(list.sublist(3, list.length - 1));
       } else {
@@ -80,7 +129,7 @@ class IvmManager {
   Future<String?> getRS485Address() async {
     try {
       final send = _createCmd(CmdId.getRS485Address.id);
-      final list =  await _write(send);
+      final list = await _write(send);
       if (list != null) {
         return _ascii(list.sublist(3, list.length - 1));
       } else {
@@ -164,5 +213,6 @@ enum CmdId {
   getRS485Address(id: 0x01);
 
   const CmdId({required this.id});
+
   final int id;
 }
