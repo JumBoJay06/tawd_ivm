@@ -16,6 +16,12 @@ class ScanSuccess extends ScanState {
   ScanSuccess(this.scanResults);
 }
 
+class FilterResults extends ScanState {
+  final List<ScanResult> scanResults;
+
+  FilterResults(this.scanResults);
+}
+
 class ScanFailure extends ScanState {
   final String message;
 
