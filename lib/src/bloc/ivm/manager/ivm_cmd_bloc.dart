@@ -15,7 +15,9 @@ class IvmCmdBloc extends Bloc<IvmCmdEvent, IvmCmdState> {
     on<CmdGetVersion>((event, emit) async {
       try {
         emit(IvmCmdSend());
+        IvmManager.getInstance().getRS485Address();
         final version = await IvmManager.getInstance().getVersion();
+
         _logger.info("Version: $version");
         emit(GetVersion(version));
       } catch (e) {
