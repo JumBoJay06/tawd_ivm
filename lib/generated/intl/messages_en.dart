@@ -53,31 +53,31 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_device_torque": MessageLookupByLibrary.simpleMessage("Torque"),
         "about_device_total_use":
             MessageLookupByLibrary.simpleMessage("IVM Total Use"),
-        "avaliable_device":
-            MessageLookupByLibrary.simpleMessage("Avaliable Device"),
-        "avaliable_device_failed":
+        "available_device":
+            MessageLookupByLibrary.simpleMessage("available Device"),
+        "available_device_failed":
             MessageLookupByLibrary.simpleMessage("Pairing Failed"),
-        "avaliable_device_no_found":
+        "available_device_no_found":
             MessageLookupByLibrary.simpleMessage("No devices found"),
-        "avaliable_device_no_paired_device_content":
+        "available_device_no_paired_device_content":
             MessageLookupByLibrary.simpleMessage("No Paired Devices"),
-        "avaliable_device_paired":
+        "available_device_paired":
             MessageLookupByLibrary.simpleMessage("Device paired"),
-        "avaliable_device_please_connect_first_content":
+        "available_device_please_connect_first_content":
             MessageLookupByLibrary.simpleMessage(
                 "Please connect a device first."),
-        "avaliable_device_please_retry": MessageLookupByLibrary.simpleMessage(
+        "available_device_please_retry": MessageLookupByLibrary.simpleMessage(
             "Please retry to pair device."),
-        "avaliable_device_research":
+        "available_device_research":
             MessageLookupByLibrary.simpleMessage("Re-search"),
-        "avaliable_device_search":
+        "available_device_search":
             MessageLookupByLibrary.simpleMessage("Search"),
-        "avaliable_device_searching":
+        "available_device_searching":
             MessageLookupByLibrary.simpleMessage("Device Searching"),
-        "avaliable_device_show_devices_paired_content":
+        "available_device_show_devices_paired_content":
             MessageLookupByLibrary.simpleMessage(
                 "The list shows devices ever been paired only."),
-        "avaliable_device_type_device_number_quickly_find_content":
+        "available_device_type_device_number_quickly_find_content":
             MessageLookupByLibrary.simpleMessage(
                 "Type device number to quickly find"),
         "ble_connection_lost":

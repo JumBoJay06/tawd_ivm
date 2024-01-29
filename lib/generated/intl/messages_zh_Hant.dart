@@ -50,25 +50,25 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("刷新失敗"),
         "about_device_torque": MessageLookupByLibrary.simpleMessage("扭力"),
         "about_device_total_use": MessageLookupByLibrary.simpleMessage("總使用次數"),
-        "avaliable_device": MessageLookupByLibrary.simpleMessage("可用裝置"),
-        "avaliable_device_failed":
+        "available_device": MessageLookupByLibrary.simpleMessage("可用裝置"),
+        "available_device_failed":
             MessageLookupByLibrary.simpleMessage("裝置配對失敗"),
-        "avaliable_device_no_found":
+        "available_device_no_found":
             MessageLookupByLibrary.simpleMessage("無可用裝置"),
-        "avaliable_device_no_paired_device_content":
+        "available_device_no_paired_device_content":
             MessageLookupByLibrary.simpleMessage("沒有曾配對裝置"),
-        "avaliable_device_paired":
+        "available_device_paired":
             MessageLookupByLibrary.simpleMessage("裝置配對成功"),
-        "avaliable_device_please_connect_first_content":
+        "available_device_please_connect_first_content":
             MessageLookupByLibrary.simpleMessage("請先配對裝置"),
-        "avaliable_device_please_retry":
+        "available_device_please_retry":
             MessageLookupByLibrary.simpleMessage("請重新配對裝置"),
-        "avaliable_device_research":
+        "available_device_research":
             MessageLookupByLibrary.simpleMessage("重新搜尋"),
-        "avaliable_device_search": MessageLookupByLibrary.simpleMessage("搜尋"),
-        "avaliable_device_show_devices_paired_content":
+        "available_device_search": MessageLookupByLibrary.simpleMessage("搜尋"),
+        "available_device_show_devices_paired_content":
             MessageLookupByLibrary.simpleMessage("此列表僅顯示曾配對裝置"),
-        "avaliable_device_type_device_number_quickly_find_content":
+        "available_device_type_device_number_quickly_find_content":
             MessageLookupByLibrary.simpleMessage("輸入裝置編號以快速尋找"),
         "ble_connection_lost": MessageLookupByLibrary.simpleMessage("連線中斷"),
         "ble_disconnected_content":
