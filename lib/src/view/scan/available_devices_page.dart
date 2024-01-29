@@ -10,12 +10,18 @@ import 'package:tawd_ivm/src/util/dialog_loading.dart';
 import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
 import '../../../generated/l10n.dart';
+import '../../../route.dart';
 import '../../bloc/ivm/manager/ivm_connection_bloc.dart';
 import '../../theme/style.dart';
 
-class AvailableDevicesPage extends StatelessWidget {
+class AvailableDevicesPage extends StatefulWidget {
   const AvailableDevicesPage({super.key});
 
+  @override
+  State<AvailableDevicesPage> createState() => _AvailableDevicesPageState();
+}
+
+class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   @override
   Widget build(BuildContext context) {
     return _availableDevices();
@@ -122,7 +128,7 @@ class _availableDevices extends StatelessWidget {
             right: 16.w,
             child: GestureDetector(
               onTap: () {
-                context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<DeviceTextFieldBloc>().add(StartFilter());
               },
               child: Image.asset(
                 'assets/light_9.png',
@@ -204,6 +210,7 @@ class _availableDevices extends StatelessWidget {
             child:GestureDetector(
               onTap: () {
                 context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<ScanBloc>().add(Filter(''));
               },
               child: Text(
                   S.of(context).common_cancel,
@@ -313,27 +320,31 @@ class _availableDevices extends StatelessWidget {
   }
 
   Widget _createListItem(BuildContext context, ScanResult result) {
-    return InkWell(
-      onTap: () async {
-        BlocListener<IvmConnectionBloc, IvmConnectionState>(
-            listener: (context, state) {
-              if (state is IvmConnectionStateChange) {
-                final connectResult = state.state;
-                switch (connectResult) {
-                  case IvmConnectionStatus.disconnected:
-                    DialogLoading.dismissLoading('connecting');
-                    _showPairFail();
-                    break;
-                  case IvmConnectionStatus.connecting:
-                    DialogLoading.showLoading('connecting');
-                    break;
-                  case IvmConnectionStatus.connected:
-                    DialogLoading.dismissLoading('connecting');
-                    _showPairedWithId(result.device.platformName);
-                    break;
+    return BlocListener<IvmConnectionBloc, IvmConnectionState>(
+        listener: (context, state) {
+          if (state is IvmConnectionStateChange) {
+            final connectResult = state.state;
+            switch (connectResult) {
+              case IvmConnectionStatus.disconnected:
+                DialogLoading.dismissLoading('connecting');
+                _showPairFail();
+                break;
+              case IvmConnectionStatus.connecting:
+                DialogLoading.showLoading('connecting');
+                break;
+              case IvmConnectionStatus.connected:
+                DialogLoading.dismissLoading('connecting');
+                if (state.isHadId) {
+                  _showPairedWithId(context, result.device.platformName);
+                } else {
+                  _showPairedWithoutId(context, result.device.platformName);
                 }
-              }
-            });
+                break;
+            }
+          }
+        },
+    child: InkWell(
+      onTap: () async {
         context.read<IvmConnectionBloc>().add(IvmConnect(result.device));
       },
       child: SizedBox(
@@ -369,23 +380,27 @@ class _availableDevices extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),);
+
   }
 
-  void _showPairedWithoutId(BuildContext context, String deviceName) {
+  void _showPairedWithoutId(BuildContext myContext, String deviceName) {
     SmartDialog.show(builder: (context) {
-      return DialogWidgetUtil.pairedWithoutIdDialog(context, deviceName, () => {
+      return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName, () {
         // todo set ble cmd 0x27 then goto action menu
-      }, () => {
+      }, () {
         // todo goto action menu
+        Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
       });
     }, tag: 'pair_without_id');
   }
 
-  void _showPairedWithId(String deviceName) {
+  void _showPairedWithId(BuildContext myContext, String deviceName) {
     SmartDialog.show(builder: (context) {
-      return DialogWidgetUtil.pairedWithIdDialog(context, deviceName, () => {
+      return DialogWidgetUtil.pairedWithIdDialog(context, deviceName, () {
         // todo goto action menu
+        SmartDialog.dismiss(tag: 'pair_with_id');
+        Navigator.pushNamedAndRemoveUntil(context, kRouteActionMenu, (route) => false);
       });
     }, tag: 'pair_with_id');
   }

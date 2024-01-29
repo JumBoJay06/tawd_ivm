@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:logging/logging.dart';
+import 'package:tawd_ivm/route.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
@@ -14,11 +15,14 @@ import '../../data/paired_device.dart';
 import '../../theme/style.dart';
 import '../../util/dialog_widget_util.dart';
 
-/// 用Bloc實作撈取DB與查詢，並有已配對裝置與無裝置兩種狀態
-/// 另外 bloc 要暫存已配對裝置，方便過濾與還原
-class PairedPage extends StatelessWidget {
+class PairedPage extends StatefulWidget {
   const PairedPage({super.key});
 
+  @override
+  State<PairedPage> createState() => _PairedPageState();
+}
+
+class _PairedPageState extends State<PairedPage> {
   @override
   Widget build(BuildContext context) {
     return _PairedPage();
@@ -26,20 +30,23 @@ class PairedPage extends StatelessWidget {
 }
 
 class _PairedPage extends StatelessWidget {
+  Logger get _logger => Logger("PairedPage");
   @override
   Widget build(BuildContext context) {
+    context.read<PairedDeviceBloc>().add(GetPairedDevice());
     return Stack(
       children: [
         _createTitleWidget(context),
-        Positioned(
-            top: 100.h,
-            child: BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
-                builder: (context, state) {
+        BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
+            builder: (context, state) {
               if (state.deviceList.isEmpty) {
+                _logger.info('show empty');
                 return _createEmptyDeviceListWidget(context);
-              } else {}
-              return Container();
-            }))
+              } else {
+                _logger.info('show list(${state.deviceList.length})');
+                return _createDeviceListWidget(context, state.deviceList);
+              }
+            })
       ],
     );
   }
@@ -201,7 +208,7 @@ class _PairedPage extends StatelessWidget {
 
   Widget _createEmptyDeviceListWidget(BuildContext context) {
     return Positioned(
-        top: 0,
+        top: 100.h,
         child: SizedBox(
           width: 375.w,
           height: 608.h,
@@ -243,8 +250,7 @@ class _PairedPage extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Text(
-                      S
-                          .of(context)
+                      S.of(context)
                           .available_device_please_connect_first_content,
                       style: const TextStyle(
                           color: ColorTheme.primaryAlpha_50,
@@ -252,7 +258,7 @@ class _PairedPage extends StatelessWidget {
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
-                      textAlign: TextAlign.left))
+                      textAlign: TextAlign.center))
             ],
           ),
         ));
@@ -260,10 +266,11 @@ class _PairedPage extends StatelessWidget {
 
   Widget _createDeviceListWidget(
       BuildContext context, List<PairedDevice> deviceList) {
-    return Stack(
+    _logger.info('_createDeviceListWidget');
+    return  Stack(
       children: [
         Positioned(
-            top: 24.h,
+            top: 124.h,
             left: 16.w,
             child: Text(
                 S.of(context).available_device_show_devices_paired_content,
@@ -275,7 +282,8 @@ class _PairedPage extends StatelessWidget {
                     fontSize: 14.0),
                 textAlign: TextAlign.left)),
         Positioned(
-            top: 8.h,
+            top: 149.h,
+            bottom: 0,
             left: 16.w,
             right: 16.w,
             child: ListView.builder(
@@ -287,10 +295,10 @@ class _PairedPage extends StatelessWidget {
   }
 
   Widget _createListItem(BuildContext context, PairedDevice device) {
-    return InkWell(
-      onTap: () async {
-        BlocListener<IvmConnectionBloc, IvmConnectionState>(
-            listener: (context, state) {
+    _logger.info('_createListItem');
+    return BlocListener<IvmConnectionBloc, IvmConnectionState>(
+      bloc: context.read<IvmConnectionBloc>(),
+        listener: (context, state) {
           if (state is IvmConnectionStateChange) {
             final result = state.state;
             switch (result) {
@@ -303,18 +311,20 @@ class _PairedPage extends StatelessWidget {
                 break;
               case IvmConnectionStatus.connected:
                 DialogLoading.dismissLoading('connecting');
-                _showPairedWithId(device.name);
+                _showPairedWithId(context, device.name);
                 break;
             }
           }
-        });
-
+        },
+    child: InkWell(
+      onTap: () async {
         final scanResult =
-            await IvmManager.getInstance().startScanWithName(device.name, 8);
+        await IvmManager.getInstance().startScanWithName(device.name, 8);
 
         if (scanResult == null) {
           _showPairFail();
         } else {
+          IvmManager.getInstance().stopScan();
           context.read<IvmConnectionBloc>().add(IvmConnect(scanResult.device));
         }
       },
@@ -355,21 +365,22 @@ class _PairedPage extends StatelessWidget {
                     width: 343.w,
                     height: 1.h,
                     decoration:
-                        const BoxDecoration(color: ColorTheme.primaryAlpha_10)))
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10)))
           ],
         ),
       ),
-    );
+    ),);
   }
 
-  void _showPairedWithId(String deviceName) {
+  void _showPairedWithId(BuildContext myContext, String deviceName) {
     SmartDialog.show(
         builder: (context) {
           return DialogWidgetUtil.pairedWithIdDialog(
-              context,
+              myContext,
               deviceName,
-              () => {
-                    // todo goto action menu
+              () {
+                SmartDialog.dismiss(tag: 'pair_with_id');
+                Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
                   });
         },
         tag: 'pair_with_id');
