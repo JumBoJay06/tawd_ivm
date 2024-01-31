@@ -17,13 +17,13 @@ class _AdsPageState extends State<AdsPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Expanded(child: Container(
+          Container(
               width: 375.w,
               height: 812.h,
               decoration: const BoxDecoration(
                   color: ColorTheme.primary
               )
-          )),
+          ),
           Center(
             child: Image.asset(
                 'assets/logo.png',
