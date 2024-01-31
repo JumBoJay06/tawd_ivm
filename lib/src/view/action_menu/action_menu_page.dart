@@ -5,31 +5,97 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:tawd_ivm/route.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
+import 'package:tawd_ivm/src/manager/data/led_indicator_state.dart';
+import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 import 'package:tawd_ivm/src/theme/style.dart';
+import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
 import '../../../generated/l10n.dart';
+import '../../bloc/action_menu/ivm_action_menu_cubit.dart';
+import '../../bloc/ivm/manager/ivm_check_temperature_cubit.dart';
+import '../../util/dialog_loading.dart';
 
-class ActionMenu extends StatelessWidget {
+class ActionMenu extends StatefulWidget {
   const ActionMenu({super.key});
 
   @override
+  State<ActionMenu> createState() => _ActionMenuState();
+}
+
+class _ActionMenuState extends State<ActionMenu> {
+  IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
+
+  @override
+  void initState() {
+    super.initState();
+    ivmActionMenuCubit.loadActionMenuData();
+  }
+
+  @override
+  void dispose() {
+    ivmActionMenuCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<PairedDeviceBloc>().add(GetPairedDevice());
-    return Stack(
-      children: [
-        Container(
-          width: 375.w,
-          height: 812.h,
-          color: ColorTheme.background,
-        ),
-        _createHeaderWidget(context),
-        _createMenuWidget(context),
-      ],
+    var currentDeviceName = IvmManager.getInstance().getCurrentDeviceName();
+    if (currentDeviceName != null && currentDeviceName.isNotEmpty) {
+      context
+          .read<PairedDeviceBloc>()
+          .add(GetPairedDeviceByName(currentDeviceName));
+    }
+    final checkTemperature = IvmCheckTemperatureCubit();
+    return BlocListener(
+      bloc: checkTemperature..getTemperature(),
+      listener: (context, state) {
+        if (state is IvmCmdResult) {
+          if (state.isTooHigh) {
+            SmartDialog.show(
+                builder: (context) {
+                  return DialogWidgetUtil.temperatureAbnormal(
+                      context,
+                      currentDeviceName ?? 'test',
+                          () =>
+                      {
+                        SmartDialog.dismiss(tag: 'Check_Temperature')
+                      });
+                },
+                tag: 'Check_Temperature');
+          }
+        }
+      },
+      child: Stack(
+        children: [
+          Container(
+            width: 375.w,
+            height: 812.h,
+            color: ColorTheme.background,
+          ),
+          BlocBuilder(
+              bloc: ivmActionMenuCubit,
+              builder: (context, state) {
+                if (state is Loading) {
+                  DialogLoading.showLoading('loading', content: 'loading');
+                  return _createHeaderWidget(context, '--', '--');
+                } else if (state is Success) {
+                  DialogLoading.dismissLoading('loading');
+                  return _createHeaderWidget(
+                      context, state.name, state.location);
+                } else {
+                  // todo error
+                  DialogLoading.dismissLoading('loading');
+                  return _createHeaderWidget(context, '--', '--');
+                }
+              }),
+          _createMenuWidget(context),
+        ],
+      ),
     );
   }
 
-  // todo device 資料(預期從DB來)
-  Widget _createHeaderWidget(BuildContext context) {
+  Widget _createHeaderWidget(BuildContext context, String name,
+      String location) {
     return Stack(
       children: [
         Image.asset(
@@ -44,7 +110,8 @@ class ActionMenu extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 context.read<IvmConnectionBloc>().add(IvmDisconnect());
-                Navigator.pushNamedAndRemoveUntil(context, kRouteScanStartPage, (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kRouteScanStartPage, (route) => false);
               },
               child: Image.asset(
                 "assets/light_3.png",
@@ -55,8 +122,11 @@ class ActionMenu extends StatelessWidget {
         Positioned(
             top: 120.h,
             left: 24.w,
-            child: const Text("Name",
-                style: TextStyle(
+            right: 93.w,
+            child: Text(name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: const TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
@@ -66,8 +136,10 @@ class ActionMenu extends StatelessWidget {
         Positioned(
             top: 160.h,
             left: 24.w,
-            child: const Text("Location",
-                style: TextStyle(
+            child: Text(location,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: const TextStyle(
                     color: ColorTheme.fontColorSecondary,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
@@ -118,7 +190,7 @@ class ActionMenu extends StatelessWidget {
         left: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).about_device_product_info);
+            Navigator.pushNamed(context, kRouteAboutDevicePage);
           },
           child: SizedBox(
             width: 171.w,
@@ -139,7 +211,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).about_device_product_info,
+                    child: Text(S
+                        .of(context)
+                        .about_device_product_info,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -159,7 +233,9 @@ class ActionMenu extends StatelessWidget {
         right: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).selt_test);
+            SmartDialog.showToast(S
+                .of(context)
+                .selt_test);
           },
           child: SizedBox(
             width: 171.w,
@@ -180,7 +256,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).selt_test,
+                    child: Text(S
+                        .of(context)
+                        .selt_test,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -200,7 +278,7 @@ class ActionMenu extends StatelessWidget {
         left: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).operational_records);
+            Navigator.pushNamed(context, kRouteMaintenanceRecordsPage);
           },
           child: SizedBox(
             width: 171.w,
@@ -221,7 +299,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).operational_records,
+                    child: Text(S
+                        .of(context)
+                        .operational_records,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -241,7 +321,7 @@ class ActionMenu extends StatelessWidget {
         right: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).record_chart_);
+            Navigator.pushNamed(context, kRouteRecordChartPage);
           },
           child: SizedBox(
             width: 171.w,
@@ -262,7 +342,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).record_chart_,
+                    child: Text(S
+                        .of(context)
+                        .record_chart_,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -282,7 +364,9 @@ class ActionMenu extends StatelessWidget {
         left: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).traceability_);
+            SmartDialog.showToast(S
+                .of(context)
+                .traceability_);
           },
           child: SizedBox(
             width: 171.w,
@@ -303,7 +387,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).traceability_,
+                    child: Text(S
+                        .of(context)
+                        .traceability_,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -323,7 +409,8 @@ class ActionMenu extends StatelessWidget {
         right: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).device_settings_);
+            Navigator.pushNamed(context, kRouteDeviceSettingPage)
+                .then((value) => ivmActionMenuCubit.loadActionMenuData());
           },
           child: SizedBox(
             width: 171.w,
@@ -344,7 +431,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).device_settings_,
+                    child: Text(S
+                        .of(context)
+                        .device_settings_,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -365,7 +454,9 @@ class ActionMenu extends StatelessWidget {
         right: 0,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).fw_update);
+            SmartDialog.showToast(S
+                .of(context)
+                .fw_update);
           },
           child: SizedBox(
             width: 343.w,
@@ -386,7 +477,9 @@ class ActionMenu extends StatelessWidget {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).fw_update,
+                    child: Text(S
+                        .of(context)
+                        .fw_update,
                         style: const TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -411,7 +504,7 @@ class ActionMenu extends StatelessWidget {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 281.h,
             left: 16.w,
@@ -420,7 +513,7 @@ class ActionMenu extends StatelessWidget {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 422.h,
             left: 16.w,
@@ -429,7 +522,7 @@ class ActionMenu extends StatelessWidget {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 10.h,
             left: 171.w,
@@ -438,7 +531,7 @@ class ActionMenu extends StatelessWidget {
                 width: 1.w,
                 height: 120.h,
                 decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 151.h,
             left: 171.w,

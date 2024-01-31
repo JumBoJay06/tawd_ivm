@@ -11,7 +11,6 @@ class AdsPage extends StatefulWidget {
 }
 
 class _AdsPageState extends State<AdsPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,17 +19,34 @@ class _AdsPageState extends State<AdsPage> {
           Container(
               width: 375.w,
               height: 812.h,
-              decoration: const BoxDecoration(
-                  color: ColorTheme.primary
-              )
-          ),
+              decoration: const BoxDecoration(color: ColorTheme.primary)),
+          Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                  width: 277.w,
+                  height: 288.h,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(154)),
+                      gradient: RadialGradient(colors: [
+                        ColorTheme.primaryVariant,
+                        ColorTheme.mask
+                      ])))),
+          Positioned(
+              bottom: -75.h,
+              right: -60.w,
+              child: Container(
+                  width: 338.w,
+                  height: 406.h,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(154)),
+                      gradient: RadialGradient(colors: [
+                        ColorTheme.primaryVariant,
+                        ColorTheme.mask
+                      ])))),
           Center(
-            child: Image.asset(
-                'assets/logo.png',
-                fit: BoxFit.fill,
-                width: 225.w,
-                height: 65.h
-            ),
+            child: Image.asset('assets/logo.png',
+                fit: BoxFit.fill, width: 225.w, height: 65.h),
           ),
         ],
       ),
