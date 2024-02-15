@@ -24,3 +24,9 @@ class FilterPairedDeviceList extends PairedDeviceState {
 
   FilterPairedDeviceList(this.deviceList) : super(deviceList);
 }
+
+class FindDevice extends PairedDeviceState {
+  final PairedDevice device;
+
+  FindDevice(super.deviceList, this.device);
+}

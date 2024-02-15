@@ -31,22 +31,23 @@ class _PairedPageState extends State<PairedPage> {
 
 class _PairedPage extends StatelessWidget {
   Logger get _logger => Logger("PairedPage");
+
   @override
   Widget build(BuildContext context) {
-    context.read<PairedDeviceBloc>().add(GetPairedDevice());
+    context.read<PairedDeviceBloc>().add(GetPairedDevices());
     return Stack(
       children: [
         _createTitleWidget(context),
         BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
             builder: (context, state) {
-              if (state.deviceList.isEmpty) {
-                _logger.info('show empty');
-                return _createEmptyDeviceListWidget(context);
-              } else {
-                _logger.info('show list(${state.deviceList.length})');
-                return _createDeviceListWidget(context, state.deviceList);
-              }
-            })
+          if (state.deviceList.isEmpty) {
+            _logger.info('show empty');
+            return _createEmptyDeviceListWidget(context);
+          } else {
+            _logger.info('show list(${state.deviceList.length})');
+            return _createDeviceListWidget(context, state.deviceList);
+          }
+        })
       ],
     );
   }
@@ -90,7 +91,8 @@ class _PairedPage extends StatelessWidget {
             left: 16.w,
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kRouteSelectLanguage, (route) => false);
               },
               child: Image.asset(
                 'assets/light_6.png',
@@ -150,7 +152,8 @@ class _PairedPage extends StatelessWidget {
             left: 16.w,
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kRouteSelectLanguage, (route) => false);
               },
               child: Image.asset(
                 'assets/light_6.png',
@@ -250,7 +253,8 @@ class _PairedPage extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Text(
-                      S.of(context)
+                      S
+                          .of(context)
                           .available_device_please_connect_first_content,
                       style: const TextStyle(
                           color: ColorTheme.primaryAlpha_50,
@@ -267,7 +271,7 @@ class _PairedPage extends StatelessWidget {
   Widget _createDeviceListWidget(
       BuildContext context, List<PairedDevice> deviceList) {
     _logger.info('_createDeviceListWidget');
-    return  Stack(
+    return Stack(
       children: [
         Positioned(
             top: 124.h,
@@ -298,90 +302,120 @@ class _PairedPage extends StatelessWidget {
     _logger.info('_createListItem');
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
       bloc: context.read<IvmConnectionBloc>(),
-        listener: (context, state) {
-          if (state is IvmConnectionStateChange) {
-            final result = state.state;
-            switch (result) {
-              case IvmConnectionStatus.disconnected:
-                DialogLoading.dismissLoading('connecting');
-                _showPairFail();
-                break;
-              case IvmConnectionStatus.connecting:
-                DialogLoading.showLoading('connecting');
-                break;
-              case IvmConnectionStatus.connected:
-                DialogLoading.dismissLoading('connecting');
+      listener: (context, state) async {
+        if (state is IvmConnectionStateChange) {
+          final result = state.state;
+          switch (result) {
+            case IvmConnectionStatus.disconnected:
+              DialogLoading.dismissLoading('connecting');
+              _showPairFail();
+              break;
+            case IvmConnectionStatus.connecting:
+              DialogLoading.showLoading('connecting');
+              break;
+            case IvmConnectionStatus.connected:
+              var pairingDataHistory =
+                  await IvmManager.getInstance().getPairingDataHistory();
+              bool isHadId = false;
+              if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
+                var ivmId = pairingDataHistory.last.valveId;
+                isHadId = ivmId.isNotEmpty;
+              }
+              DialogLoading.dismissLoading('connecting');
+              if (isHadId) {
                 _showPairedWithId(context, device.name);
-                break;
-            }
+              } else {
+                _showPairedWithoutId(context, device.name);
+              }
+              break;
           }
-        },
-    child: InkWell(
-      onTap: () async {
-        final scanResult =
-        await IvmManager.getInstance().startScanWithName(device.name, 8);
-
-        if (scanResult == null) {
-          _showPairFail();
-        } else {
-          IvmManager.getInstance().stopScan();
-          context.read<IvmConnectionBloc>().add(IvmConnect(scanResult.device));
         }
       },
-      child: SizedBox(
-        width: 343.w,
-        height: 56.h,
-        child: Stack(
-          children: [
-            Positioned(
-                top: 10.h,
-                bottom: 27.h,
-                left: 8.w,
-                child: Text(device.name,
-                    style: const TextStyle(
-                        color: ColorTheme.primary,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "SFProDisplay",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left)),
-            Positioned(
-                top: 30.h,
-                bottom: 10.h,
-                left: 8.w,
-                child: Text(device.location,
-                    style: const TextStyle(
-                        color: ColorTheme.primaryAlpha_50,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "SFProDisplay",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    textAlign: TextAlign.left)),
-            Positioned(
-                top: 55.h,
-                left: 0,
-                right: 0,
-                child: Container(
-                    width: 343.w,
-                    height: 1.h,
-                    decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10)))
-          ],
+      child: InkWell(
+        onTap: () async {
+          final scanResult =
+              await IvmManager.getInstance().startScanWithName(device.name, 8);
+
+          if (scanResult == null) {
+            _showPairFail();
+          } else {
+            IvmManager.getInstance().stopScan();
+            context
+                .read<IvmConnectionBloc>()
+                .add(IvmConnect(scanResult.device));
+          }
+        },
+        child: SizedBox(
+          width: 343.w,
+          height: 56.h,
+          child: Stack(
+            children: [
+              Positioned(
+                  top: 10.h,
+                  bottom: 27.h,
+                  left: 8.w,
+                  child: Text(device.name,
+                      style: const TextStyle(
+                          color: ColorTheme.primary,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "SFProDisplay",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left)),
+              Positioned(
+                  top: 30.h,
+                  bottom: 10.h,
+                  left: 8.w,
+                  child: Text(device.location,
+                      style: const TextStyle(
+                          color: ColorTheme.primaryAlpha_50,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "SFProDisplay",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left)),
+              Positioned(
+                  top: 55.h,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                      width: 343.w,
+                      height: 1.h,
+                      decoration: const BoxDecoration(
+                          color: ColorTheme.primaryAlpha_10)))
+            ],
+          ),
         ),
       ),
-    ),);
+    );
+  }
+
+  void _showPairedWithoutId(BuildContext myContext, String deviceName) {
+    SmartDialog.show(
+        builder: (context) {
+          return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName,
+              () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
+                (value) => Navigator.pushNamedAndRemoveUntil(
+                    myContext, kRouteActionMenu, (route) => false));
+          }, () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false);
+          });
+        },
+        tag: 'pair_without_id');
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
     SmartDialog.show(
         builder: (context) {
-          return DialogWidgetUtil.pairedWithIdDialog(
-              myContext,
-              deviceName,
-              () {
-                SmartDialog.dismiss(tag: 'pair_with_id');
-                Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
-                  });
+          return DialogWidgetUtil.pairedWithIdDialog(myContext, deviceName, () {
+            SmartDialog.dismiss(tag: 'pair_with_id');
+            Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false);
+          });
         },
         tag: 'pair_with_id');
   }

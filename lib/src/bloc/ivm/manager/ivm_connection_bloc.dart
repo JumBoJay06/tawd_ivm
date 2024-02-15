@@ -33,19 +33,22 @@ class IvmConnectionBloc extends Bloc<IvmConnectionEvent, IvmConnectionState> {
         _logger.info("$event");
         switch (event) {
           case BluetoothConnectionState.connected:
-            // todo 查詢ivm id 與 是否需要設定 id
             final box = Hive.box<PairedDevice>('PairedDevice');
-            PairedDevice pairedDevice = box.values.firstWhere(
-                (element) => element.name == device.platformName,
-                orElse: () =>
-                    PairedDevice(id: box.length, name: device.platformName));
-            if (box.length == pairedDevice.id) {
-              box.add(pairedDevice);
-            } else {
-              box.putAt(pairedDevice.id, pairedDevice);
-            }
+            IvmManager.getInstance().getDeviceLocation().then((value) {
+              PairedDevice pairedDevice = box.values.firstWhere(
+                      (element) => element.name == device.platformName,
+                  orElse: () =>
+                      PairedDevice(id: box.length, name: device.platformName));
+              pairedDevice.location = value ?? '--';
+              if (box.length == pairedDevice.id) {
+                box.add(pairedDevice);
+              } else {
+                box.putAt(pairedDevice.id, pairedDevice);
+              }
+            });
+
             return IvmConnectionStateChange(IvmManager.getInstance().device!,
-                IvmConnectionStatus.connected, isHadId: true);
+                IvmConnectionStatus.connected);
           case BluetoothConnectionState.disconnected:
             return IvmConnectionStateChange(IvmManager.getInstance().device!,
                 IvmConnectionStatus.disconnected);

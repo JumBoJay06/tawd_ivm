@@ -119,15 +119,17 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
             child: _getItemImage(context, index)),
         Positioned(
             left: 88.w,
-            top: 23.h,
-            bottom: 23.h,
-            child: Text(_getItemName(context, index),
-                style: const TextStyle(
-                    color: ColorTheme.primary,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "SFProDisplay",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16.0)))
+            top: 0,
+            bottom: 0,
+            child: Center(
+              child: Text(_getItemName(context, index),
+                  style: const TextStyle(
+                      color: ColorTheme.primary,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "SFProDisplay",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0)),
+            ))
       ],
     );
   }
