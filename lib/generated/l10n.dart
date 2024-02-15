@@ -160,81 +160,81 @@ class S {
     );
   }
 
-  /// `Avaliable Device`
-  String get avaliable_device {
+  /// `available Device`
+  String get available_device {
     return Intl.message(
-      'Avaliable Device',
-      name: 'avaliable_device',
+      'available Device',
+      name: 'available_device',
       desc: '',
       args: [],
     );
   }
 
   /// `Device Searching`
-  String get avaliable_device_searching {
+  String get available_device_searching {
     return Intl.message(
       'Device Searching',
-      name: 'avaliable_device_searching',
+      name: 'available_device_searching',
       desc: '',
       args: [],
     );
   }
 
   /// `No devices found`
-  String get avaliable_device_no_found {
+  String get available_device_no_found {
     return Intl.message(
       'No devices found',
-      name: 'avaliable_device_no_found',
+      name: 'available_device_no_found',
       desc: '',
       args: [],
     );
   }
 
   /// `Re-search`
-  String get avaliable_device_research {
+  String get available_device_research {
     return Intl.message(
       'Re-search',
-      name: 'avaliable_device_research',
+      name: 'available_device_research',
       desc: '',
       args: [],
     );
   }
 
   /// `Search`
-  String get avaliable_device_search {
+  String get available_device_search {
     return Intl.message(
       'Search',
-      name: 'avaliable_device_search',
+      name: 'available_device_search',
       desc: '',
       args: [],
     );
   }
 
   /// `Type device number to quickly find`
-  String get avaliable_device_type_device_number_quickly_find_content {
+  String get available_device_type_device_number_quickly_find_content {
     return Intl.message(
       'Type device number to quickly find',
-      name: 'avaliable_device_type_device_number_quickly_find_content',
+      name: 'available_device_type_device_number_quickly_find_content',
       desc: '',
       args: [],
     );
   }
 
   /// `Device paired`
-  String get avaliable_device_paired {
+  String get available_device_paired {
     return Intl.message(
       'Device paired',
-      name: 'avaliable_device_paired',
+      name: 'available_device_paired',
       desc: '',
       args: [],
     );
   }
 
   /// `Pairing Failed`
-  String get avaliable_device_failed {
+  String get available_device_failed {
     return Intl.message(
       'Pairing Failed',
-      name: 'avaliable_device_failed',
+      name: 'available_device_failed',
       desc: '',
       args: [],
     );
@@ -251,10 +251,10 @@ class S {
   }
 
   /// `Please retry to pair device.`
-  String get avaliable_device_please_retry {
+  String get available_device_please_retry {
     return Intl.message(
       'Please retry to pair device.',
-      name: 'avaliable_device_please_retry',
+      name: 'available_device_please_retry',
       desc: '',
       args: [],
     );
@@ -281,30 +281,30 @@ class S {
   }
 
   /// `No Paired Devices`
-  String get avaliable_device_no_paired_device_content {
+  String get available_device_no_paired_device_content {
     return Intl.message(
       'No Paired Devices',
-      name: 'avaliable_device_no_paired_device_content',
+      name: 'available_device_no_paired_device_content',
       desc: '',
       args: [],
     );
   }
 
   /// `Please connect a device first.`
-  String get avaliable_device_please_connect_first_content {
+  String get available_device_please_connect_first_content {
     return Intl.message(
       'Please connect a device first.',
-      name: 'avaliable_device_please_connect_first_content',
+      name: 'available_device_please_connect_first_content',
       desc: '',
       args: [],
     );
   }
 
   /// `The list shows devices ever been paired only.`
-  String get avaliable_device_show_devices_paired_content {
+  String get available_device_show_devices_paired_content {
     return Intl.message(
       'The list shows devices ever been paired only.',
-      name: 'avaliable_device_show_devices_paired_content',
+      name: 'available_device_show_devices_paired_content',
       desc: '',
       args: [],
     );

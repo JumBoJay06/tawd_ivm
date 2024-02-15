@@ -4,19 +4,19 @@ part of 'scan_bloc.dart';
 abstract class ScanEvent {}
 
 class ScanStart extends ScanEvent {
-  final List<Guid> serviceUuids;
   final int timeout;
-  ScanStart(this.serviceUuids, this.timeout);
-}
-
-class Success extends ScanEvent {
-  final List<ScanResult> scanResults;
-  Success(this.scanResults);
+  ScanStart(this.timeout);
 }
 
 class Failure extends ScanEvent {
   final String message;
   Failure(this.message);
+}
+
+class Filter extends ScanEvent {
+  final String filter;
+
+  Filter(this.filter);
 }
 
 class ScanStop extends ScanEvent {}

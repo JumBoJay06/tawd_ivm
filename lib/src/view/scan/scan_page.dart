@@ -116,7 +116,6 @@ class RequestPermissions {
       return;
     }
     context.read<ScanBloc>().add(ScanStart(
-        [IvmManager.getInstance().serviceUuid],
         8
     ));
   }

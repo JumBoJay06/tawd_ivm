@@ -1,7 +1,23 @@
-import 'package:flutter/cupertino.dart';
+
+
 import 'package:flutter/material.dart';
+import 'package:tawd_ivm/src/view/action_menu/about_device/about_device_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/action_menu_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/device_location_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/device_setting_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/emission_detection_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/led_indicator_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/replace_ball_valve_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/valve_position_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/device_setting/valve_torque_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/maintenance_records/maintenance_records_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/record_chart/record_chart_page.dart';
 import 'package:tawd_ivm/src/view/ads_page.dart';
+import 'package:tawd_ivm/src/view/language/select_language_page.dart';
+import 'package:tawd_ivm/src/view/scan/available_devices_page.dart';
+import 'package:tawd_ivm/src/view/scan/paired_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_page.dart';
+import 'package:tawd_ivm/src/view/scan/scan_start_page.dart';
 
 /// 轉場動畫
 enum TransitionType {
@@ -22,12 +38,40 @@ enum TransitionType {
 }
 
 const String kRouteAds = '/';
-const String kRouteScanPage = '/scan_page';
+const String kRouteSelectLanguage = '/select_language';
+const String kRouteScanStartPage = '/scan/start';
+const String kRouteAvailableDevicesPage = '/scan/available_devices';
+const String kRoutePairedPage = '/scan/paired_page';
+const String kRouteActionMenu = '/action_menu';
+const String kRouteAboutDevicePage = '/action_menu/about_device';
+const String kRouteMaintenanceRecordsPage = '/action_menu/about_device/maintenance_records';
+const String kRouteDeviceSettingPage = '/action_menu/device_setting_page';
+const String kRouteValveTorquePage = '/action_menu/device_setting/valve_torque_page';
+const String kRouteEmissionDetectionPage = '/action_menu/device_setting/emission_detection_page';
+const String kRouteValvePositionPage = '/action_menu/device_setting/valve_position_page';
+const String kRouteDeviceLocationPage = '/action_menu/device_setting/device_location_page';
+const String kRouteLedIndicatorPage = '/action_menu/device_setting/led_indicator_page';
+const String kRouteReplaceBallValvePage = '/action_menu/device_setting/replace_ball_valve_page';
+const String kRouteRecordChartPage = '/action_menu/record_chart_page';
 
 Map<String, WidgetBuilder> getRoutes() {
   return {
     kRouteAds: (context) => const AdsPage(),
-    kRouteScanPage: (context) => const ScanPage(),
+    kRouteScanStartPage: (context) => const ScanStartPage(),
+    kRouteAvailableDevicesPage: (context) => const AvailableDevicesPage(),
+    kRoutePairedPage: (context) => const PairedPage(),
+    kRouteSelectLanguage: (context) => const SelectLanguagePage(),
+    kRouteActionMenu: (context) => const ActionMenu(),
+    kRouteAboutDevicePage: (context) => const AboutDevicePage(),
+    kRouteMaintenanceRecordsPage: (context) => const MaintenanceRecordsPage(),
+    kRouteDeviceSettingPage: (context) => const DeviceSettingPage(),
+    kRouteValveTorquePage: (context) => const ValveTorquePage(),
+    kRouteEmissionDetectionPage: (context) => const EmissionDetectionPage(),
+    kRouteValvePositionPage: (context) => const ValvePositionPage(),
+    kRouteDeviceLocationPage: (context) => const DeviceLocationPage(),
+    kRouteLedIndicatorPage: (context) => const LedIndicatorPage(),
+    kRouteReplaceBallValvePage: (context) => const ReplaceBallValvePage(),
+    kRouteRecordChartPage: (context) => const RecordChartPage(),
   };
 }
 
