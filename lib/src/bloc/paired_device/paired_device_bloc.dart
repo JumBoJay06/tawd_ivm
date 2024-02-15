@@ -12,7 +12,7 @@ part 'paired_device_state.dart';
 
 class PairedDeviceBloc extends Bloc<PairedDeviceEvent, PairedDeviceState> {
   PairedDeviceBloc() : super(PairedDeviceInitial(List.empty())) {
-    on<GetPairedDevice>((event, emit) {
+    on<GetPairedDevices>((event, emit) {
       final box = Hive.box<PairedDevice>('PairedDevice');
       final deviceList = box.values.toList();
       emit(PairedDeviceList(deviceList));
@@ -29,6 +29,14 @@ class PairedDeviceBloc extends Bloc<PairedDeviceEvent, PairedDeviceState> {
           .where((element) => element.name.contains(event.filter))
           .toList();
       emit(FilterPairedDeviceList(newDeviceList));
+    });
+
+    on<GetPairedDeviceByName>((event, emit) {
+      final box = Hive.box<PairedDevice>('PairedDevice');
+      final deviceList = box.values.toList();
+      var findDevice =
+          deviceList.firstWhere((element) => element.name == event.deviceName);
+      emit(FindDevice(deviceList, findDevice));
     });
   }
 }

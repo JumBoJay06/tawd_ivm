@@ -5,6 +5,8 @@ class DialogLoading {
   static void showLoading(String tag, {String content = ''}) {
     dismissLoading(tag);
     SmartDialog.show(
+        clickMaskDismiss: false,
+        backDismiss: false,
         tag: tag,
         builder: (context) {
           return DialogWidgetUtil.loadingDialog(context, content);
