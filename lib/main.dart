@@ -17,6 +17,7 @@ import 'package:tawd_ivm/src/bloc/language/lang_bloc.dart';
 import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
 import 'package:tawd_ivm/src/data/language.dart';
 import 'package:tawd_ivm/src/data/paired_device.dart';
+import 'package:tawd_ivm/src/data/shared_preferences/my_shared_preferences.dart';
 
 import 'generated/l10n.dart';
 
@@ -28,6 +29,7 @@ void main() async {
   });
 
   await ScreenUtil.ensureScreenSize();
+  await MySharedPreferences.getInstance().init();
   await Hive.initFlutter();
   Hive.registerAdapter(LanguageAdapter());
   Hive.registerAdapter(PairedDeviceAdapter());

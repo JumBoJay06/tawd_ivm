@@ -6,6 +6,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/bloc/device_text_field/device_text_field_bloc.dart';
 import 'package:tawd_ivm/src/bloc/ivm/scan/scan_bloc.dart';
+import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 import 'package:tawd_ivm/src/util/dialog_loading.dart';
 import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
@@ -103,7 +104,8 @@ class _availableDevices extends StatelessWidget {
             left: 16.w,
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kRouteSelectLanguage, (route) => false);
               },
               child: Image.asset(
                 'assets/light_6.png',
@@ -163,7 +165,8 @@ class _availableDevices extends StatelessWidget {
             left: 16.w,
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kRouteSelectLanguage, (route) => false);
               },
               child: Image.asset(
                 'assets/light_6.png',
@@ -321,7 +324,7 @@ class _availableDevices extends StatelessWidget {
 
   Widget _createListItem(BuildContext context, ScanResult result) {
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is IvmConnectionStateChange) {
             final connectResult = state.state;
             switch (connectResult) {
@@ -333,8 +336,14 @@ class _availableDevices extends StatelessWidget {
                 DialogLoading.showLoading('connecting');
                 break;
               case IvmConnectionStatus.connected:
+                var pairingDataHistory = await IvmManager.getInstance().getPairingDataHistory();
+                bool isHadId = false;
+                if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
+                  var ivmId = pairingDataHistory.last.valveId;
+                  isHadId = ivmId.isNotEmpty;
+                }
                 DialogLoading.dismissLoading('connecting');
-                if (state.isHadId) {
+                if (isHadId) {
                   _showPairedWithId(context, result.device.platformName);
                 } else {
                   _showPairedWithoutId(context, result.device.platformName);
@@ -387,9 +396,12 @@ class _availableDevices extends StatelessWidget {
   void _showPairedWithoutId(BuildContext myContext, String deviceName) {
     SmartDialog.show(builder: (context) {
       return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName, () {
-        // todo set ble cmd 0x27 then goto action menu
+        SmartDialog.dismiss(tag: 'pair_without_id');
+        Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
+                (value) => Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false));
       }, () {
-        // todo goto action menu
+        SmartDialog.dismiss(tag: 'pair_without_id');
         Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
       });
     }, tag: 'pair_without_id');
@@ -398,7 +410,6 @@ class _availableDevices extends StatelessWidget {
   void _showPairedWithId(BuildContext myContext, String deviceName) {
     SmartDialog.show(builder: (context) {
       return DialogWidgetUtil.pairedWithIdDialog(context, deviceName, () {
-        // todo goto action menu
         SmartDialog.dismiss(tag: 'pair_with_id');
         Navigator.pushNamedAndRemoveUntil(context, kRouteActionMenu, (route) => false);
       });

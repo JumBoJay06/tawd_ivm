@@ -14,7 +14,6 @@ class IvmConnectionInitial extends IvmConnectionState {}
 class IvmConnectionStateChange extends IvmConnectionState {
   final BluetoothDevice device;
   final IvmConnectionStatus state;
-  final bool isHadId;
 
-  IvmConnectionStateChange(this.device, this.state,{ this.isHadId = false});
+  IvmConnectionStateChange(this.device, this.state);
 }
