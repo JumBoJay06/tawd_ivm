@@ -30,5 +30,5 @@ class ColorTheme {
   static const Color fontColor = Color(0xffFFFFFF);
   static const Color fontColorSecondary = Color(0xffdcdedd);
   static const Color mask = Color(0xff03263B);
-
+  static const Color iconBackground = Color(0x01FFFFFF);
 }

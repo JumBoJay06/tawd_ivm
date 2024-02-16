@@ -404,7 +404,7 @@ class _availableDevices extends StatelessWidget {
         SmartDialog.dismiss(tag: 'pair_without_id');
         Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
       });
-    }, tag: 'pair_without_id');
+    }, tag: 'pair_without_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
@@ -413,7 +413,7 @@ class _availableDevices extends StatelessWidget {
         SmartDialog.dismiss(tag: 'pair_with_id');
         Navigator.pushNamedAndRemoveUntil(context, kRouteActionMenu, (route) => false);
       });
-    }, tag: 'pair_with_id');
+    }, tag: 'pair_with_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
   }
 
   void _showPairFail() {
