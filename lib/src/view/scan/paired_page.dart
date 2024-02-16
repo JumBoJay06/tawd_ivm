@@ -23,18 +23,17 @@ class PairedPage extends StatefulWidget {
 }
 
 class _PairedPageState extends State<PairedPage> {
-  @override
-  Widget build(BuildContext context) {
-    return _PairedPage();
-  }
-}
-
-class _PairedPage extends StatelessWidget {
   Logger get _logger => Logger("PairedPage");
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     context.read<PairedDeviceBloc>().add(GetPairedDevices());
+    context.read<DeviceTextFieldBloc>().add(StopFilter());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         _createTitleWidget(context),
@@ -94,10 +93,14 @@ class _PairedPage extends StatelessWidget {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
+              // 測試這樣有沒有比較好按
+              behavior: HitTestBehavior.opaque,
+              child: Container(
                 width: 24.w,
                 height: 24.h,
+                color: ColorTheme.iconBackground,
+                child: Image.asset('assets/light_6.png',
+                    width: 24.w, height: 24.h),
               ),
             )),
         Positioned(
@@ -117,7 +120,7 @@ class _PairedPage extends StatelessWidget {
             right: 16.w,
             child: GestureDetector(
               onTap: () {
-                context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<DeviceTextFieldBloc>().add(StartFilter());
               },
               child: Image.asset(
                 'assets/light_9.png',
@@ -174,18 +177,21 @@ class _PairedPage extends StatelessWidget {
                   color: ColorTheme.white),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: TextField(
-                  onChanged: (filter) {
-                    context.read<PairedDeviceBloc>().add(Filter(filter));
-                  },
-                  decoration: const InputDecoration(
-                      hintText: 'Enter device number for quick search',
-                      hintStyle: TextStyle(
-                          color: ColorTheme.primaryAlpha_20,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "SFProDisplay",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 14.w, right: 14.w),
+                  child: TextField(
+                    onChanged: (filter) {
+                      context.read<PairedDeviceBloc>().add(Filter(filter));
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'Enter device number for quick search',
+                        hintStyle: TextStyle(
+                            color: ColorTheme.primaryAlpha_20,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "SFProDisplay",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0)),
+                  ),
                 ),
               ),
             )),
@@ -405,7 +411,10 @@ class _PairedPage extends StatelessWidget {
                 myContext, kRouteActionMenu, (route) => false);
           });
         },
-        tag: 'pair_without_id');
+        tag: 'pair_without_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
@@ -417,7 +426,10 @@ class _PairedPage extends StatelessWidget {
                 myContext, kRouteActionMenu, (route) => false);
           });
         },
-        tag: 'pair_with_id');
+        tag: 'pair_with_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairFail() {
