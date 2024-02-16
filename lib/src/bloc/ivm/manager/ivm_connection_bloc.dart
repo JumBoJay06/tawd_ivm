@@ -29,7 +29,7 @@ class IvmConnectionBloc extends Bloc<IvmConnectionEvent, IvmConnectionState> {
             IvmConnectionStatus.disconnected));
         return;
       }
-      emit.forEach(device.connectionState, onData: (event) {
+      await emit.forEach(device.connectionState, onData: (event) {
         _logger.info("$event");
         switch (event) {
           case BluetoothConnectionState.connected:

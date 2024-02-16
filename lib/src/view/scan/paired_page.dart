@@ -23,31 +23,29 @@ class PairedPage extends StatefulWidget {
 }
 
 class _PairedPageState extends State<PairedPage> {
-  @override
-  Widget build(BuildContext context) {
-    return _PairedPage();
-  }
-}
-
-class _PairedPage extends StatelessWidget {
   Logger get _logger => Logger("PairedPage");
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     context.read<PairedDeviceBloc>().add(GetPairedDevices());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         _createTitleWidget(context),
         BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
             builder: (context, state) {
-          if (state.deviceList.isEmpty) {
-            _logger.info('show empty');
-            return _createEmptyDeviceListWidget(context);
-          } else {
-            _logger.info('show list(${state.deviceList.length})');
-            return _createDeviceListWidget(context, state.deviceList);
-          }
-        })
+              if (state.deviceList.isEmpty) {
+                _logger.info('show empty');
+                return _createEmptyDeviceListWidget(context);
+              } else {
+                _logger.info('show list(${state.deviceList.length})');
+                return _createDeviceListWidget(context, state.deviceList);
+              }
+            })
       ],
     );
   }
@@ -166,7 +164,7 @@ class _PairedPage extends StatelessWidget {
             left: 44.w,
             right: 61.w,
             child: // 矩形
-                Container(
+            Container(
               width: 270.w,
               height: 44.h,
               decoration: const BoxDecoration(
@@ -315,7 +313,7 @@ class _PairedPage extends StatelessWidget {
               break;
             case IvmConnectionStatus.connected:
               var pairingDataHistory =
-                  await IvmManager.getInstance().getPairingDataHistory();
+              await IvmManager.getInstance().getPairingDataHistory();
               bool isHadId = false;
               if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
                 var ivmId = pairingDataHistory.last.valveId;
@@ -334,7 +332,7 @@ class _PairedPage extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           final scanResult =
-              await IvmManager.getInstance().startScanWithName(device.name, 8);
+          await IvmManager.getInstance().startScanWithName(device.name, 8);
 
           if (scanResult == null) {
             _showPairFail();
@@ -394,18 +392,18 @@ class _PairedPage extends StatelessWidget {
     SmartDialog.show(
         builder: (context) {
           return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName,
-              () {
-            SmartDialog.dismiss(tag: 'pair_without_id');
-            Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
-                (value) => Navigator.pushNamedAndRemoveUntil(
-                    myContext, kRouteActionMenu, (route) => false));
-          }, () {
-            SmartDialog.dismiss(tag: 'pair_without_id');
-            Navigator.pushNamedAndRemoveUntil(
-                myContext, kRouteActionMenu, (route) => false);
-          });
+                  () {
+                SmartDialog.dismiss(tag: 'pair_without_id');
+                Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
+                        (value) => Navigator.pushNamedAndRemoveUntil(
+                        myContext, kRouteActionMenu, (route) => false));
+              }, () {
+                SmartDialog.dismiss(tag: 'pair_without_id');
+                Navigator.pushNamedAndRemoveUntil(
+                    myContext, kRouteActionMenu, (route) => false);
+              });
         },
-        tag: 'pair_without_id');
+        tag: 'pair_without_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
@@ -417,7 +415,7 @@ class _PairedPage extends StatelessWidget {
                 myContext, kRouteActionMenu, (route) => false);
           });
         },
-        tag: 'pair_with_id');
+        tag: 'pair_with_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
   }
 
   void _showPairFail() {
