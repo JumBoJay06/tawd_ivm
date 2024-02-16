@@ -29,6 +29,7 @@ class _PairedPageState extends State<PairedPage> {
   void initState() {
     super.initState();
     context.read<PairedDeviceBloc>().add(GetPairedDevices());
+    context.read<DeviceTextFieldBloc>().add(StopFilter());
   }
 
   @override
@@ -38,14 +39,14 @@ class _PairedPageState extends State<PairedPage> {
         _createTitleWidget(context),
         BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
             builder: (context, state) {
-              if (state.deviceList.isEmpty) {
-                _logger.info('show empty');
-                return _createEmptyDeviceListWidget(context);
-              } else {
-                _logger.info('show list(${state.deviceList.length})');
-                return _createDeviceListWidget(context, state.deviceList);
-              }
-            })
+          if (state.deviceList.isEmpty) {
+            _logger.info('show empty');
+            return _createEmptyDeviceListWidget(context);
+          } else {
+            _logger.info('show list(${state.deviceList.length})');
+            return _createDeviceListWidget(context, state.deviceList);
+          }
+        })
       ],
     );
   }
@@ -92,10 +93,14 @@ class _PairedPageState extends State<PairedPage> {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
+              // 測試這樣有沒有比較好按
+              behavior: HitTestBehavior.opaque,
+              child: Container(
                 width: 24.w,
                 height: 24.h,
+                color: ColorTheme.iconBackground,
+                child: Image.asset('assets/light_6.png',
+                    width: 24.w, height: 24.h),
               ),
             )),
         Positioned(
@@ -115,7 +120,7 @@ class _PairedPageState extends State<PairedPage> {
             right: 16.w,
             child: GestureDetector(
               onTap: () {
-                context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<DeviceTextFieldBloc>().add(StartFilter());
               },
               child: Image.asset(
                 'assets/light_9.png',
@@ -164,7 +169,7 @@ class _PairedPageState extends State<PairedPage> {
             left: 44.w,
             right: 61.w,
             child: // 矩形
-            Container(
+                Container(
               width: 270.w,
               height: 44.h,
               decoration: const BoxDecoration(
@@ -172,18 +177,21 @@ class _PairedPageState extends State<PairedPage> {
                   color: ColorTheme.white),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: TextField(
-                  onChanged: (filter) {
-                    context.read<PairedDeviceBloc>().add(Filter(filter));
-                  },
-                  decoration: const InputDecoration(
-                      hintText: 'Enter device number for quick search',
-                      hintStyle: TextStyle(
-                          color: ColorTheme.primaryAlpha_20,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "SFProDisplay",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 14.w, right: 14.w),
+                  child: TextField(
+                    onChanged: (filter) {
+                      context.read<PairedDeviceBloc>().add(Filter(filter));
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'Enter device number for quick search',
+                        hintStyle: TextStyle(
+                            color: ColorTheme.primaryAlpha_20,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "SFProDisplay",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0)),
+                  ),
                 ),
               ),
             )),
@@ -313,7 +321,7 @@ class _PairedPageState extends State<PairedPage> {
               break;
             case IvmConnectionStatus.connected:
               var pairingDataHistory =
-              await IvmManager.getInstance().getPairingDataHistory();
+                  await IvmManager.getInstance().getPairingDataHistory();
               bool isHadId = false;
               if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
                 var ivmId = pairingDataHistory.last.valveId;
@@ -332,7 +340,7 @@ class _PairedPageState extends State<PairedPage> {
       child: InkWell(
         onTap: () async {
           final scanResult =
-          await IvmManager.getInstance().startScanWithName(device.name, 8);
+              await IvmManager.getInstance().startScanWithName(device.name, 8);
 
           if (scanResult == null) {
             _showPairFail();
@@ -392,18 +400,21 @@ class _PairedPageState extends State<PairedPage> {
     SmartDialog.show(
         builder: (context) {
           return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName,
-                  () {
-                SmartDialog.dismiss(tag: 'pair_without_id');
-                Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
-                        (value) => Navigator.pushNamedAndRemoveUntil(
-                        myContext, kRouteActionMenu, (route) => false));
-              }, () {
-                SmartDialog.dismiss(tag: 'pair_without_id');
-                Navigator.pushNamedAndRemoveUntil(
-                    myContext, kRouteActionMenu, (route) => false);
-              });
+              () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
+                (value) => Navigator.pushNamedAndRemoveUntil(
+                    myContext, kRouteActionMenu, (route) => false));
+          }, () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false);
+          });
         },
-        tag: 'pair_without_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
+        tag: 'pair_without_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
@@ -415,7 +426,10 @@ class _PairedPageState extends State<PairedPage> {
                 myContext, kRouteActionMenu, (route) => false);
           });
         },
-        tag: 'pair_with_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
+        tag: 'pair_with_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairFail() {

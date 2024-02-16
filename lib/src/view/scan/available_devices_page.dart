@@ -321,7 +321,7 @@ class _availableDevices extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _createListItem(BuildContext context, ScanResult result) {
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
         listener: (context, state) async {
