@@ -38,36 +38,12 @@ class _ledIndicator extends State<LedIndicatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: indicatorCubit,
-        builder: (context, state) {
-          if (state is Loading) {
-            DialogLoading.showLoading('loading', content: 'loading');
-            return Container();
-          } else if (state is Success) {
-            DialogLoading.dismissLoading('loading');
-            if (isUpdateData) {
-              isUpdateData = false;
-              SmartDialog.show(builder: (context) {
-                return DialogWidgetUtil.deviceSettingSuccessDialog(context);
-              }, tag: 'success');
-              Future.delayed(const Duration(seconds: 3), () {
-                SmartDialog.dismiss(tag: 'success');
-              });
-            }
-            return Stack(
-              children: [
-                _createTitleWidget(context),
-                _createLedSettingWidget(context, state.data)
-              ],
-            );
-          } else {
-            // todo error
-            DialogLoading.dismissLoading('loading');
-            isUpdateData = false;
-            return Container();
-          }
-        });
+    return Stack(
+      children: [
+        _createTitleWidget(context),
+        _createLedSettingWidget(context)
+      ],
+    );
   }
 
   _createTitleWidget(BuildContext context) {
@@ -118,134 +94,158 @@ class _ledIndicator extends State<LedIndicatorPage> {
     );
   }
 
-  _createLedSettingWidget(BuildContext context, LedIndicatorState state) {
-    ledIndicatorState = state;
-    return Stack(
-      children: [
-        Positioned(
-            top: 112.h,
-            left: 16.w,
-            right: 16.w,
-            child: Container(
-              width: 343.w,
-              height: 204.h,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: ColorTheme.secondaryAlpha_10,
-                        offset: Offset(0, 10),
-                        blurRadius: 30,
-                        spreadRadius: 0)
-                  ],
-                  color: ColorTheme.white),
-              child: Stack(
-                children: [
-                  Positioned(
-                      top: 18.h,
-                      left: 16.w,
-                      child: const Text('LED setting',
-                          style: TextStyle(
-                              color: ColorTheme.secondary,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left)),
-                  Positioned(
-                      top: 48.h,
-                      left: 0,
-                      right: 0,
-                      child: SeparatorView(
-                        height: 1.h,
-                        dashWidth: 5.w,
-                        color: ColorTheme.primaryAlpha_50,
-                      )),
-                  Positioned(
-                      top: 61.h,
-                      left: 16.w,
-                      right: 16.w,
-                      child: const Text(
-                          "Set different colors for each state (except for fault states) to enhance operational recognition.",
-                          style: TextStyle(
-                              color: ColorTheme.primaryAlpha_50,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: "Helvetica",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left)),
-                  Positioned(
-                      top: 99.h,
-                      left: 16.w,
-                      right: 16.w,
-                      child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return _createItemWidget(
-                                    context,
-                                    'Abnormal / Fault',
-                                    'Short flash',
-                                    state.error,
-                                    index,
-                                    isErrorLed: true);
-                              case 1:
-                                return _createItemWidget(
-                                    context,
-                                    'Maintenance notice',
-                                    'Long flash',
-                                    state.maintain,
-                                    index);
-                              case 2:
-                                return _createItemWidget(context, 'Valve open',
-                                    'Constant', state.valveOpen, index);
-                              case 3:
-                                return _createItemWidget(context, 'Valve close',
-                                    'Constant', state.valveClose, index);
-                              case 4:
-                                return _createItemWidget(
-                                    context,
-                                    'RS485 disconnected',
-                                    'Short flash',
-                                    state.RS485Disconnect,
-                                    index);
-                              case 5:
-                                return _createItemWidget(
-                                    context,
-                                    'RS485 connected',
-                                    'Breathing',
-                                    state.RS485Connected,
-                                    index);
-                              case 6:
-                                return _createItemWidget(
-                                    context,
-                                    'BLE disconnected',
-                                    'Short flash',
-                                    state.bleDisconnect,
-                                    index);
-                              case 7:
-                                return _createItemWidget(
-                                    context,
-                                    'BLE connected',
-                                    'Breathing',
-                                    state.bleConnected,
-                                    index);
-                              default:
-                                return Container();
-                            }
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              height: 1.h,
-                              color: ColorTheme.primaryAlpha_10,
-                            );
-                          },
-                          itemCount: 8)),
-                ],
-              ),
-            ))
-      ],
-    );
+  _createLedSettingWidget(BuildContext context) {
+    return BlocBuilder(
+        bloc: indicatorCubit,
+        builder: (context, state) {
+          if (state is Loading) {
+            DialogLoading.showLoading('loading', content: 'loading');
+            return Container();
+          } else if (state is Success) {
+            DialogLoading.dismissLoading('loading');
+            if (isUpdateData) {
+              isUpdateData = false;
+              SmartDialog.show(builder: (context) {
+                return DialogWidgetUtil.deviceSettingSuccessDialog(context);
+              }, tag: 'success');
+              Future.delayed(const Duration(seconds: 3), () {
+                SmartDialog.dismiss(tag: 'success');
+              });
+            }
+            ledIndicatorState = state.data;
+            return Stack(
+              children: [
+                Positioned(
+                    top: 112.h,
+                    left: 16.w,
+                    right: 16.w,
+                    child: Container(
+                      width: 343.w,
+                      height: 204.h,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: ColorTheme.secondaryAlpha_10,
+                                offset: Offset(0, 10),
+                                blurRadius: 30,
+                                spreadRadius: 0)
+                          ],
+                          color: ColorTheme.white),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              top: 18.h,
+                              left: 16.w,
+                              child: const Text('LED setting',
+                                  style: TextStyle(
+                                      color: ColorTheme.secondary,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "SFProDisplay",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left)),
+                          Positioned(
+                              top: 48.h,
+                              left: 0,
+                              right: 0,
+                              child: SeparatorView(
+                                height: 1.h,
+                                dashWidth: 5.w,
+                                color: ColorTheme.primaryAlpha_50,
+                              )),
+                          Positioned(
+                              top: 61.h,
+                              left: 16.w,
+                              right: 16.w,
+                              child: const Text(
+                                  "Set different colors for each state (except for fault states) to enhance operational recognition.",
+                                  style: TextStyle(
+                                      color: ColorTheme.primaryAlpha_50,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: "Helvetica",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left)),
+                          Positioned(
+                              top: 99.h,
+                              left: 16.w,
+                              right: 16.w,
+                              child: ListView.separated(
+                                  itemBuilder: (context, index) {
+                                    switch (index) {
+                                      case 0:
+                                        return _createItemWidget(
+                                            context,
+                                            'Abnormal / Fault',
+                                            'Short flash',
+                                            state.data.error,
+                                            index,
+                                            isErrorLed: true);
+                                      case 1:
+                                        return _createItemWidget(
+                                            context,
+                                            'Maintenance notice',
+                                            'Long flash',
+                                            state.data.maintain,
+                                            index);
+                                      case 2:
+                                        return _createItemWidget(context, 'Valve open',
+                                            'Constant', state.data.valveOpen, index);
+                                      case 3:
+                                        return _createItemWidget(context, 'Valve close',
+                                            'Constant', state.data.valveClose, index);
+                                      case 4:
+                                        return _createItemWidget(
+                                            context,
+                                            'RS485 disconnected',
+                                            'Short flash',
+                                            state.data.RS485Disconnect,
+                                            index);
+                                      case 5:
+                                        return _createItemWidget(
+                                            context,
+                                            'RS485 connected',
+                                            'Breathing',
+                                            state.data.RS485Connected,
+                                            index);
+                                      case 6:
+                                        return _createItemWidget(
+                                            context,
+                                            'BLE disconnected',
+                                            'Short flash',
+                                            state.data.bleDisconnect,
+                                            index);
+                                      case 7:
+                                        return _createItemWidget(
+                                            context,
+                                            'BLE connected',
+                                            'Breathing',
+                                            state.data.bleConnected,
+                                            index);
+                                      default:
+                                        return Container();
+                                    }
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                      height: 1.h,
+                                      color: ColorTheme.primaryAlpha_10,
+                                    );
+                                  },
+                                  itemCount: 8)),
+                        ],
+                      ),
+                    ))
+              ],
+            );
+          } else {
+            // todo error
+            DialogLoading.dismissLoading('loading');
+            isUpdateData = false;
+            return Container();
+          }
+        });
   }
 
   _createItemWidget(BuildContext context, String title, String content,

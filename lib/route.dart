@@ -16,7 +16,6 @@ import 'package:tawd_ivm/src/view/ads_page.dart';
 import 'package:tawd_ivm/src/view/language/select_language_page.dart';
 import 'package:tawd_ivm/src/view/scan/available_devices_page.dart';
 import 'package:tawd_ivm/src/view/scan/paired_page.dart';
-import 'package:tawd_ivm/src/view/scan/scan_page.dart';
 import 'package:tawd_ivm/src/view/scan/scan_start_page.dart';
 
 /// 轉場動畫

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tawd_ivm/src/theme/style.dart';
 import 'package:tawd_ivm/src/util/dialog_loading.dart';
 import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
@@ -12,6 +16,8 @@ import '../../../route.dart';
 
 class ScanStartPage extends StatelessWidget {
   const ScanStartPage({super.key});
+
+  Logger get _logger => Logger("ScanStartPage");
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,11 @@ class ScanStartPage extends StatelessWidget {
                 if (!isOn) {
                   _openBleOffDialog();
                 } else {
-                  Navigator.pushNamed(context, kRouteAvailableDevicesPage);
+                  _requestBlePermissions().then((value) {
+                    if (value) {
+                      Navigator.pushNamed(context, kRouteAvailableDevicesPage);
+                    }
+                  });
                 }
               },
               child: _createConnectDeviceWidget(context),
@@ -85,7 +95,11 @@ class ScanStartPage extends StatelessWidget {
                 if (!isOn) {
                   _openBleOffDialog();
                 } else {
-                  Navigator.pushNamed(context, kRoutePairedPage);
+                  _requestBlePermissions().then((value) {
+                    if (value) {
+                      Navigator.pushNamed(context, kRoutePairedPage);
+                    }
+                  });
                 }
               },
               child: _createPairedDeviceWidget(context),
@@ -179,6 +193,35 @@ class ScanStartPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> _requestBlePermissions() async {
+    var isLocationGranted = await Permission.locationWhenInUse.request();
+    _logger.info('checkBlePermissions, isLocationGranted=$isLocationGranted');
+
+    var isBleGranted = await Permission.bluetooth.request();
+    _logger.info('checkBlePermissions, isBleGranted=$isBleGranted');
+
+    var isBleScanGranted = await Permission.bluetoothScan.request();
+    _logger.info('checkBlePermissions, isBleScanGranted=$isBleScanGranted');
+    //
+    var isBleConnectGranted = await Permission.bluetoothConnect.request();
+    _logger
+        .info('checkBlePermissions, isBleConnectGranted=$isBleConnectGranted');
+    //
+    var isBleAdvertiseGranted = await Permission.bluetoothAdvertise.request();
+    _logger.info(
+        'checkBlePermissions, isBleAdvertiseGranted=$isBleAdvertiseGranted');
+
+    if (Platform.isIOS) {
+      return isBleGranted == PermissionStatus.granted;
+    } else {
+      return isLocationGranted == PermissionStatus.granted &&
+          // isBleGranted == PermissionStatus.granted  &&
+          isBleScanGranted == PermissionStatus.granted &&
+          isBleConnectGranted == PermissionStatus.granted &&
+          isBleAdvertiseGranted == PermissionStatus.granted;
+    }
   }
 
   Future<bool> _checkBle() async {
