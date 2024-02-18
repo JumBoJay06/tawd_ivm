@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:logging/logging.dart';
@@ -328,11 +329,7 @@ class _PairedPageState extends State<PairedPage> {
                 isHadId = ivmId.isNotEmpty;
               }
               DialogLoading.dismissLoading('connecting');
-              if (isHadId) {
-                _showPairedWithId(context, device.name);
-              } else {
-                _showPairedWithoutId(context, device.name);
-              }
+              _onNext(isHadId, device.name);
               break;
           }
         }
@@ -342,14 +339,7 @@ class _PairedPageState extends State<PairedPage> {
           final scanResult =
               await IvmManager.getInstance().startScanWithName(device.name, 8);
 
-          if (scanResult == null) {
-            _showPairFail();
-          } else {
-            IvmManager.getInstance().stopScan();
-            context
-                .read<IvmConnectionBloc>()
-                .add(IvmConnect(scanResult.device));
-          }
+          _startConnect(scanResult);
         },
         child: SizedBox(
           width: 343.w,
@@ -394,6 +384,23 @@ class _PairedPageState extends State<PairedPage> {
         ),
       ),
     );
+  }
+
+  void _startConnect(ScanResult? scanResult) {
+    if (scanResult == null) {
+      _showPairFail();
+    } else {
+      IvmManager.getInstance().stopScan();
+      context.read<IvmConnectionBloc>().add(IvmConnect(scanResult.device));
+    }
+  }
+
+  void _onNext(bool isHadId, String name) {
+    if (isHadId) {
+      _showPairedWithId(context, name);
+    } else {
+      _showPairedWithoutId(context, name);
+    }
   }
 
   void _showPairedWithoutId(BuildContext myContext, String deviceName) {

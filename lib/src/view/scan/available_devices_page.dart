@@ -23,39 +23,37 @@ class AvailableDevicesPage extends StatefulWidget {
 }
 
 class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
-  @override
-  Widget build(BuildContext context) {
-    return _availableDevices();
-  }
-}
-
-class _availableDevices extends StatelessWidget {
   Logger get _logger => Logger("AvailableDevices");
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     context.read<ScanBloc>().add(ScanStart(8));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         _createTitleWidget(context),
-        BlocBuilder<ScanBloc, ScanState>(
-            builder: (context, state) {
-              if (state is ScanFailure) {
-                DialogLoading.dismissLoading('scan');
-                return _createEmptyDeviceWidget(context);
-              }
-              if (state is ScanStarting) {
-                DialogLoading.showLoading('scan', content: S.of(context).available_device_searching);
-              }
-              if (state is ScanSuccess) {
-                DialogLoading.dismissLoading('scan');
-                return _createDeviceWidget(state.scanResults);
-              }
-              if (state is FilterResults) {
-                return _createDeviceWidget(state.scanResults);
-              }
-              return _createEmptyDeviceWidget(context);
-            }),
+        BlocBuilder<ScanBloc, ScanState>(builder: (context, state) {
+          if (state is ScanFailure) {
+            DialogLoading.dismissLoading('scan');
+            return _createEmptyDeviceWidget(context);
+          }
+          if (state is ScanStarting) {
+            DialogLoading.showLoading('scan',
+                content: S.of(context).available_device_searching);
+          }
+          if (state is ScanSuccess) {
+            DialogLoading.dismissLoading('scan');
+            return _createDeviceWidget(state.scanResults);
+          }
+          if (state is FilterResults) {
+            return _createDeviceWidget(state.scanResults);
+          }
+          return _createEmptyDeviceWidget(context);
+        }),
         Positioned(
             bottom: 48.h,
             left: 16.w,
@@ -179,15 +177,12 @@ class _availableDevices extends StatelessWidget {
             left: 44.w,
             right: 61.w,
             child: // 矩形
-            Container(
-                width: 270.w,
-                height: 44.h,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(22)
-                    ),
-                    color: ColorTheme.white
-                ),
+                Container(
+              width: 270.w,
+              height: 44.h,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(22)),
+                  color: ColorTheme.white),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextField(
@@ -195,37 +190,32 @@ class _availableDevices extends StatelessWidget {
                     context.read<ScanBloc>().add(Filter(filter));
                   },
                   decoration: const InputDecoration(
-                    hintText: 'Enter device number for quick search',
-                    hintStyle: TextStyle(
-                        color:  ColorTheme.primaryAlpha_20,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "SFProDisplay",
-                        fontStyle:  FontStyle.normal,
-                        fontSize: 14.0
-                    )
-                  ),
+                      hintText: 'Enter device number for quick search',
+                      hintStyle: TextStyle(
+                          color: ColorTheme.primaryAlpha_20,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "SFProDisplay",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0)),
                 ),
               ),
             )),
         Positioned(
             top: 62.h,
             right: 16.w,
-            child:GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 context.read<DeviceTextFieldBloc>().add(StopFilter());
                 context.read<ScanBloc>().add(Filter(''));
               },
-              child: Text(
-                  S.of(context).common_cancel,
+              child: Text(S.of(context).common_cancel,
                   style: const TextStyle(
-                      color:  ColorTheme.fontColor,
+                      color: ColorTheme.fontColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "SFProDisplay",
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 14.0
-                  ),
-                  textAlign: TextAlign.right
-              ),
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.right),
             ))
       ],
     );
@@ -324,105 +314,118 @@ class _availableDevices extends StatelessWidget {
 
   Widget _createListItem(BuildContext context, ScanResult result) {
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
-        listener: (context, state) async {
-          if (state is IvmConnectionStateChange) {
-            final connectResult = state.state;
-            switch (connectResult) {
-              case IvmConnectionStatus.disconnected:
-                DialogLoading.dismissLoading('connecting');
-                _showPairFail();
-                break;
-              case IvmConnectionStatus.connecting:
-                DialogLoading.showLoading('connecting');
-                break;
-              case IvmConnectionStatus.connected:
-                var pairingDataHistory = await IvmManager.getInstance().getPairingDataHistory();
-                bool isHadId = false;
-                if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
-                  var ivmId = pairingDataHistory.last.valveId;
-                  isHadId = ivmId.isNotEmpty;
-                }
-                DialogLoading.dismissLoading('connecting');
-                if (isHadId) {
-                  _showPairedWithId(context, result.device.platformName);
-                } else {
-                  _showPairedWithoutId(context, result.device.platformName);
-                }
-                break;
-            }
+      listener: (context, state) async {
+        if (state is IvmConnectionStateChange) {
+          final connectResult = state.state;
+          switch (connectResult) {
+            case IvmConnectionStatus.disconnected:
+              DialogLoading.dismissLoading('connecting');
+              _showPairFail();
+              break;
+            case IvmConnectionStatus.connecting:
+              DialogLoading.showLoading('connecting');
+              break;
+            case IvmConnectionStatus.connected:
+              var pairingDataHistory =
+                  await IvmManager.getInstance().getPairingDataHistory();
+              bool isHadId = false;
+              if (pairingDataHistory != null && pairingDataHistory.isNotEmpty) {
+                var ivmId = pairingDataHistory.last.valveId;
+                isHadId = ivmId.isNotEmpty;
+              }
+              DialogLoading.dismissLoading('connecting');
+              _onNext(isHadId, result.device.platformName);
+              break;
           }
-        },
-    child: InkWell(
-      onTap: () async {
-        context.read<IvmConnectionBloc>().add(IvmConnect(result.device));
+        }
       },
-      child: SizedBox(
-        width: 343.w,
-        height: 57.h,
-        child: Stack(
-          children: [
-            Positioned(
-                top: 18.h,
-                bottom: 18.h,
-                left: 8.w,
-                child:
-                Text(
-                    result.device.platformName,
-                    style: const TextStyle(
-                        color:  ColorTheme.primary,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "SFProDisplay",
-                        fontStyle:  FontStyle.normal,
-                        fontSize: 16.0
-                    ),
-                    textAlign: TextAlign.left
-                )),
-            Positioned(
-                top: 56.h,
-                left: 0,
-                right: 0,
-                child: Container(
-                    width: 343.w,
-                    height: 1.h,
-                    decoration:
-                    const BoxDecoration(color: ColorTheme.primaryAlpha_10)))
-          ],
+      child: InkWell(
+        onTap: () async {
+          context.read<IvmConnectionBloc>().add(IvmConnect(result.device));
+        },
+        child: SizedBox(
+          width: 343.w,
+          height: 57.h,
+          child: Stack(
+            children: [
+              Positioned(
+                  top: 18.h,
+                  bottom: 18.h,
+                  left: 8.w,
+                  child: Text(result.device.platformName,
+                      style: const TextStyle(
+                          color: ColorTheme.primary,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "SFProDisplay",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left)),
+              Positioned(
+                  top: 56.h,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                      width: 343.w,
+                      height: 1.h,
+                      decoration: const BoxDecoration(
+                          color: ColorTheme.primaryAlpha_10)))
+            ],
+          ),
         ),
       ),
-    ),);
+    );
+  }
 
+  void _onNext(bool isHadId, String name) {
+    if (isHadId) {
+      _showPairedWithId(context, name);
+    } else {
+      _showPairedWithoutId(context, name);
+    }
   }
 
   void _showPairedWithoutId(BuildContext myContext, String deviceName) {
-    SmartDialog.show(builder: (context) {
-      return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName, () {
-        SmartDialog.dismiss(tag: 'pair_without_id');
-        Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
+    SmartDialog.show(
+        builder: (context) {
+          return DialogWidgetUtil.pairedWithoutIdDialog(myContext, deviceName,
+              () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamed(context, kRouteReplaceBallValvePage).then(
                 (value) => Navigator.pushNamedAndRemoveUntil(
-                myContext, kRouteActionMenu, (route) => false));
-      }, () {
-        SmartDialog.dismiss(tag: 'pair_without_id');
-        Navigator.pushNamedAndRemoveUntil(myContext, kRouteActionMenu, (route) => false);
-      });
-    }, tag: 'pair_without_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
+                    myContext, kRouteActionMenu, (route) => false));
+          }, () {
+            SmartDialog.dismiss(tag: 'pair_without_id');
+            Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false);
+          });
+        },
+        tag: 'pair_without_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairedWithId(BuildContext myContext, String deviceName) {
-    SmartDialog.show(builder: (context) {
-      return DialogWidgetUtil.pairedWithIdDialog(context, deviceName, () {
-        SmartDialog.dismiss(tag: 'pair_with_id');
-        Navigator.pushNamedAndRemoveUntil(context, kRouteActionMenu, (route) => false);
-      });
-    }, tag: 'pair_with_id', clickMaskDismiss: false, backDismiss: false, keepSingle: true);
+    SmartDialog.show(
+        builder: (context) {
+          return DialogWidgetUtil.pairedWithIdDialog(context, deviceName, () {
+            SmartDialog.dismiss(tag: 'pair_with_id');
+            Navigator.pushNamedAndRemoveUntil(
+                myContext, kRouteActionMenu, (route) => false);
+          });
+        },
+        tag: 'pair_with_id',
+        clickMaskDismiss: false,
+        backDismiss: false,
+        keepSingle: true);
   }
 
   void _showPairFail() {
-    SmartDialog.show(builder: (context) {
-      return DialogWidgetUtil.pairFailDialogForScan(context, () => {
-        SmartDialog.dismiss(tag: 'pair_fail')
-      });
-    }, tag: 'pair_fail');
+    SmartDialog.show(
+        builder: (context) {
+          return DialogWidgetUtil.pairFailDialogForScan(
+              context, () => {SmartDialog.dismiss(tag: 'pair_fail')});
+        },
+        tag: 'pair_fail');
   }
 }
-
-

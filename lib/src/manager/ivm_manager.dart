@@ -24,6 +24,7 @@ class IvmManager {
 
   IvmManager._() {
     FlutterBluePlus.scanResults.listen((event) {
+      _logger.info(event);
       _scanController.sink.add(event);
     });
   }
@@ -519,7 +520,8 @@ class IvmManager {
         return null;
       }
     } catch (e) {
-      _logger.shout("setTerminatingResistanceSetting($isSetting) ${e.toString()}", e);
+      _logger.shout(
+          "setTerminatingResistanceSetting($isSetting) ${e.toString()}", e);
     }
 
     return null;
@@ -630,19 +632,22 @@ class IvmManager {
     return null;
   }
 
-  Future<bool?> setBarometricPressureSensorLimit(BarometricPressureSensorLimit limit) async {
+  Future<bool?> setBarometricPressureSensorLimit(
+      BarometricPressureSensorLimit limit) async {
     try {
       final data = List<int>.empty(growable: true)
         ..addAll(IntToBytes.convertToIntList((limit.min * 10000).toInt(), 4))
         ..addAll(IntToBytes.convertToIntList((limit.max * 10000).toInt(), 4));
-      final list = await _sendCmd(CmdId.setBarometricPressureSensorLimit.id, data: data);
+      final list =
+          await _sendCmd(CmdId.setBarometricPressureSensorLimit.id, data: data);
       if (list != null) {
         return listEquals(list, [0, 1]);
       } else {
         return null;
       }
     } catch (e) {
-      _logger.shout("setBarometricPressureSensorLimit($limit) ${e.toString()}", e);
+      _logger.shout(
+          "setBarometricPressureSensorLimit($limit) ${e.toString()}", e);
     }
 
     return null;
@@ -652,7 +657,8 @@ class IvmManager {
     try {
       final currentTime = DateTime.now();
       final currentTimeUtc = currentTime.millisecondsSinceEpoch ~/ 1000;
-      final list = await _sendCmd(CmdId.setCurrentUTC.id, data: IntToBytes.convertToIntList(currentTimeUtc, 4));
+      final list = await _sendCmd(CmdId.setCurrentUTC.id,
+          data: IntToBytes.convertToIntList(currentTimeUtc, 4));
       if (list != null) {
         return listEquals(list, [0, 1]);
       } else {
@@ -668,7 +674,8 @@ class IvmManager {
   Future<bool?> setDeviceLocation(String location) async {
     try {
       var locationToAscii = _toAscii(location);
-      final list = await _sendCmd(CmdId.setDeviceLocation.id, data: locationToAscii);
+      final list =
+          await _sendCmd(CmdId.setDeviceLocation.id, data: locationToAscii);
       if (list != null) {
         return listEquals(list, [0, 1]);
       } else {
@@ -683,7 +690,8 @@ class IvmManager {
 
   Future<bool?> setManufacturingDate(int data) async {
     try {
-      final list = await _sendCmd(CmdId.setManufacturingDate.id, data: IntToBytes.convertToIntList(data, 4));
+      final list = await _sendCmd(CmdId.setManufacturingDate.id,
+          data: IntToBytes.convertToIntList(data, 4));
       if (list != null) {
         return listEquals(list, [0, 1]);
       } else {
@@ -696,16 +704,20 @@ class IvmManager {
     return null;
   }
 
-  Future<bool?> setMaintenanceNotificationCount(MaintenanceNotificationCount maintenanceNotificationCount) async {
+  Future<bool?> setMaintenanceNotificationCount(
+      MaintenanceNotificationCount maintenanceNotificationCount) async {
     try {
-      final list = await _sendCmd(CmdId.setMaintenanceNotificationCount.id, data: maintenanceNotificationCount.toList());
+      final list = await _sendCmd(CmdId.setMaintenanceNotificationCount.id,
+          data: maintenanceNotificationCount.toList());
       if (list != null) {
         return listEquals(list, [0, 1]);
       } else {
         return null;
       }
     } catch (e) {
-      _logger.shout("setMaintenanceNotificationCount($maintenanceNotificationCount) ${e.toString()}", e);
+      _logger.shout(
+          "setMaintenanceNotificationCount($maintenanceNotificationCount) ${e.toString()}",
+          e);
     }
 
     return null;
@@ -737,7 +749,8 @@ class IvmManager {
     return _write(send);
   }
 
-  Future<List<List<int>>?> _sendCmdAndMultiRx(int cmdId, int chunkSize, {List<int>? data}) {
+  Future<List<List<int>>?> _sendCmdAndMultiRx(int cmdId, int chunkSize,
+      {List<int>? data}) {
     final length = (data?.length ?? 0) + 2;
     final send = [0x25, length, cmdId];
     if (data != null) {
@@ -770,7 +783,8 @@ class IvmManager {
     }
   }
 
-  Future<List<List<int>>?> _writeAndMultiRx(List<int> send, int chunkSize) async {
+  Future<List<List<int>>?> _writeAndMultiRx(
+      List<int> send, int chunkSize) async {
     try {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
