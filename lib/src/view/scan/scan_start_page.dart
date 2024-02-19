@@ -43,12 +43,12 @@ class ScanStartPage extends StatelessWidget {
             left: 131.w,
             right: 131.w,
             child: Text(S.of(context).ivm_service,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.white,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
         Positioned(
             top: 58.h,
@@ -73,12 +73,14 @@ class ScanStartPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 final isOn = await _checkBle();
-                if (!isOn) {
+                if (!isOn && !Platform.isIOS) {
                   _openBleOffDialog();
                 } else {
                   _requestBlePermissions().then((value) {
                     if (value) {
                       Navigator.pushNamed(context, kRouteAvailableDevicesPage);
+                    } else {
+                      _openBleOffDialog();
                     }
                   });
                 }
@@ -92,12 +94,14 @@ class ScanStartPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 final isOn = await _checkBle();
-                if (!isOn) {
+                if (!isOn && !Platform.isIOS) {
                   _openBleOffDialog();
                 } else {
                   _requestBlePermissions().then((value) {
                     if (value) {
                       Navigator.pushNamed(context, kRoutePairedPage);
+                    } else {
+                      _openBleOffDialog();
                     }
                   });
                 }
@@ -144,12 +148,12 @@ class ScanStartPage extends StatelessWidget {
               left: 70.w,
               right: 107.w,
               child: Text(S.of(context).ivm_service_device_connect,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 24.0),
+                      fontSize: 24.0.sp),
                   textAlign: TextAlign.center)),
           Positioned(
               top: 293.h,
@@ -186,8 +190,8 @@ class ScanStartPage extends StatelessWidget {
       child: Center(
         child: Text(
           S.of(context).ivm_service_paired_device,
-          style: const TextStyle(
-              fontSize: 20,
+          style: TextStyle(
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold,
               color: ColorTheme.fontColor),
         ),
@@ -196,22 +200,18 @@ class ScanStartPage extends StatelessWidget {
   }
 
   Future<bool> _requestBlePermissions() async {
-    var isLocationGranted = await Permission.locationWhenInUse.request();
-    _logger.info('checkBlePermissions, isLocationGranted=$isLocationGranted');
-
     var isBleGranted = await Permission.bluetooth.request();
     _logger.info('checkBlePermissions, isBleGranted=$isBleGranted');
-
+    var isLocationGranted = await Permission.locationWhenInUse.request();
+    _logger.info('checkBlePermissions for android, isLocationGranted=$isLocationGranted');
     var isBleScanGranted = await Permission.bluetoothScan.request();
-    _logger.info('checkBlePermissions, isBleScanGranted=$isBleScanGranted');
-    //
+    _logger.info('checkBlePermissions for android, isBleScanGranted=$isBleScanGranted');
     var isBleConnectGranted = await Permission.bluetoothConnect.request();
     _logger
-        .info('checkBlePermissions, isBleConnectGranted=$isBleConnectGranted');
-    //
+        .info('checkBlePermissions for android, isBleConnectGranted=$isBleConnectGranted');
     var isBleAdvertiseGranted = await Permission.bluetoothAdvertise.request();
     _logger.info(
-        'checkBlePermissions, isBleAdvertiseGranted=$isBleAdvertiseGranted');
+        'checkBlePermissions for android, isBleAdvertiseGranted=$isBleAdvertiseGranted');
 
     if (Platform.isIOS) {
       return isBleGranted == PermissionStatus.granted;

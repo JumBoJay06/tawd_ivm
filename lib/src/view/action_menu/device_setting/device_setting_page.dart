@@ -70,6 +70,7 @@ class _deviceSetting extends State<DeviceSettingPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
@@ -99,7 +100,7 @@ class _deviceSetting extends State<DeviceSettingPage> {
             DialogLoading.dismissLoading('loading');
             var data = state.data;
             return Positioned(
-                top: 100.h,
+                top: 112.h,
                 left: 16.w,
                 right: 16.w,
                 child: Container(
@@ -328,12 +329,13 @@ class _deviceSetting extends State<DeviceSettingPage> {
                       fontSize: 16.0),
                   textAlign: TextAlign.left)),
           Positioned(
-              top: 39.h,
+              top: 42.h,
               left: 66.w,
               child: Image.asset(
                 'assets/icon_dot_green.png',
                 width: 10.w,
                 height: 10.h,
+                fit: BoxFit.fill,
               )),
           Positioned(
               top: 36.h,
@@ -347,16 +349,17 @@ class _deviceSetting extends State<DeviceSettingPage> {
                       fontSize: 16.0),
                   textAlign: TextAlign.left)),
           Positioned(
-              top: 39.h,
-              left: 156.w,
+              top: 42.h,
+              left: 172.w,
               child: Image.asset(
                 'assets/icon_dot_green.png',
                 width: 10.w,
                 height: 10.h,
+                fit: BoxFit.fill,
               )),
           Positioned(
               top: 36.h,
-              left: 168.w,
+              left: 184.w,
               child: Text(content2,
                   style: const TextStyle(
                       color: ColorTheme.primaryAlpha_50,

@@ -77,19 +77,20 @@ class _recordChart extends State<RecordChartPage> {
                 'assets/light_6.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Record Chart',
+            child: Text('Record Chart',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -201,13 +202,13 @@ class _recordChart extends State<RecordChartPage> {
           Positioned(
               top: 251.h,
               left: 124.w,
-              child: const Text("This chart shows the last 300 records.",
+              child: Text("This chart shows the last 300 records.",
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w300,
                       fontFamily: "Helvetica",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 12.0.sp),
                   textAlign: TextAlign.right))
         ],
       ),
@@ -216,7 +217,7 @@ class _recordChart extends State<RecordChartPage> {
 
   _createChartItemsWidget(BuildContext context, List<HistoryLog> logs) {
     return ListView.builder(
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: logs.length + 1,
@@ -244,23 +245,23 @@ class _recordChart extends State<RecordChartPage> {
               top: 13.h,
               right: 303.w,
               child: Text((log.index + 1).toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 13.h,
               right: 140.w,
               child: Text(itemValue[0],
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.right)),
           Positioned(
               top: 13.h,
@@ -268,12 +269,12 @@ class _recordChart extends State<RecordChartPage> {
               child: selectIndex != 3
                   ? const SizedBox()
                   : Text(itemValue[1],
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primaryAlpha_50,
                           fontWeight: FontWeight.w400,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
+                          fontSize: 14.0.sp),
                       textAlign: TextAlign.right))
         ],
       ),
@@ -369,24 +370,24 @@ class _recordChart extends State<RecordChartPage> {
                     Positioned(
                         top: 16.h,
                         right: 305.w,
-                        child: const Text("#",
+                        child: Text("#",
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
+                                fontSize: 14.0.sp),
                             textAlign: TextAlign.left)),
                     Positioned(
                         top: 16.h,
                         right: 142.w,
                         child: Text(title1,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
+                                fontSize: 14.0.sp),
                             textAlign: TextAlign.left)),
                     Positioned(
                         top: 16.h,
@@ -394,12 +395,12 @@ class _recordChart extends State<RecordChartPage> {
                         child: selectIndex != 3
                             ? const SizedBox()
                             : Text(title2,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: ColorTheme.primary,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "Helvetica",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
+                                    fontSize: 14.0.sp),
                                 textAlign: TextAlign.left)),
                   ],
                 ),
@@ -512,7 +513,7 @@ class _recordChart extends State<RecordChartPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.center))
         ],
       ),
@@ -538,13 +539,13 @@ class _recordChart extends State<RecordChartPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: const Text('IVM info.',
+              child: Text('IVM info.',
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 48.h,
@@ -556,11 +557,12 @@ class _recordChart extends State<RecordChartPage> {
                 color: ColorTheme.primaryAlpha_50,
               )),
           Positioned(
-              top: 8.h,
+              top: 57.h,
               bottom: 8.h,
               left: 0,
               right: 0,
               child: ListView.builder(
+                padding: EdgeInsets.zero,
                   itemCount: items.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -601,23 +603,23 @@ class _recordChart extends State<RecordChartPage> {
               top: 10.h,
               left: 66.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 30.h,
               left: 66.w,
               child: Text(content,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
         ],
       ),
@@ -733,12 +735,12 @@ class _recordChart extends State<RecordChartPage> {
       dateFormat = DateFormat("MM / dd").format(dateTime);
     }
     Widget text = Text(dateFormat,
-        style: const TextStyle(
+        style: TextStyle(
             color: ColorTheme.primary,
             fontWeight: FontWeight.w300,
             fontFamily: "Helvetica",
             fontStyle: FontStyle.normal,
-            fontSize: 10.0),
+            fontSize: 10.0.sp),
         textAlign: TextAlign.left);
 
     return SideTitleWidget(
@@ -754,12 +756,12 @@ class _recordChart extends State<RecordChartPage> {
       title = value.toInt().toString();
     }
     Widget text = Text(title,
-        style: const TextStyle(
+        style: TextStyle(
             color: ColorTheme.primary,
             fontWeight: FontWeight.w300,
             fontFamily: "Helvetica",
             fontStyle: FontStyle.normal,
-            fontSize: 10.0),
+            fontSize: 10.0.sp),
         textAlign: TextAlign.left);
 
     return SideTitleWidget(

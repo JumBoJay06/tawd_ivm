@@ -74,6 +74,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                 'assets/light_6.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
@@ -99,6 +100,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                 'assets/light_17.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             ))
       ],
@@ -184,22 +186,23 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                 color: ColorTheme.primaryAlpha_50,
               )),
           Positioned(
-              top: 8.h,
+              top: 57.h,
               bottom: 8.h,
               left: 0,
               right: 0,
               child: ListView.builder(
                   itemCount: items.length,
+                  padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     var item = items[index];
                     return _createDetailItemWidget(
-                      context,
-                      title: item.title,
-                      content: item.content,
-                      iconAsset: item.iconAsset
+                        context,
+                        title: item.title,
+                        content: item.content,
+                        iconAsset: item.iconAsset
                     );
-                  }))
+                  }),)
         ],
       ),
     );
@@ -242,13 +245,14 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                 color: ColorTheme.primaryAlpha_50,
               )),
           Positioned(
-              top: 8.h,
+              top: 57.h,
               bottom: 8.h,
               left: 0,
               right: 0,
               child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: items.length,
                   physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     var item = items[index];
                     return _createDetailItemWidget(
@@ -296,83 +300,88 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
               top: 49.h,
               left: 0,
               right: 0,
-              child: Stack(
-                children: [
-                  Container(
-                      width: 343.w,
-                      height: 60.h,
-                      decoration: const BoxDecoration(
-                          color: ColorTheme.secondaryAlpha_15)),
-                  Positioned(
-                      top: 7.h,
-                      left: 41.w,
-                      child: Image.asset(
-                        'assets/icon_ball_32.png',
-                        width: 32.w,
-                        height: 32.h,
-                        fit: BoxFit.fill,
-                      )),
-                  Positioned(
-                      top: 39.h,
-                      left: 24.w,
-                      child: const Text("Ball Valve ID",
-                          style: TextStyle(
-                              color: ColorTheme.primary,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 13.0),
-                          textAlign: TextAlign.center)),
-                  Positioned(
-                      top: 7.h,
-                      left: 155.w,
-                      child: Image.asset(
-                        'assets/icon_date_bel_32.png',
-                        width: 32.w,
-                        height: 32.h,
-                        fit: BoxFit.fill,
-                      )),
-                  Positioned(
-                      top: 39.h,
-                      left: 139.w,
-                      child: const Text("Pairing date",
-                          style: TextStyle(
-                              color: ColorTheme.primary,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 13.0),
-                          textAlign: TextAlign.center)),
-                  Positioned(
-                      top: 7.h,
-                      left: 270.w,
-                      child: Image.asset(
-                        'assets/icon_ball_time_32.png',
-                        width: 32.w,
-                        height: 32.h,
-                        fit: BoxFit.fill,
-                      )),
-                  Positioned(
-                      top: 39.h,
-                      left: 248.w,
-                      child: const Text("Cycle counter",
-                          style: TextStyle(
-                              color: ColorTheme.primary,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 13.0),
-                          textAlign: TextAlign.center)),
-                ],
+              child: SizedBox(
+                width: 343.w,
+                height: 60.h,
+                child: Stack(
+                  children: [
+                    Container(
+                        width: 343.w,
+                        height: 60.h,
+                        decoration: const BoxDecoration(
+                            color: ColorTheme.secondaryAlpha_15)),
+                    Positioned(
+                        top: 7.h,
+                        left: 41.w,
+                        child: Image.asset(
+                          'assets/icon_ball_32.png',
+                          width: 32.w,
+                          height: 32.h,
+                          fit: BoxFit.fill,
+                        )),
+                    Positioned(
+                        top: 39.h,
+                        left: 24.w,
+                        child: const Text("Ball Valve ID",
+                            style: TextStyle(
+                                color: ColorTheme.primary,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "SFProDisplay",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 13.0),
+                            textAlign: TextAlign.center)),
+                    Positioned(
+                        top: 7.h,
+                        left: 155.w,
+                        child: Image.asset(
+                          'assets/icon_date_bel_32.png',
+                          width: 32.w,
+                          height: 32.h,
+                          fit: BoxFit.fill,
+                        )),
+                    Positioned(
+                        top: 39.h,
+                        left: 139.w,
+                        child: const Text("Pairing date",
+                            style: TextStyle(
+                                color: ColorTheme.primary,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "SFProDisplay",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 13.0),
+                            textAlign: TextAlign.center)),
+                    Positioned(
+                        top: 7.h,
+                        left: 270.w,
+                        child: Image.asset(
+                          'assets/icon_ball_time_32.png',
+                          width: 32.w,
+                          height: 32.h,
+                          fit: BoxFit.fill,
+                        )),
+                    Positioned(
+                        top: 39.h,
+                        left: 248.w,
+                        child: const Text("Cycle counter",
+                            style: TextStyle(
+                                color: ColorTheme.primary,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "SFProDisplay",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 13.0),
+                            textAlign: TextAlign.center)),
+                  ],
+                ),
               )),
           Positioned(
-              top: 67.h,
+              top: 110.h,
               left: 0,
               right: 0,
               bottom: 0,
               child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 10,
+                  padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     PairingLog item;
                     _logger.info("${items.length} < $index");
@@ -397,6 +406,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                           )),
                           Positioned(
                               top: 13.h,
+                              bottom: 11.h,
                               left: 15.w,
                               child: Text(item.ivmId,
                                   style: const TextStyle(
@@ -408,6 +418,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 13.h,
+                              bottom: 11.h,
                               left: 136.w,
                               child: Text(item.date,
                                   style: const TextStyle(
@@ -419,6 +430,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 13.h,
+                              bottom: 11.h,
                               left: 267.w,
                               child: Text("${item.totalUsed} time(s)",
                                   style: const TextStyle(

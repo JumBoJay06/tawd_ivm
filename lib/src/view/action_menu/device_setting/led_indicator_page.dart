@@ -76,6 +76,7 @@ class _ledIndicator extends State<LedIndicatorPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(

@@ -120,6 +120,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
