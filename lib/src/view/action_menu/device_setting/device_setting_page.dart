@@ -70,19 +70,20 @@ class _deviceSetting extends State<DeviceSettingPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Device Settings',
+            child: Text('Device Settings',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -99,7 +100,7 @@ class _deviceSetting extends State<DeviceSettingPage> {
             DialogLoading.dismissLoading('loading');
             var data = state.data;
             return Positioned(
-                top: 100.h,
+                top: 112.h,
                 left: 16.w,
                 right: 16.w,
                 child: Container(
@@ -120,13 +121,13 @@ class _deviceSetting extends State<DeviceSettingPage> {
                       Positioned(
                           top: 18.h,
                           left: 16.w,
-                          child: const Text('Setting item',
+                          child: Text('Setting item',
                               style: TextStyle(
                                   color: ColorTheme.secondary,
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "SFProDisplay",
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
+                                  fontSize: 14.0.sp),
                               textAlign: TextAlign.left)),
                       Positioned(
                           top: 48.h,
@@ -280,12 +281,12 @@ class _deviceSetting extends State<DeviceSettingPage> {
               top: 27.h,
               left: 66.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 0,
@@ -320,50 +321,52 @@ class _deviceSetting extends State<DeviceSettingPage> {
               top: 16.h,
               left: 66.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
-              top: 39.h,
+              top: 42.h,
               left: 66.w,
               child: Image.asset(
                 'assets/icon_dot_green.png',
                 width: 10.w,
                 height: 10.h,
+                fit: BoxFit.fill,
               )),
           Positioned(
               top: 36.h,
               left: 78.w,
               child: Text(content1,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
-              top: 39.h,
-              left: 156.w,
+              top: 42.h,
+              left: 172.w,
               child: Image.asset(
                 'assets/icon_dot_green.png',
                 width: 10.w,
                 height: 10.h,
+                fit: BoxFit.fill,
               )),
           Positioned(
               top: 36.h,
-              left: 168.w,
+              left: 184.w,
               child: Text(content2,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 0,

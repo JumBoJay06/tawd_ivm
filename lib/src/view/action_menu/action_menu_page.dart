@@ -126,25 +126,25 @@ class _ActionMenuState extends State<ActionMenu> {
             child: Text(name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 40.0),
+                    fontSize: 40.0.sp),
                 textAlign: TextAlign.left)),
         Positioned(
-            top: 160.h,
+            top: 165.h,
             left: 24.w,
             child: Text(location,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.fontColorSecondary,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 14.0.sp),
                 textAlign: TextAlign.left)),
       ],
     );
@@ -214,12 +214,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .about_device_product_info,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -259,12 +259,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .selt_test,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -302,12 +302,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .operational_records,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -345,12 +345,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .record_chart_,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -390,12 +390,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .traceability_,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -434,12 +434,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .device_settings_,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),
@@ -480,12 +480,12 @@ class _ActionMenuState extends State<ActionMenu> {
                     child: Text(S
                         .of(context)
                         .fw_update,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 16.0.sp),
                         textAlign: TextAlign.center))
               ],
             ),

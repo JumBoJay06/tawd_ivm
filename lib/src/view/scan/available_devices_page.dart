@@ -116,12 +116,12 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
             left: 0,
             right: 0,
             child: Text(S.of(context).available_device,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
         Positioned(
             top: 58.h,
@@ -189,14 +189,14 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   onChanged: (filter) {
                     context.read<ScanBloc>().add(Filter(filter));
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       hintText: 'Enter device number for quick search',
                       hintStyle: TextStyle(
                           color: ColorTheme.primaryAlpha_20,
                           fontWeight: FontWeight.w400,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 14.0)),
+                          fontSize: 14.0.sp)),
                 ),
               ),
             )),
@@ -209,12 +209,12 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                 context.read<ScanBloc>().add(Filter(''));
               },
               child: Text(S.of(context).common_cancel,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.fontColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.right),
             ))
       ],
@@ -251,13 +251,13 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   top: 320.h,
                   left: 0,
                   right: 0,
-                  child: const Text('No available devices',
+                  child: Text('No available devices',
                       style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 24.0),
+                          fontSize: 24.0.sp),
                       textAlign: TextAlign.center))
             ],
           ),
@@ -302,8 +302,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
         child: Center(
           child: Text(
             S.of(context).available_device_research,
-            style: const TextStyle(
-                fontSize: 20,
+            style: TextStyle(
+                fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
                 color: ColorTheme.fontColor),
           ),
@@ -353,12 +353,12 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   bottom: 18.h,
                   left: 8.w,
                   child: Text(result.device.platformName,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
+                          fontSize: 16.0.sp),
                       textAlign: TextAlign.left)),
               Positioned(
                   top: 56.h,

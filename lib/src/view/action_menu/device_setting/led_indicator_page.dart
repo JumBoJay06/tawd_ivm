@@ -76,19 +76,20 @@ class _ledIndicator extends State<LedIndicatorPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('LED Indicator',
+            child: Text('LED Indicator',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -137,13 +138,13 @@ class _ledIndicator extends State<LedIndicatorPage> {
                           Positioned(
                               top: 18.h,
                               left: 16.w,
-                              child: const Text('LED setting',
+                              child: Text('LED setting',
                                   style: TextStyle(
                                       color: ColorTheme.secondary,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "SFProDisplay",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                      fontSize: 14.0.sp),
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 48.h,
@@ -158,14 +159,14 @@ class _ledIndicator extends State<LedIndicatorPage> {
                               top: 61.h,
                               left: 16.w,
                               right: 16.w,
-                              child: const Text(
+                              child: Text(
                                   "Set different colors for each state (except for fault states) to enhance operational recognition.",
                                   style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w300,
                                       fontFamily: "Helvetica",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                      fontSize: 14.0.sp),
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 99.h,
@@ -260,23 +261,23 @@ class _ledIndicator extends State<LedIndicatorPage> {
               top: 16.h,
               left: 0,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 36.h,
               left: 0,
               child: Text(content,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 0,

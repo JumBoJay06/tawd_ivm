@@ -123,12 +123,12 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
             bottom: 0,
             child: Center(
               child: Text(_getItemName(context, index),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0)),
+                      fontSize: 16.0.sp)),
             ))
       ],
     );
@@ -184,8 +184,8 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
             child: Center(
               child: Text(
                 S.of(context).language_finish_setting,
-                style: const TextStyle(
-                    fontSize: 20,
+                style: TextStyle(
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: ColorTheme.fontColor),
               ),
