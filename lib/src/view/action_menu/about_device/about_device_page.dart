@@ -220,12 +220,12 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             child: Text(S
                 .of(context)
                 .about_device_product_info,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
                     fontFamily: "SFProDisplay",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 14.0.sp),
                 textAlign: TextAlign.left)),
         Positioned(
             top: 48.h,
@@ -265,12 +265,12 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             child: Text(S
                 .of(context)
                 .about_device_info,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
                     fontFamily: "SFProDisplay",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 14.0.sp),
                 textAlign: TextAlign.left)),
         Positioned(
             top: 48.h,
@@ -309,12 +309,12 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             child: Text(S
                 .of(context)
                 .device_settings_led_indicator,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
                     fontFamily: "SFProDisplay",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 14.0.sp),
                 textAlign: TextAlign.left)),
         Positioned(
             top: 48.h,
@@ -404,23 +404,23 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                 top: 10.h,
                 left: 66.w,
                 child: Text(title,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: ColorTheme.primary,
                         fontWeight: FontWeight.w500,
                         fontFamily: "SFProDisplay",
                         fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
+                        fontSize: 16.0.sp),
                     textAlign: TextAlign.left)),
             Positioned(
                 top: 30.h,
                 left: 66.w,
                 child: Text(content,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: ColorTheme.primaryAlpha_50,
                         fontWeight: FontWeight.w500,
                         fontFamily: "SFProDisplay",
                         fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
+                        fontSize: 14.0.sp),
                     textAlign: TextAlign.left)),
           ],
         ),
@@ -481,7 +481,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                             fontWeight: FontWeight.w500,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.left)
                   ],
                 ),
@@ -517,7 +517,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)
                     ],
                   ),
@@ -552,7 +552,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)
                     ],
                   ),
@@ -590,19 +590,20 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                 'assets/light_6.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('About Device',
+            child: Text('About Device',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
         Positioned(
             top: 58.h,

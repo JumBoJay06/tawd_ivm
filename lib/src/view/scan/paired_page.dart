@@ -94,27 +94,24 @@ class _PairedPageState extends State<PairedPage> {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              // 測試這樣有沒有比較好按
-              behavior: HitTestBehavior.opaque,
-              child: Container(
+              child: Image.asset(
+                'assets/light_6.png',
                 width: 24.w,
                 height: 24.h,
-                color: ColorTheme.iconBackground,
-                child: Image.asset('assets/light_6.png',
-                    width: 24.w, height: 24.h),
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Paired Device',
+            child: Text('Paired Device',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
         Positioned(
             top: 58.h,
@@ -184,14 +181,14 @@ class _PairedPageState extends State<PairedPage> {
                     onChanged: (filter) {
                       context.read<PairedDeviceBloc>().add(Filter(filter));
                     },
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         hintText: 'Enter device number for quick search',
                         hintStyle: TextStyle(
                             color: ColorTheme.primaryAlpha_20,
                             fontWeight: FontWeight.w400,
                             fontFamily: "SFProDisplay",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0)),
+                            fontSize: 14.0.sp)),
                   ),
                 ),
               ),
@@ -204,12 +201,12 @@ class _PairedPageState extends State<PairedPage> {
                 context.read<DeviceTextFieldBloc>().add(StopFilter());
               },
               child: Text(S.of(context).common_cancel,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.fontColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.right),
             ))
       ],
@@ -248,12 +245,12 @@ class _PairedPageState extends State<PairedPage> {
                   right: 0,
                   child: Text(
                       S.of(context).available_device_no_paired_device_content,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 24.0),
+                          fontSize: 24.0.sp),
                       textAlign: TextAlign.center)),
               Positioned(
                   top: 353.h,
@@ -263,12 +260,12 @@ class _PairedPageState extends State<PairedPage> {
                       S
                           .of(context)
                           .available_device_please_connect_first_content,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primaryAlpha_50,
                           fontWeight: FontWeight.w400,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
+                          fontSize: 14.0.sp),
                       textAlign: TextAlign.center))
             ],
           ),
@@ -285,12 +282,12 @@ class _PairedPageState extends State<PairedPage> {
             left: 16.w,
             child: Text(
                 S.of(context).available_device_show_devices_paired_content,
-                style: const TextStyle(
+                style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w300,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 14.0.sp),
                 textAlign: TextAlign.left)),
         Positioned(
             top: 149.h,
@@ -351,24 +348,24 @@ class _PairedPageState extends State<PairedPage> {
                   bottom: 27.h,
                   left: 8.w,
                   child: Text(device.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
+                          fontSize: 16.0.sp),
                       textAlign: TextAlign.left)),
               Positioned(
                   top: 30.h,
                   bottom: 10.h,
                   left: 8.w,
                   child: Text(device.location,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorTheme.primaryAlpha_50,
                           fontWeight: FontWeight.w400,
                           fontFamily: "SFProDisplay",
                           fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
+                          fontSize: 14.0.sp),
                       textAlign: TextAlign.left)),
               Positioned(
                   top: 55.h,
