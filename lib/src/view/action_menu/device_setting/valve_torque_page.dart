@@ -120,19 +120,20 @@ class _valveTorque extends State<ValveTorquePage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Valve Torque',
+            child: Text('Valve Torque',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -163,13 +164,13 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: const Text('Unit',
+                      child: Text('Unit',
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 48.h,
@@ -234,12 +235,12 @@ class _valveTorque extends State<ValveTorquePage> {
               top: 19.h,
               left: 8.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           _createCheckWidget(isSelected),
         ],
@@ -295,13 +296,13 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: const Text('Alert value',
+                      child: Text('Alert value',
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 48.h,
@@ -316,14 +317,14 @@ class _valveTorque extends State<ValveTorquePage> {
                       top: 61.h,
                       left: 16.w,
                       right: 16.w,
-                      child: const Text(
+                      child: Text(
                           "Once the value of torque is below or above the set value, the LED indicator will show abnormal light.",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 132.h,
@@ -335,18 +336,18 @@ class _valveTorque extends State<ValveTorquePage> {
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'Min. value',
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            enabledBorder: UnderlineInputBorder(
+                                fontSize: 12.0.sp),
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
@@ -355,13 +356,13 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: const Text("Factory default: 100",
+                      child: Text("Factory default: 100",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
+                              fontSize: 12.0.sp),
                           textAlign: TextAlign.right)),
                   Positioned(
                       top: 214.h,
@@ -373,18 +374,18 @@ class _valveTorque extends State<ValveTorquePage> {
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'Max. value',
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            enabledBorder: UnderlineInputBorder(
+                                fontSize: 12.0.sp),
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
@@ -393,13 +394,13 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: const Text("Factory default: 400",
+                      child: Text("Factory default: 400",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
+                              fontSize: 12.0.sp),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -444,11 +445,11 @@ class _valveTorque extends State<ValveTorquePage> {
                         ColorTheme.secondary
                       ]),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
                     'Save',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: ColorTheme.fontColor),
                   ),

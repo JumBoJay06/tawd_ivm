@@ -110,19 +110,20 @@ class _deviceLocation extends State<DeviceLocationPage> {
                 'assets/light_3.png',
                 width: 24.w,
                 height: 24.h,
+                fit: BoxFit.fill,
               ),
             )),
         Positioned(
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Device Location',
+            child: Text('Device Location',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -153,13 +154,13 @@ class _deviceLocation extends State<DeviceLocationPage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: const Text('Location description',
+                      child: Text('Location description',
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 48.h,
@@ -174,14 +175,14 @@ class _deviceLocation extends State<DeviceLocationPage> {
                       top: 61.h,
                       left: 16.w,
                       right: 16.w,
-                      child: const Text(
+                      child: Text(
                           "Add a location description to enhance device identification. (Limit: 50 characters)",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 115.h,
@@ -191,11 +192,11 @@ class _deviceLocation extends State<DeviceLocationPage> {
                         controller: locationControl,
                         maxLines: 2,
                         maxLength: 50,
-                        decoration: const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
+                        decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primaryAlpha_35),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primaryAlpha_35),
                             ),
                             hintText: 'Add location description here.',
@@ -204,7 +205,7 @@ class _deviceLocation extends State<DeviceLocationPage> {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle:  FontStyle.normal,
-                                fontSize: 16.0
+                                fontSize: 16.0.sp
                             ),
                             filled: true,
                             fillColor: ColorTheme.primaryAlpha_10),
@@ -250,11 +251,11 @@ class _deviceLocation extends State<DeviceLocationPage> {
                         ColorTheme.secondary
                       ]),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
                     'Save',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: ColorTheme.fontColor),
                   ),
