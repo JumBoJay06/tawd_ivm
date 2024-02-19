@@ -109,13 +109,13 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Replace Ball Valve',
+            child: Text('Replace Ball Valve',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
       ],
     );
@@ -146,13 +146,13 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: const Text('Ball Valve ID settings',
+                      child: Text('Ball Valve ID settings',
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
                               fontFamily: "SFProDisplay",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 48.h,
@@ -167,14 +167,14 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                       top: 61.h,
                       left: 16.w,
                       right: 16.w,
-                      child: const Text(
+                      child: Text(
                           "Enter new Ball Valve ID after replacement for correct data sync.",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 14.0.sp),
                           textAlign: TextAlign.left)),
                   Positioned(
                       top: 115.h,
@@ -195,24 +195,24 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                             Positioned(
                                 top: 2.h,
                                 left: 50.w,
-                                child: const Text("IVM ID",
+                                child: Text("IVM ID",
                                     style: TextStyle(
                                         color: ColorTheme.primary,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "SFProDisplay",
                                         fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
+                                        fontSize: 16.0.sp),
                                     textAlign: TextAlign.left)),
                             Positioned(
                                 top: 22.h,
                                 left: 50.w,
                                 child: Text(data.ivmId,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: ColorTheme.primaryAlpha_50,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "SFProDisplay",
                                         fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
+                                        fontSize: 14.0.sp),
                                     textAlign: TextAlign.left))
                           ],
                         ),
@@ -236,24 +236,24 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                             Positioned(
                                 top: 2.h,
                                 left: 50.w,
-                                child: const Text("Currrent Ball Valve ID",
+                                child: Text("Currrent Ball Valve ID",
                                     style: TextStyle(
                                         color: ColorTheme.primary,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "SFProDisplay",
                                         fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
+                                        fontSize: 16.0.sp),
                                     textAlign: TextAlign.left)),
                             Positioned(
                                 top: 22.h,
                                 left: 50.w,
                                 child: Text(data.ballValveId,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: ColorTheme.primaryAlpha_50,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "SFProDisplay",
                                         fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
+                                        fontSize: 14.0.sp),
                                     textAlign: TextAlign.left))
                           ],
                         ),
@@ -264,19 +264,19 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                       right: 16.w,
                       child: TextField(
                         controller: idControl,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'New Ball Valve ID',
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Helvetica",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            enabledBorder: UnderlineInputBorder(
+                                fontSize: 12.0.sp),
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorTheme.primaryAlpha_10),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorTheme.primaryAlpha_10),
                             ),
@@ -286,13 +286,13 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                   Positioned(
                       top: 287.h,
                       right: 24.w,
-                      child: const Text("Factory default: 0",
+                      child: Text("Factory default: 0",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
                               fontFamily: "Helvetica",
                               fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
+                              fontSize: 12.0.sp),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -335,11 +335,11 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                         ColorTheme.secondary
                       ]),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
                     'Save',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: ColorTheme.fontColor),
                   ),

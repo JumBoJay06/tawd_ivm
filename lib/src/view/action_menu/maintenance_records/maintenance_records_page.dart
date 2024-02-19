@@ -81,13 +81,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: const Text('Maintenance Records',
+            child: Text('Maintenance Records',
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Helvetica",
                     fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
+                    fontSize: 20.0.sp),
                 textAlign: TextAlign.center)),
         Positioned(
             top: 58.h,
@@ -168,13 +168,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: const Text('IVM info.',
+              child: Text('IVM info.',
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 48.h,
@@ -227,13 +227,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: const Text('Current valve',
+              child: Text('Current valve',
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 48.h,
@@ -279,13 +279,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: const Text('Historical valve.',
+              child: Text('Historical valve.',
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 48.h,
@@ -322,13 +322,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 24.w,
-                        child: const Text("Ball Valve ID",
+                        child: Text("Ball Valve ID",
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "SFProDisplay",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.0),
+                                fontSize: 13.0.sp),
                             textAlign: TextAlign.center)),
                     Positioned(
                         top: 7.h,
@@ -342,13 +342,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 139.w,
-                        child: const Text("Pairing date",
+                        child: Text("Pairing date",
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "SFProDisplay",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.0),
+                                fontSize: 13.0.sp),
                             textAlign: TextAlign.center)),
                     Positioned(
                         top: 7.h,
@@ -362,13 +362,13 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 248.w,
-                        child: const Text("Cycle counter",
+                        child: Text("Cycle counter",
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "SFProDisplay",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.0),
+                                fontSize: 13.0.sp),
                             textAlign: TextAlign.center)),
                   ],
                 ),
@@ -409,36 +409,36 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                               bottom: 11.h,
                               left: 15.w,
                               child: Text(item.ivmId,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "SFProDisplay",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                      fontSize: 14.0.sp),
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 13.h,
                               bottom: 11.h,
                               left: 136.w,
                               child: Text(item.date,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "SFProDisplay",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                      fontSize: 14.0.sp),
                                   textAlign: TextAlign.left)),
                           Positioned(
                               top: 13.h,
                               bottom: 11.h,
                               left: 267.w,
                               child: Text("${item.totalUsed} time(s)",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "SFProDisplay",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                      fontSize: 14.0.sp),
                                   textAlign: TextAlign.left)),
                         ],
                       ),
@@ -474,23 +474,23 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
               top: 10.h,
               left: 66.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
+                      fontSize: 16.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
               top: 30.h,
               left: 66.w,
               child: Text(content,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
                       fontFamily: "SFProDisplay",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
         ],
       ),
