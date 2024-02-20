@@ -88,40 +88,45 @@ class IvmManager {
     await FlutterBluePlus.stopScan();
   }
 
-  Future<bool> connect(BluetoothDevice device) async {
+  Future<bool> connect(BluetoothDevice device,{Duration timeout = const Duration(seconds: 8)}) async {
     _device = device;
 
-    await device.connect(timeout: const Duration(seconds: 8));
+    try {
+      await device.connect(timeout: timeout);
 
-    return await device.discoverServices().then((services) async {
-      for (var service in services) {
-        if (service.uuid == serviceUuid) {
-          for (var characteristic in service.characteristics) {
-            if (characteristic.uuid == _writeUuid) {
-              _writeCharacteristic = characteristic;
-              _logger.info("Discover write characteristic");
-            } else if (characteristic.uuid == _notifyUuid) {
-              _notifyCharacteristic = characteristic;
-              await characteristic.setNotifyValue(true);
-              characteristic.onValueReceived.listen((value) {
-                _rxController.sink.add(value);
-                _logger.fine("rx: $value");
-              });
-              _logger.info("Discover notify characteristic");
+      return await device.discoverServices().then((services) async {
+        for (var service in services) {
+          if (service.uuid == serviceUuid) {
+            for (var characteristic in service.characteristics) {
+              if (characteristic.uuid == _writeUuid) {
+                _writeCharacteristic = characteristic;
+                _logger.info("Discover write characteristic");
+              } else if (characteristic.uuid == _notifyUuid) {
+                _notifyCharacteristic = characteristic;
+                await characteristic.setNotifyValue(true);
+                characteristic.onValueReceived.listen((value) {
+                  _rxController.sink.add(value);
+                  _logger.fine("rx: $value");
+                });
+                _logger.info("Discover notify characteristic");
+              }
             }
           }
         }
-      }
-      if (_writeCharacteristic != null && _notifyCharacteristic != null) {
-        // 部分指令需要這麼多，但不知道為什麼韌體更新還維持16bytes
-        if (Platform.isAndroid) {
-          await device.requestMtu(255);
+        if (_writeCharacteristic != null && _notifyCharacteristic != null) {
+          // 部分指令需要這麼多，但不知道為什麼韌體更新還維持16bytes
+          if (Platform.isAndroid) {
+            await device.requestMtu(255);
+          }
+          return true;
+        } else {
+          return false;
         }
-        return true;
-      } else {
-        return false;
-      }
-    });
+      });
+    } catch (e) {
+      _logger.shout(e);
+      return false;
+    }
   }
 
   Future<void> disconnect() async {
@@ -775,7 +780,7 @@ class IvmManager {
         throw Exception("No write characteristic");
       }
       _logger.info("write(${send[2]}) -> $send");
-      _writeCharacteristic!.write(send);
+      await _writeCharacteristic!.write(send);
       _logger.info("write(${send[2]}) -> done");
       return await _waitRx(send[2]);
     } catch (e) {
@@ -790,7 +795,7 @@ class IvmManager {
         throw Exception("No write characteristic");
       }
       _logger.info("write(${send[2]}) -> $send");
-      _writeCharacteristic!.write(send);
+      await _writeCharacteristic!.write(send);
       _logger.info("write(${send[2]}) -> done");
       return await _waitMultiRx(send[2], chunkSize);
     } catch (e) {

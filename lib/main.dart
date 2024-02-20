@@ -44,9 +44,6 @@ void main() async {
       BlocProvider<ScanBloc>(
         create: (context) => ScanBloc(),
       ),
-      BlocProvider<IvmConnectionBloc>(
-        create: (context) => IvmConnectionBloc(),
-      ),
       BlocProvider<IvmCmdBloc>(
         create: (context) => IvmCmdBloc(),
       ),

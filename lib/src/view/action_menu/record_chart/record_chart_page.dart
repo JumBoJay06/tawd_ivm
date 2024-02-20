@@ -732,7 +732,7 @@ class _recordChart extends State<RecordChartPage> {
     if (value.toInt() % datum == 0) {
       final dateTime = DateTime.fromMillisecondsSinceEpoch(value.toInt() * 1000,
           isUtc: true);
-      dateFormat = DateFormat("MM / dd").format(dateTime);
+      dateFormat = DateFormat("MM/dd").format(dateTime);
     }
     Widget text = Text(dateFormat,
         style: TextStyle(
