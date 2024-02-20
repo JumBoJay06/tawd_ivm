@@ -11,3 +11,5 @@ class Connected extends IvmConnectionState {}
 
 // 4次連線失敗後，才會吐這個
 class Disconnected extends IvmConnectionState {}
+
+class BleOff extends IvmConnectionState {}
