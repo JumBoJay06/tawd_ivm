@@ -23,6 +23,7 @@ class AvailableDevicesPage extends StatefulWidget {
 }
 
 class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
+  IvmConnectionBloc ivmConnectionBloc = IvmConnectionBloc();
   Logger get _logger => Logger("AvailableDevices");
 
   @override
@@ -314,6 +315,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
 
   Widget _createListItem(BuildContext context, ScanResult result) {
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
+      bloc: ivmConnectionBloc,
       listener: (context, state) async {
         if (state is IvmConnectionStateChange) {
           final connectResult = state.state;
@@ -341,7 +343,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
       },
       child: InkWell(
         onTap: () async {
-          context.read<IvmConnectionBloc>().add(IvmConnect(result.device));
+          ivmConnectionBloc.add(IvmConnect(result.device));
         },
         child: SizedBox(
           width: 343.w,

@@ -23,7 +23,7 @@ class RecordChartCubit extends Cubit<RecordChartState> {
           (manufacturingDate ?? 0) * 1000,
           isUtc: true);
       final manufacturingDateFormat =
-          DateFormat("MM / dd / yyyy").format(dateTime);
+          DateFormat("MM/dd/yyyy").format(dateTime);
       final pairingDataHistory = await manager.getPairingDataHistory();
       var last = pairingDataHistory?.last;
       final ivmId = last?.valveId ?? "--";

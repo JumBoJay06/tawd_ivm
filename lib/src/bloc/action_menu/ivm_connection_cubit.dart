@@ -15,11 +15,27 @@ class IvmConnectionCubit extends Cubit<IvmConnectionState> {
     device?.connectionState.listen((event) async {
       switch (event) {
         case BluetoothConnectionState.disconnected:
-          if (reconnectCount == 4) {
+          if (reconnectCount == 2) {
             emit(Disconnected());
           } else {
-            reconnectCount++;
-            IvmManager.getInstance().connect(device);
+            final bluetoothAdapterState = FlutterBluePlus.adapterStateNow;
+            if (bluetoothAdapterState != BluetoothAdapterState.on) {
+              emit(BleOff());
+            } else {
+              if (reconnectCount > 0) {
+                await Future.delayed(const Duration(seconds: 2), () {});
+              }
+              emit(Connecting());
+              reconnectCount++;
+              IvmManager.getInstance().connect(device, timeout: const Duration(seconds: 4)).then((value) async {
+                if (!value) {
+                  final bluetoothAdapterState = await FlutterBluePlus.adapterState.first;
+                  if (bluetoothAdapterState != BluetoothAdapterState.on) {
+                    emit(BleOff());
+                  }
+                }
+              });
+            }
           }
           break;
         case BluetoothConnectionState.connected:
