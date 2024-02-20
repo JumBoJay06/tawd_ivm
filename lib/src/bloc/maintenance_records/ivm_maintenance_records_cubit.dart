@@ -21,7 +21,7 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
           (manufacturingDate ?? 0) * 1000,
           isUtc: true);
       final manufacturingDateFormat =
-          DateFormat("MM / dd / yyyy").format(dateTime);
+          DateFormat("MM/dd/yyyy").format(dateTime);
       final totalUsed = await manager.getValveTotalUsed() ?? 0;
       final pairingDataHistory = await manager.getPairingDataHistory();
       var last = pairingDataHistory?.last;
@@ -30,7 +30,7 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
           (last?.timestamp ?? 0) * 1000,
           isUtc: true);
       final pairedDateFormat =
-          DateFormat("MM / dd / yyyy").format(pairedDateTime);
+          DateFormat("MM/dd/yyyy").format(pairedDateTime);
       final cycleCount = last?.totalUsed ?? 0;
 
       List<Item> ivmInfo = List.empty(growable: true);
@@ -62,7 +62,7 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
             element.timestamp * 1000,
             isUtc: true);
         final pairedDateFormat =
-        DateFormat("MM / dd / yyyy").format(pairedDateTime);
+        DateFormat("MM/dd/yyyy").format(pairedDateTime);
         logs.add(PairingLog(pairedDateFormat, element.valveId, element.totalUsed));
       });
 

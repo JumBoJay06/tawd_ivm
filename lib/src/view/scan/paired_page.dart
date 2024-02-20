@@ -24,6 +24,7 @@ class PairedPage extends StatefulWidget {
 }
 
 class _PairedPageState extends State<PairedPage> {
+  IvmConnectionBloc ivmConnectionBloc = IvmConnectionBloc();
   Logger get _logger => Logger("PairedPage");
 
   @override
@@ -31,6 +32,13 @@ class _PairedPageState extends State<PairedPage> {
     super.initState();
     context.read<PairedDeviceBloc>().add(GetPairedDevices());
     context.read<DeviceTextFieldBloc>().add(StopFilter());
+  }
+
+
+  @override
+  void dispose() {
+    ivmConnectionBloc.close();
+    super.dispose();
   }
 
   @override
@@ -305,7 +313,7 @@ class _PairedPageState extends State<PairedPage> {
   Widget _createListItem(BuildContext context, PairedDevice device) {
     _logger.info('_createListItem');
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
-      bloc: context.read<IvmConnectionBloc>(),
+      bloc: ivmConnectionBloc,
       listener: (context, state) async {
         if (state is IvmConnectionStateChange) {
           final result = state.state;
@@ -388,7 +396,7 @@ class _PairedPageState extends State<PairedPage> {
       _showPairFail();
     } else {
       IvmManager.getInstance().stopScan();
-      context.read<IvmConnectionBloc>().add(IvmConnect(scanResult.device));
+      ivmConnectionBloc.add(IvmConnect(scanResult.device));
     }
   }
 

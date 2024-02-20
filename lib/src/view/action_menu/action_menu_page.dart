@@ -1,7 +1,9 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:logging/logging.dart';
 import 'package:tawd_ivm/route.dart';
 import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
@@ -26,7 +28,7 @@ class ActionMenu extends StatefulWidget {
 class _ActionMenuState extends State<ActionMenu> {
   IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
   IvmConnectionCubit ivmConnectionCubit = IvmConnectionCubit();
-
+  Logger get _logger => Logger("ActionMenu");
   bool isConnecting = false;
 
   @override
@@ -75,6 +77,7 @@ class _ActionMenuState extends State<ActionMenu> {
             listener: (context, state) {
               if (state is Connected) {
                 DialogLoading.dismissLoading('connecting');
+                _logger.info('reconnect success');
                 if (isConnecting) {
                   isConnecting = false;
                   SmartDialog.show(
@@ -92,9 +95,11 @@ class _ActionMenuState extends State<ActionMenu> {
               } else if (state is Connecting) {
                 DialogLoading.showLoading('connecting',
                     content: "IVM Reconnecting...");
+                _logger.info('reconnecting');
                 isConnecting = true;
               } else if (state is Disconnected) {
                 DialogLoading.dismissLoading('connecting');
+                _logger.info('connecting');
                 if (isConnecting) {
                   isConnecting = false;
                   SmartDialog.show(
@@ -102,7 +107,7 @@ class _ActionMenuState extends State<ActionMenu> {
                         return DialogWidgetUtil.ivmDisconnected(context, () {
                           SmartDialog.dismiss(tag: 'disconnected');
                           Navigator.pushNamedAndRemoveUntil(
-                              context, kRouteSelectLanguage, (route) => false);
+                              this.context, kRouteSelectLanguage, (route) => false);
                         });
                       },
                       tag: "disconnected",
@@ -110,6 +115,9 @@ class _ActionMenuState extends State<ActionMenu> {
                       backDismiss: false,
                       keepSingle: true);
                 }
+              } else if (state is BleOff) {
+                _logger.info('ble off');
+                _openBleOffDialog();
               }
             })
       ],
@@ -170,7 +178,7 @@ class _ActionMenuState extends State<ActionMenu> {
         Positioned(
             top: 120.h,
             left: 24.w,
-            right: 93.w,
+            right: 24.w,
             child: Text(name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -402,7 +410,7 @@ class _ActionMenuState extends State<ActionMenu> {
         left: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).traceability_);
+            Navigator.pushNamed(context, kRouteTraceabilityPage);
           },
           child: SizedBox(
             width: 171.w,
@@ -580,5 +588,22 @@ class _ActionMenuState extends State<ActionMenu> {
                     const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
       ],
     );
+  }
+
+  void _openBleOffDialog() {
+    SmartDialog.show(
+        tag: 'ble_off',
+        builder: (context) {
+          return DialogWidgetUtil.bleOffDialog(context, () {
+            AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+            Navigator.pushNamedAndRemoveUntil(
+                this.context, kRouteSelectLanguage, (route) => false);
+            SmartDialog.dismiss(tag: 'ble_off');
+          }, () {
+            Navigator.pushNamedAndRemoveUntil(
+                this.context, kRouteSelectLanguage, (route) => false);
+            SmartDialog.dismiss(tag: 'ble_off');
+          });
+        });
   }
 }
