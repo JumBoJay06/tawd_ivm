@@ -562,6 +562,14 @@ class DialogWidgetUtil {
         'Please retry.');
   }
 
+  static Widget ivmConnectedDialog(BuildContext context) {
+    return _normalHintDialog(
+        context,
+        'assets/icon_device_paired.png',
+        'IVM Connected!',
+        '');
+  }
+
   static Widget _normalHintDialog(
       BuildContext context, String iconAsset, String title, String content) {
     return Container(
@@ -991,6 +999,67 @@ class DialogWidgetUtil {
             return Container();
           }
         });
+  }
+
+  static Widget ivmDisconnected(
+      BuildContext context, Function() confirm) {
+    return // 矩形
+      Container(
+        width: 280.w,
+        height: 229.h,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(24)),
+            color: ColorTheme.white),
+        child: Stack(
+          children: [
+            // icon
+            Positioned(
+                top: 24.h,
+                left: 112.w,
+                right: 112.w,
+                child: Image.asset('assets/icon_device_fail.png',
+                    width: 56.w, height: 56.h)),
+            // title
+            Positioned(
+                top: 96.h,
+                left: 0,
+                right: 0,
+                child: const Text('IVM Disconnected',
+                    style: TextStyle(
+                        color: ColorTheme.primary,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20.0),
+                    textAlign: TextAlign.center)),
+            //confirm btn
+            Positioned(
+                top: 164.h,
+                left: 24.w,
+                right: 24.w,
+                child: GestureDetector(
+                  onTap: confirm,
+                  child: Container(
+                    width: 232,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        color: ColorTheme.secondary),
+                    child: Center(
+                      child: Text(S.of(context).common_ok,
+                          style: const TextStyle(
+                              color: ColorTheme.fontColor,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                ))
+          ],
+        ),
+      );
   }
 }
 

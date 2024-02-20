@@ -12,6 +12,7 @@ import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../bloc/action_menu/ivm_action_menu_cubit.dart';
+import '../../bloc/action_menu/ivm_connection_cubit.dart';
 import '../../bloc/ivm/manager/ivm_check_temperature_cubit.dart';
 import '../../util/dialog_loading.dart';
 
@@ -24,6 +25,9 @@ class ActionMenu extends StatefulWidget {
 
 class _ActionMenuState extends State<ActionMenu> {
   IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
+  IvmConnectionCubit ivmConnectionCubit = IvmConnectionCubit();
+
+  bool isConnecting = false;
 
   @override
   void initState() {
@@ -46,25 +50,69 @@ class _ActionMenuState extends State<ActionMenu> {
           .add(GetPairedDeviceByName(currentDeviceName));
     }
     final checkTemperature = IvmCheckTemperatureCubit();
-    return BlocListener(
-      bloc: checkTemperature..getTemperature(),
-      listener: (context, state) {
-        if (state is IvmCmdResult) {
-          if (state.isTooHigh) {
-            SmartDialog.show(
-                builder: (context) {
-                  return DialogWidgetUtil.temperatureAbnormal(
-                      context,
-                      currentDeviceName ?? 'test',
-                          () =>
-                      {
-                        SmartDialog.dismiss(tag: 'Check_Temperature')
-                      });
-                },
-                tag: 'Check_Temperature');
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener(
+            bloc: checkTemperature..getTemperature(),
+            listener: (context, state) {
+              if (state is IvmCmdResult) {
+                if (state.isTooHigh) {
+                  SmartDialog.show(
+                      builder: (context) {
+                        return DialogWidgetUtil.temperatureAbnormal(
+                            context,
+                            currentDeviceName ?? 'test',
+                            () => {
+                                  SmartDialog.dismiss(tag: 'Check_Temperature')
+                                });
+                      },
+                      tag: 'Check_Temperature');
+                }
+              }
+            }),
+        BlocListener(
+            bloc: ivmConnectionCubit..observeIvmConnectState(),
+            listener: (context, state) {
+              if (state is Connected) {
+                DialogLoading.dismissLoading('connecting');
+                if (isConnecting) {
+                  isConnecting = false;
+                  SmartDialog.show(
+                      builder: (context) {
+                        return DialogWidgetUtil.ivmConnectedDialog(context);
+                      },
+                      tag: 'connected',
+                      clickMaskDismiss: false,
+                      backDismiss: false,
+                      keepSingle: true);
+                  Future.delayed(const Duration(seconds: 2), () {
+                    SmartDialog.dismiss(tag: 'connected');
+                  });
+                }
+              } else if (state is Connecting) {
+                DialogLoading.showLoading('connecting',
+                    content: "IVM Reconnecting...");
+                isConnecting = true;
+              } else if (state is Disconnected) {
+                DialogLoading.dismissLoading('connecting');
+                if (isConnecting) {
+                  isConnecting = false;
+                  SmartDialog.show(
+                      builder: (context) {
+                        return DialogWidgetUtil.ivmDisconnected(context, () {
+                          SmartDialog.dismiss(tag: 'disconnected');
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, kRouteSelectLanguage, (route) => false);
+                        });
+                      },
+                      tag: "disconnected",
+                      clickMaskDismiss: false,
+                      backDismiss: false,
+                      keepSingle: true);
+                }
+              }
+            })
+      ],
       child: Stack(
         children: [
           Container(
@@ -94,8 +142,8 @@ class _ActionMenuState extends State<ActionMenu> {
     );
   }
 
-  Widget _createHeaderWidget(BuildContext context, String name,
-      String location) {
+  Widget _createHeaderWidget(
+      BuildContext context, String name, String location) {
     return Stack(
       children: [
         Image.asset(
@@ -211,9 +259,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .about_device_product_info,
+                    child: Text(S.of(context).about_device_product_info,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -233,9 +279,7 @@ class _ActionMenuState extends State<ActionMenu> {
         right: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S
-                .of(context)
-                .selt_test);
+            SmartDialog.showToast(S.of(context).selt_test);
           },
           child: SizedBox(
             width: 171.w,
@@ -256,9 +300,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .selt_test,
+                    child: Text(S.of(context).selt_test,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -299,9 +341,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .operational_records,
+                    child: Text(S.of(context).operational_records,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -342,9 +382,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .record_chart_,
+                    child: Text(S.of(context).record_chart_,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -364,9 +402,7 @@ class _ActionMenuState extends State<ActionMenu> {
         left: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S
-                .of(context)
-                .traceability_);
+            SmartDialog.showToast(S.of(context).traceability_);
           },
           child: SizedBox(
             width: 171.w,
@@ -387,9 +423,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .traceability_,
+                    child: Text(S.of(context).traceability_,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -431,9 +465,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .device_settings_,
+                    child: Text(S.of(context).device_settings_,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -454,9 +486,7 @@ class _ActionMenuState extends State<ActionMenu> {
         right: 0,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S
-                .of(context)
-                .fw_update);
+            SmartDialog.showToast(S.of(context).fw_update);
           },
           child: SizedBox(
             width: 343.w,
@@ -477,9 +507,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S
-                        .of(context)
-                        .fw_update,
+                    child: Text(S.of(context).fw_update,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -504,7 +532,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 281.h,
             left: 16.w,
@@ -513,7 +541,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 422.h,
             left: 16.w,
@@ -522,7 +550,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 311.w,
                 height: 1.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 10.h,
             left: 171.w,
@@ -531,7 +559,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 1.w,
                 height: 120.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 151.h,
             left: 171.w,
@@ -540,7 +568,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 1.w,
                 height: 120.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
         Positioned(
             top: 292.h,
             left: 171.w,
@@ -549,7 +577,7 @@ class _ActionMenuState extends State<ActionMenu> {
                 width: 1.w,
                 height: 120.h,
                 decoration:
-                const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
+                    const BoxDecoration(color: ColorTheme.primaryAlpha_10))),
       ],
     );
   }
