@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:tawd_ivm/main.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../data/paired_device.dart';
 

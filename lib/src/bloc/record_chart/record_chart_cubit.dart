@@ -7,6 +7,7 @@ import 'package:tawd_ivm/src/manager/data/history_log.dart';
 import '../../data/about_device_data.dart';
 import '../../data/record_chart.dart';
 import '../../manager/ivm_manager.dart';
+import '../../util/mac_address_util.dart';
 
 part 'record_chart_state.dart';
 
@@ -17,7 +18,10 @@ class RecordChartCubit extends Cubit<RecordChartState> {
     emit(Loading());
     try {
       final manager = IvmManager.getInstance();
-      final name = manager.device?.platformName ?? '--';
+      String ivmId = '--';
+      if (manager.device != null) {
+        ivmId = MacAddressUtil.getMacAddressText(manager.device!.platformName);
+      }
       final manufacturingDate = await manager.getManufacturingDate();
       final dateTime = DateTime.fromMillisecondsSinceEpoch(
           (manufacturingDate ?? 0) * 1000,
@@ -26,19 +30,19 @@ class RecordChartCubit extends Cubit<RecordChartState> {
           DateFormat("MM/dd/yyyy").format(dateTime);
       final pairingDataHistory = await manager.getPairingDataHistory();
       var last = pairingDataHistory?.last;
-      final ivmId = last?.valveId ?? "--";
+      final valveId = last?.valveId ?? "--";
 
       List<Item> ivmInfo = List.empty(growable: true);
       ivmInfo.add(Item(
         'IVM ID',
-        name,
+        ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
       ivmInfo.add(Item('Manufacturing date',
           manufacturingDate != null ? manufacturingDateFormat : '--',
           iconAsset: 'assets/icon_date_ball.png'));
       ivmInfo
-          .add(Item('Ball Valve ID', ivmId, iconAsset: 'assets/icon_ball.png'));
+          .add(Item('Ball Valve ID', valveId, iconAsset: 'assets/icon_ball.png'));
 
       // todo 單位轉換
       var logs = await manager.getHistoryLog() ?? List.empty();

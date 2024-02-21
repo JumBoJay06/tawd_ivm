@@ -850,7 +850,8 @@ class IvmManager {
         if (length > 0) {
           final rawData = value.sublist(3, value.length - 1);
           results.add(rawData);
-          var lastRawData = ListUtil.splitList(rawData, chunkSize).last;
+          var sublist = rawData.sublist(2, rawData.length - 1);
+          var lastRawData = ListUtil.splitList(sublist, chunkSize).last;
           _logger.info("value($cmdId): lastRawData = $lastRawData");
           final currentIndex = BytesToInt.convert(lastRawData.sublist(0, 2));
           _logger.info("value($cmdId): currentIndex = $currentIndex($length)");

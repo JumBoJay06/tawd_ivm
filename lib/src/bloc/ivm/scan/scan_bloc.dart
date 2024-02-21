@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../manager/ivm_manager.dart';
 
@@ -17,6 +18,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     IvmManager.getInstance().scanStream.listen((results) {
       if (results.isEmpty) return;
       myScanResults = myScanResults.toSet().union(results.toSet()).toList();
+      myScanResults.removeWhere((element) {
+        return !MacAddressUtil.isMacAddress(element.device.platformName);
+      });
     }, onError: (e) {
       add(Failure(e.toString()));
     });
