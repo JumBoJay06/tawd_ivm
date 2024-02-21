@@ -9,6 +9,7 @@ import 'package:tawd_ivm/src/bloc/ivm/scan/scan_bloc.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 import 'package:tawd_ivm/src/util/dialog_loading.dart';
 import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../route.dart';
@@ -101,15 +102,23 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -162,15 +171,23 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -314,6 +331,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   }
 
   Widget _createListItem(BuildContext context, ScanResult result) {
+    final deviceName = MacAddressUtil.getMacAddressText(result.device.platformName);
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
       bloc: ivmConnectionBloc,
       listener: (context, state) async {
@@ -336,7 +354,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                 isHadId = ivmId.isNotEmpty;
               }
               DialogLoading.dismissLoading('connecting');
-              _onNext(isHadId, result.device.platformName);
+              _onNext(isHadId, deviceName);
               break;
           }
         }
@@ -354,7 +372,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   top: 18.h,
                   bottom: 18.h,
                   left: 8.w,
-                  child: Text(result.device.platformName,
+                  child: Text(deviceName,
                       style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,

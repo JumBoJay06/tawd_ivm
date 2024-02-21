@@ -6,6 +6,7 @@ import 'package:tawd_ivm/src/data/Maintenance_records_data.dart';
 import 'package:tawd_ivm/src/data/about_device_data.dart';
 
 import '../../manager/ivm_manager.dart';
+import '../../util/mac_address_util.dart';
 
 part 'ivm_maintenance_records_state.dart';
 
@@ -25,7 +26,7 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
       final totalUsed = await manager.getValveTotalUsed() ?? 0;
       final pairingDataHistory = await manager.getPairingDataHistory();
       var last = pairingDataHistory?.last;
-      final ivmId = last?.valveId ?? "--";
+      final valveId = last?.valveId ?? "--";
       final pairedDateTime = DateTime.fromMillisecondsSinceEpoch(
           (last?.timestamp ?? 0) * 1000,
           isUtc: true);
@@ -34,9 +35,13 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
       final cycleCount = last?.totalUsed ?? 0;
 
       List<Item> ivmInfo = List.empty(growable: true);
+      String ivmId = '--';
+      if (manager.device != null) {
+        ivmId = MacAddressUtil.getMacAddressText(manager.device!.platformName);
+      }
       ivmInfo.add(Item(
         'IVM ID',
-        manager.device?.platformName ?? '--',
+        ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
       ivmInfo.add(Item('Manufacturing date',
@@ -47,7 +52,7 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
 
       List<Item> currentValve = List.empty(growable: true);
       currentValve
-          .add(Item('Ball Valve ID', ivmId, iconAsset: 'assets/icon_ball.png'));
+          .add(Item('Ball Valve ID', valveId, iconAsset: 'assets/icon_ball.png'));
       currentValve.add(Item(
         'Pairing date',
         last != null ? pairedDateFormat : '--',
