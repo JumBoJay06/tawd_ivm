@@ -9,6 +9,7 @@ import 'package:tawd_ivm/src/bloc/ivm/manager/ivm_connection_bloc.dart';
 import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 import 'package:tawd_ivm/src/util/dialog_loading.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../bloc/device_text_field/device_text_field_bloc.dart';
@@ -97,16 +98,24 @@ class _PairedPageState extends State<PairedPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.fill,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
-                fit: BoxFit.fill,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -159,15 +168,23 @@ class _PairedPageState extends State<PairedPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteSelectLanguage, (route) => false);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -312,6 +329,7 @@ class _PairedPageState extends State<PairedPage> {
 
   Widget _createListItem(BuildContext context, PairedDevice device) {
     _logger.info('_createListItem');
+    final deviceName = MacAddressUtil.getMacAddressText(device.name);
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
       bloc: ivmConnectionBloc,
       listener: (context, state) async {
@@ -334,7 +352,7 @@ class _PairedPageState extends State<PairedPage> {
                 isHadId = ivmId.isNotEmpty;
               }
               DialogLoading.dismissLoading('connecting');
-              _onNext(isHadId, device.name);
+              _onNext(isHadId, deviceName);
               break;
           }
         }
@@ -355,7 +373,7 @@ class _PairedPageState extends State<PairedPage> {
                   top: 10.h,
                   bottom: 27.h,
                   left: 8.w,
-                  child: Text(device.name,
+                  child: Text(deviceName,
                       style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,
