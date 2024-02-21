@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../data/paired_device.dart';
 import '../../manager/ivm_manager.dart';
@@ -18,7 +19,7 @@ class IvmActionMenuCubit extends Cubit<IvmActionMenuState> {
       final deviceList = box.values.toList();
       var findDevice =
       deviceList.firstWhere((element) => element.name == manager.device!.platformName);
-      emit(Success(findDevice.name, findDevice.location));
+      emit(Success(MacAddressUtil.getMacAddressText(findDevice.name), findDevice.location));
     } catch (e) {
       emit(Fail(e as Exception));
     }

@@ -582,15 +582,23 @@ class _AboutDevicePage extends State<AboutDevicePage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.fill,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
-                fit: BoxFit.fill,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(

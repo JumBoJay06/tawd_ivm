@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 import 'package:tawd_ivm/src/theme/style.dart';
+import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../data/about_device_data.dart';
@@ -24,7 +25,7 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
       final manufacturingDateFormat = DateFormat("MM / dd / yyyy").format(dateTime);
       final pairingDataHistory = await manager.getPairingDataHistory();
       var last = pairingDataHistory?.last;
-      final ivmId = last?.valveId ?? "--";
+      final valveId = last?.valveId ?? "--";
       final pairedDateTime = DateTime.fromMillisecondsSinceEpoch(
           (last?.timestamp ?? 0) * 1000,
           isUtc: true);
@@ -42,15 +43,19 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
       final ledIndicatorState = await manager.getLedIndicatorState();
 
       List<Item> productInfoList = List.empty(growable: true);
+      String ivmId = '--';
+      if (manager.device != null) {
+        ivmId = MacAddressUtil.getMacAddressText(manager.device!.platformName);
+      }
       productInfoList.add(Item(
         'IVM ID',
-        manager.device?.platformName ?? '--',
+        ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
       productInfoList.add(Item('Manufacturing date',
           manufacturingDate != null ? manufacturingDateFormat : '--',
           iconAsset: 'assets/icon_date_ball.png'));
-      productInfoList.add(Item('Ball Valve ID', ivmId,
+      productInfoList.add(Item('Ball Valve ID', valveId,
           iconAsset: 'assets/icon_ball.png', isShowError: last?.valveId == null));
       productInfoList.add(Item(
         'Pairing date',
