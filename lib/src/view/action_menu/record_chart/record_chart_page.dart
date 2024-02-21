@@ -69,15 +69,23 @@ class _recordChart extends State<RecordChartPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.fill,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
-                fit: BoxFit.fill,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -244,7 +252,7 @@ class _recordChart extends State<RecordChartPage> {
           Positioned(
               top: 13.h,
               right: 303.w,
-              child: Text((log.index + 1).toString(),
+              child: Text((log.index).toString(),
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
@@ -670,10 +678,10 @@ class _recordChart extends State<RecordChartPage> {
         show: true,
         border: Border.all(color: const Color(0xff37434d)),
       ),
-      // minX: getChartMinX(logs).toDouble(),
-      // maxX: getChartMaxX(logs).toDouble(),
-      // minY: getChartMinY(logs).toDouble(),
-      // maxY: getChartMaxY(logs).toDouble(),
+      minX: getChartMinX(logs).toDouble(),
+      maxX: getChartMaxX(logs).toDouble(),
+      minY: getChartMinY(logs).toDouble(),
+      maxY: getChartMaxY(logs).toDouble(),
       lineBarsData: getLineCharts(logs),
     );
   }
@@ -682,16 +690,16 @@ class _recordChart extends State<RecordChartPage> {
     switch (selectIndex) {
       case 0:
         var map = logs.map((e) => e.valveAngle);
-        return map.reduce(max);
+        return map.reduce(max) + 10;
       case 1:
         var map = logs.map((e) => e.strainGauge);
-        return map.reduce(max);
+        return map.reduce(max) + 10;
       case 2:
         var map = logs.map((e) => e.pressure.toInt());
-        return map.reduce(max);
+        return map.reduce(max) + 10;
       case 3:
         var map = logs.map((e) => e.strainGauge);
-        return map.reduce(max);
+        return map.reduce(max) + 10;
       default:
         return 0;
     }
@@ -701,40 +709,40 @@ class _recordChart extends State<RecordChartPage> {
     switch (selectIndex) {
       case 0:
         var map = logs.map((e) => e.valveAngle);
-        return map.reduce(min);
+        return map.reduce(min) - 10;
       case 1:
         var map = logs.map((e) => e.strainGauge);
-        return map.reduce(min);
+        return map.reduce(min) - 10;
       case 2:
         var map = logs.map((e) => e.pressure.toInt());
-        return map.reduce(min);
+        return map.reduce(min) - 10;
       case 3:
         var map = logs.map((e) => e.strainGauge);
-        return map.reduce(min);
+        return map.reduce(min) - 10;
       default:
         return 0;
     }
   }
 
   int getChartMaxX(List<HistoryLog> logs) {
-    var map = logs.map((e) => e.time);
+    var map = logs.map((e) => e.index);
     return map.reduce(max);
   }
 
   int getChartMinX(List<HistoryLog> logs) {
-    var map = logs.map((e) => e.time);
+    var map = logs.map((e) => e.index);
     return map.reduce(min);
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    String dateFormat = '';
-    final datum = (meta.max - meta.min).toInt() ~/ 6;
-    if (value.toInt() % datum == 0) {
-      final dateTime = DateTime.fromMillisecondsSinceEpoch(value.toInt() * 1000,
-          isUtc: true);
-      dateFormat = DateFormat("MM/dd").format(dateTime);
-    }
-    Widget text = Text(dateFormat,
+    // String dateFormat = '';
+    // final datum = (meta.max - meta.min).toInt() ~/ 6;
+    // if (value.toInt() % datum == 0) {
+    //   final dateTime = DateTime.fromMillisecondsSinceEpoch(value.toInt() * 1000,
+    //       isUtc: true);
+    //   dateFormat = DateFormat("MM/dd").format(dateTime);
+    // }
+    Widget text = Text("${value.toInt()}",
         style: TextStyle(
             color: ColorTheme.primary,
             fontWeight: FontWeight.w300,
@@ -776,7 +784,7 @@ class _recordChart extends State<RecordChartPage> {
       case 0:
         var spots = logs
             .map((value) =>
-                FlSpot(value.time.toDouble(), value.valveAngle.toDouble()))
+                FlSpot(value.index.toDouble(), value.valveAngle.toDouble()))
             .toList();
         _logger.info("spots => $spots");
         list.add(LineChartBarData(
@@ -806,7 +814,7 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.time.toDouble(), value.strainGauge.toDouble()))
+                  FlSpot(value.index.toDouble(), value.strainGauge.toDouble()))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
@@ -833,7 +841,7 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.time.toDouble(), value.pressure.toDouble()))
+                  FlSpot(value.index.toDouble(), value.pressure.toDouble()))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
@@ -860,7 +868,7 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.time.toDouble(), value.strainGauge.toDouble()))
+                  FlSpot(value.index.toDouble(), value.strainGauge.toDouble()))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
@@ -885,7 +893,7 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.time.toDouble(), value.pressure.toDouble()))
+                  FlSpot(value.index.toDouble(), value.pressure.toDouble()))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(

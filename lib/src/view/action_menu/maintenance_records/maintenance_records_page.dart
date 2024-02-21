@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logging/logging.dart';
+import 'package:tawd_ivm/route.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../bloc/maintenance_records/ivm_maintenance_records_cubit.dart';
@@ -66,15 +67,23 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              'assets/light_6.png',
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.fill,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Image.asset(
-                'assets/light_6.png',
-                width: 24.w,
-                height: 24.h,
-                fit: BoxFit.fill,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
@@ -94,7 +103,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
             right: 16.w,
             child: GestureDetector(
               onTap: () {
-                // todo 履歷頁
+                Navigator.pushNamed(context, kRouteTraceabilityPage);
               },
               child: Image.asset(
                 'assets/light_17.png',

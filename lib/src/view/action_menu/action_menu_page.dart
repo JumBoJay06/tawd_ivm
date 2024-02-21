@@ -28,6 +28,7 @@ class ActionMenu extends StatefulWidget {
 class _ActionMenuState extends State<ActionMenu> {
   IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
   IvmConnectionCubit ivmConnectionCubit = IvmConnectionCubit();
+
   Logger get _logger => Logger("ActionMenu");
   bool isConnecting = false;
 
@@ -106,8 +107,8 @@ class _ActionMenuState extends State<ActionMenu> {
                       builder: (context) {
                         return DialogWidgetUtil.ivmDisconnected(context, () {
                           SmartDialog.dismiss(tag: 'disconnected');
-                          Navigator.pushNamedAndRemoveUntil(
-                              this.context, kRouteSelectLanguage, (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(this.context,
+                              kRouteSelectLanguage, (route) => false);
                         });
                       },
                       tag: "disconnected",
@@ -163,45 +164,57 @@ class _ActionMenuState extends State<ActionMenu> {
         Positioned(
             top: 58.h,
             left: 16.w,
+            child: Image.asset(
+              "assets/light_3.png",
+              width: 24.w,
+              height: 24.h,
+            )),
+        Positioned(
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 context.read<IvmConnectionBloc>().add(IvmDisconnect());
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
-              child: Image.asset(
-                "assets/light_3.png",
-                width: 24.w,
-                height: 24.h,
+              child: SizedBox(
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
             top: 120.h,
             left: 24.w,
             right: 24.w,
-            child: Text(name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                    color: ColorTheme.fontColor,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Helvetica",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 40.0.sp),
-                textAlign: TextAlign.left)),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(name,
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: ColorTheme.fontColor,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Helvetica",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 40.0.sp),
+                  textAlign: TextAlign.left),
+            )),
         Positioned(
             top: 165.h,
             left: 24.w,
-            child: Text(location,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                    color: ColorTheme.fontColorSecondary,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Helvetica",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0.sp),
-                textAlign: TextAlign.left)),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(location,
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: ColorTheme.fontColorSecondary,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Helvetica",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0.sp),
+                  textAlign: TextAlign.left),
+            )),
       ],
     );
   }
