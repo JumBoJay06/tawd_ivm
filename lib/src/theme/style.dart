@@ -14,6 +14,7 @@ class ColorTheme {
   static const Color secondaryAlpha_15 = Color(0x2600ADA2);
   static const Color secondaryGradient = Color(0xff00E5D6);
   static const Color red = Color(0xffFF0000);
+  static const Color redAlpha_35 = Color(0x59FF0000);
   static const Color magenta = Color(0xffFF00B8);
   static const Color yellow = Color(0xffFFD600);
   static const Color blue = Color(0xff0047FF);
