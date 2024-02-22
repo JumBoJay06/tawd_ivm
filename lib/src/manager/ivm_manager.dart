@@ -780,7 +780,7 @@ class IvmManager {
         throw Exception("No write characteristic");
       }
       _logger.info("write(${send[2]}) -> $send");
-      await _writeCharacteristic!.write(send);
+      _writeCharacteristic!.write(send);
       _logger.info("write(${send[2]}) -> done");
       return await _waitRx(send[2]);
     } catch (e) {
@@ -795,7 +795,7 @@ class IvmManager {
         throw Exception("No write characteristic");
       }
       _logger.info("write(${send[2]}) -> $send");
-      await _writeCharacteristic!.write(send);
+      _writeCharacteristic!.write(send);
       _logger.info("write(${send[2]}) -> done");
       return await _waitMultiRx(send[2], chunkSize);
     } catch (e) {

@@ -105,8 +105,8 @@ class _PairedPageState extends State<PairedPage> {
               fit: BoxFit.fill,
             )),
         Positioned(
-            top: 46.h,
-            left: 4.w,
+            top: 42.h,
+            left: 0.w,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
@@ -114,8 +114,8 @@ class _PairedPageState extends State<PairedPage> {
                     context, kRouteSelectLanguage, (route) => false);
               },
               child: SizedBox(
-                width: 48.w,
-                height: 48.h,
+                width: 56.w,
+                height: 56.h,
               ),
             )),
         Positioned(

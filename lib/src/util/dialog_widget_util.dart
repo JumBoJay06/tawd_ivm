@@ -570,6 +570,22 @@ class DialogWidgetUtil {
         '');
   }
 
+  static Widget automatedTestingSuccessDialog(BuildContext context) {
+    return _normalHintDialog(
+        context,
+        'assets/icon_title_confirm.png',
+        'Test Completed',
+        'Up-to-date status.');
+  }
+
+  static Widget automatedTestingFailDialog(BuildContext context) {
+    return _normalHintDialog(
+        context,
+        'assets/icon_title_fail.png',
+        'Automated Testing Failed',
+        'Please retry.');
+  }
+
   static Widget _normalHintDialog(
       BuildContext context, String iconAsset, String title, String content) {
     return Container(
