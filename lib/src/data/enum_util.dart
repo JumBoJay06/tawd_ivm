@@ -24,3 +24,5 @@ enum TorqueUnit {
     return TorqueUnit.values.firstWhere((element) => element.id == value);
   }
 }
+
+enum ItemState { init, success, fail }

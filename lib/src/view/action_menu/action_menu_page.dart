@@ -28,6 +28,7 @@ class ActionMenu extends StatefulWidget {
 class _ActionMenuState extends State<ActionMenu> {
   IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
   IvmConnectionCubit ivmConnectionCubit = IvmConnectionCubit();
+  IvmCheckTemperatureCubit checkTemperature = IvmCheckTemperatureCubit();
 
   Logger get _logger => Logger("ActionMenu");
   bool isConnecting = false;
@@ -36,11 +37,15 @@ class _ActionMenuState extends State<ActionMenu> {
   void initState() {
     super.initState();
     ivmActionMenuCubit.loadActionMenuData();
+    checkTemperature.getTemperature();
+    ivmConnectionCubit.observeIvmConnectState();
   }
 
   @override
   void dispose() {
     ivmActionMenuCubit.close();
+    checkTemperature.close();
+    ivmConnectionCubit.close();
     super.dispose();
   }
 
@@ -52,11 +57,10 @@ class _ActionMenuState extends State<ActionMenu> {
           .read<PairedDeviceBloc>()
           .add(GetPairedDeviceByName(currentDeviceName));
     }
-    final checkTemperature = IvmCheckTemperatureCubit();
     return MultiBlocListener(
       listeners: [
         BlocListener(
-            bloc: checkTemperature..getTemperature(),
+            bloc: checkTemperature,
             listener: (context, state) {
               if (state is IvmCmdResult) {
                 if (state.isTooHigh) {
@@ -74,7 +78,7 @@ class _ActionMenuState extends State<ActionMenu> {
               }
             }),
         BlocListener(
-            bloc: ivmConnectionCubit..observeIvmConnectState(),
+            bloc: ivmConnectionCubit,
             listener: (context, state) {
               if (state is Connected) {
                 DialogLoading.dismissLoading('connecting');
@@ -170,8 +174,8 @@ class _ActionMenuState extends State<ActionMenu> {
               height: 24.h,
             )),
         Positioned(
-            top: 46.h,
-            left: 4.w,
+            top: 42.h,
+            left: 0.w,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
@@ -180,8 +184,8 @@ class _ActionMenuState extends State<ActionMenu> {
                     context, kRouteScanStartPage, (route) => false);
               },
               child: SizedBox(
-                width: 48.w,
-                height: 48.h,
+                width: 56.w,
+                height: 56.h,
               ),
             )),
         Positioned(
@@ -300,7 +304,7 @@ class _ActionMenuState extends State<ActionMenu> {
         right: 16.w,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).selt_test);
+            Navigator.pushNamed(context, kRouteAutomatedTestingPage);
           },
           child: SizedBox(
             width: 171.w,

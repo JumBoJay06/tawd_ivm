@@ -177,8 +177,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
               height: 24.h,
             )),
         Positioned(
-            top: 46.h,
-            left: 4.w,
+            top: 42.h,
+            left: 0.w,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
@@ -186,8 +186,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                     context, kRouteSelectLanguage, (route) => false);
               },
               child: SizedBox(
-                width: 48.w,
-                height: 48.h,
+                width: 56.w,
+                height: 56.h,
               ),
             )),
         Positioned(
