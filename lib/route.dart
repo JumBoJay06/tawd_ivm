@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:tawd_ivm/src/view/action_menu/about_device/about_device_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/action_menu_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/automated_testing/automated_testing_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/device_setting/device_location_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/device_setting/device_setting_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/device_setting/emission_detection_page.dart';
@@ -54,6 +55,7 @@ const String kRouteLedIndicatorPage = '/action_menu/device_setting/led_indicator
 const String kRouteReplaceBallValvePage = '/action_menu/device_setting/replace_ball_valve_page';
 const String kRouteRecordChartPage = '/action_menu/record_chart_page';
 const String kRouteTraceabilityPage = '/action_menu/traceability_page';
+const String kRouteAutomatedTestingPage = '/action_menu/automated_testing_page';
 
 Map<String, WidgetBuilder> getRoutes() {
   return {
@@ -74,6 +76,7 @@ Map<String, WidgetBuilder> getRoutes() {
     kRouteReplaceBallValvePage: (context) => const ReplaceBallValvePage(),
     kRouteRecordChartPage: (context) => const RecordChartPage(),
     kRouteTraceabilityPage: (context) => const TraceabilityPage(),
+    kRouteAutomatedTestingPage: (context) => const AutomatedTestingPage(),
   };
 }
 
