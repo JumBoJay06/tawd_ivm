@@ -19,6 +19,8 @@ class MySharedPreferences {
 
   final String _valvePositionMaxKey = 'valve_position_max';
   final String _valvePositionMinKey = 'valve_position_min';
+
+  final String _fwLastUpdateDate = 'fw_last_update_date';
   
   MySharedPreferences._();
   
@@ -88,5 +90,13 @@ class MySharedPreferences {
 
   Future<bool> setValvePositionMin(int min) async {
     return _prefs!.setInt(_valvePositionMinKey, min);
+  }
+
+  int getFwLastUpdateDate() {
+    return _prefs!.getInt(_fwLastUpdateDate) ?? 0;
+  }
+
+  Future<bool> setFwLastUpdateDate(int count) {
+    return _prefs!.setInt(_fwLastUpdateDate, count);
   }
 }
