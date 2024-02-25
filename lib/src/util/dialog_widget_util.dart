@@ -31,12 +31,12 @@ class DialogWidgetUtil {
               left: 0,
               right: 0,
               child: Text(S.of(context).available_device_please_retry,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -44,12 +44,12 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text(S.of(context).available_device_please_retry,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -59,19 +59,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
                     child: Text(S.of(context).common_ok,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -105,12 +105,12 @@ class DialogWidgetUtil {
               left: 0,
               right: 0,
               child: Text(S.of(context).available_device_failed,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -118,12 +118,12 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text(S.of(context).available_device_please_retry,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -133,19 +133,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
                     child: Text(S.of(context).common_ok,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -178,13 +178,13 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: const Text('Pairing Successful',
+              child: Text('Pairing Successful',
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -192,12 +192,12 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text("IVM ID : $deviceName",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -207,19 +207,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
                     child: Text(S.of(context).common_action_menu,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -252,13 +252,13 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: const Text('Pairing Successful',
+              child: Text('Pairing Successful',
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -266,12 +266,12 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text("IVM ID : $deviceName",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -281,19 +281,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
-                  child: const Center(
+                  child: Center(
                     child: Text('Set Ball Valve ID',
                         style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -306,20 +306,20 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: cancel,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                       border:
                           Border.all(color: ColorTheme.secondary, width: 1)),
                   child: Center(
                     child: Text(S.of(context).common_action_menu,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.secondary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -352,12 +352,12 @@ class DialogWidgetUtil {
               left: 80.w,
               right: 80.w,
               child: Text(S.of(context).ivm_service_ble_off,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -365,12 +365,12 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text(S.of(context).ivm_service_please_enable_ble,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -380,19 +380,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
                     child: Text(S.of(context).common_settings,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -405,20 +405,20 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: cancel,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                       border:
                           Border.all(color: ColorTheme.secondary, width: 1)),
                   child: Center(
                     child: Text(S.of(context).common_cancel,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.secondary,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -448,11 +448,11 @@ class DialogWidgetUtil {
               left: 0,
               right: 0,
               child: Text(content,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 12.0.sp),
                   textAlign: TextAlign.center))
         ],
       ),
@@ -481,13 +481,13 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: const Text('Temp. Abnormal',
+              child: Text('Temp. Abnormal',
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
@@ -496,12 +496,12 @@ class DialogWidgetUtil {
               right: 24.w,
               child: Text(
                   "IVM ID : $deviceName\n\nThe machine temperature is higher than normal. Please contact the manufacturer.",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           //confirm btn
           Positioned(
@@ -511,19 +511,19 @@ class DialogWidgetUtil {
               child: GestureDetector(
                 onTap: confirm,
                 child: Container(
-                  width: 232,
-                  height: 40,
+                  width: 232.w,
+                  height: 40.h,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
                     child: Text(S.of(context).common_ok,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 14.0.sp),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -547,43 +547,38 @@ class DialogWidgetUtil {
   }
 
   static Widget deviceSettingSuccessDialog(BuildContext context) {
-    return _normalHintDialog(
-        context,
-        'assets/icon_title_confirm.png',
-        'Save Successfully',
-        'Setting is saved.');
+    return _normalHintDialog(context, 'assets/icon_title_confirm.png',
+        'Save Successfully', 'Setting is saved.');
   }
 
   static Widget deviceSettingFailDialog(BuildContext context) {
     return _normalHintDialog(
-        context,
-        'assets/icon_title_fail.png',
-        'Save Failed',
-        'Please retry.');
+        context, 'assets/icon_title_fail.png', 'Save Failed', 'Please retry.');
   }
 
   static Widget ivmConnectedDialog(BuildContext context) {
     return _normalHintDialog(
-        context,
-        'assets/icon_device_paired.png',
-        'IVM Connected!',
-        '');
+        context, 'assets/icon_device_paired.png', 'IVM Connected!', '');
   }
 
   static Widget automatedTestingSuccessDialog(BuildContext context) {
-    return _normalHintDialog(
-        context,
-        'assets/icon_title_confirm.png',
-        'Test Completed',
-        'Up-to-date status.');
+    return _normalHintDialog(context, 'assets/icon_title_confirm.png',
+        'Test Completed', 'Up-to-date status.');
   }
 
   static Widget automatedTestingFailDialog(BuildContext context) {
-    return _normalHintDialog(
-        context,
-        'assets/icon_title_fail.png',
-        'Automated Testing Failed',
-        'Please retry.');
+    return _normalHintDialog(context, 'assets/icon_title_fail.png',
+        'Automated Testing Failed', 'Please retry.');
+  }
+
+  static Widget firmwareUpdateSuccessDialog(BuildContext context) {
+    return _normalHintDialog(context, 'asserts/icon_title_confirm.png',
+        'Update Completed', 'Already at the latest firmware version.');
+  }
+
+  static Widget firmwareUpdateFailDialog(BuildContext context) {
+    return _normalHintDialog(context, 'asserts/icon_title_fail.png',
+        'Update Failed', 'Please retry.');
   }
 
   static Widget _normalHintDialog(
@@ -609,28 +604,28 @@ class DialogWidgetUtil {
           // title
           Positioned(
               top: 128.h,
-              left: 0,
-              right: 0,
+              left: 28.w,
+              right: 28.w,
               child: Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 20.0),
+                      fontSize: 20.0.sp),
                   textAlign: TextAlign.center)),
           //content
           Positioned(
               top: 160.h,
-              left: 0,
-              right: 0,
+              left: 28.w,
+              right: 28.w,
               child: Text(content,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
+                      fontSize: 14.0.sp),
                   textAlign: TextAlign.center)),
         ],
       ),
@@ -657,12 +652,12 @@ class DialogWidgetUtil {
                       top: 24.h,
                       left: 24.w,
                       child: Text(title,
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: ColorTheme.primary,
                               fontWeight: FontWeight.w500,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
-                              fontSize: 20.0),
+                              fontSize: 20.0.sp),
                           textAlign: TextAlign.left)),
                   //藍
                   Positioned(
@@ -971,12 +966,12 @@ class DialogWidgetUtil {
                               color: ColorTheme.secondary),
                           child: Center(
                             child: Text(S.of(context).common_settings,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: ColorTheme.fontColor,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
+                                    fontSize: 14.0.sp),
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -998,12 +993,12 @@ class DialogWidgetUtil {
                                   color: ColorTheme.secondary, width: 1)),
                           child: Center(
                             child: Text(S.of(context).common_cancel,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: ColorTheme.secondary,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
+                                    fontSize: 14.0.sp),
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -1017,65 +1012,167 @@ class DialogWidgetUtil {
         });
   }
 
-  static Widget ivmDisconnected(
-      BuildContext context, Function() confirm) {
+  static Widget ivmDisconnected(BuildContext context, Function() confirm) {
     return // 矩形
-      Container(
-        width: 280.w,
-        height: 229.h,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            color: ColorTheme.white),
-        child: Stack(
-          children: [
-            // icon
-            Positioned(
-                top: 24.h,
-                left: 112.w,
-                right: 112.w,
-                child: Image.asset('assets/icon_device_fail.png',
-                    width: 56.w, height: 56.h)),
-            // title
-            Positioned(
-                top: 96.h,
-                left: 0,
-                right: 0,
-                child: const Text('IVM Disconnected',
+        Container(
+      width: 280.w,
+      height: 229.h,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          color: ColorTheme.white),
+      child: Stack(
+        children: [
+          // icon
+          Positioned(
+              top: 24.h,
+              left: 112.w,
+              right: 112.w,
+              child: Image.asset('assets/icon_device_fail.png',
+                  width: 56.w, height: 56.h)),
+          // title
+          Positioned(
+              top: 96.h,
+              left: 0,
+              right: 0,
+              child: Text('IVM Disconnected',
+                  style: TextStyle(
+                      color: ColorTheme.primary,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 20.0.sp),
+                  textAlign: TextAlign.center)),
+          //confirm btn
+          Positioned(
+              top: 164.h,
+              left: 24.w,
+              right: 24.w,
+              child: GestureDetector(
+                onTap: confirm,
+                child: Container(
+                  width: 232.w,
+                  height: 40.h,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      color: ColorTheme.secondary),
+                  child: Center(
+                    child: Text(S.of(context).common_ok,
+                        style: TextStyle(
+                            color: ColorTheme.fontColor,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0.sp),
+                        textAlign: TextAlign.center),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+
+  static Widget firmwareUpdateDialog(BuildContext context, String versionName,
+      Function() confirm, Function() cancel) {
+    return // 矩形
+        Container(
+      width: 280.w,
+      height: 272.h,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          color: ColorTheme.white),
+      child: Stack(
+        children: [
+          // icon
+          Positioned(
+              top: 24.h,
+              left: 112.w,
+              right: 112.w,
+              child: Image.asset('assets/icon_renew.png',
+                  width: 56.w, height: 56.h)),
+          // title
+          Positioned(
+              top: 96.h,
+              left: 0,
+              right: 0,
+              child: Text('Firmware Update',
+                  style: TextStyle(
+                      color: ColorTheme.primary,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 20.0.sp),
+                  textAlign: TextAlign.center)),
+          //content
+          Positioned(
+              top: 128.h,
+              left: 24.w,
+              right: 24.w,
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Text("Update firmware to $versionName ?",
                     style: TextStyle(
-                        color: ColorTheme.primary,
-                        fontWeight: FontWeight.w500,
+                        color: ColorTheme.primaryAlpha_50,
+                        fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         fontStyle: FontStyle.normal,
-                        fontSize: 20.0),
-                    textAlign: TextAlign.center)),
-            //confirm btn
-            Positioned(
-                top: 164.h,
-                left: 24.w,
-                right: 24.w,
-                child: GestureDetector(
-                  onTap: confirm,
-                  child: Container(
-                    width: 232,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        color: ColorTheme.secondary),
-                    child: Center(
-                      child: Text(S.of(context).common_ok,
-                          style: const TextStyle(
-                              color: ColorTheme.fontColor,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.center),
-                    ),
+                        fontSize: 14.0.sp),
+                    textAlign: TextAlign.left),
+              )),
+          //confirm btn
+          Positioned(
+              top: 160.h,
+              left: 24.w,
+              right: 24.w,
+              child: GestureDetector(
+                onTap: confirm,
+                child: Container(
+                  width: 232.w,
+                  height: 40.h,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      color: ColorTheme.secondary),
+                  child: Center(
+                    child: Text('Yes, update now',
+                        style: TextStyle(
+                            color: ColorTheme.fontColor,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0.sp),
+                        textAlign: TextAlign.center),
                   ),
-                ))
-          ],
-        ),
-      );
+                ),
+              )),
+          //cancel btn
+          Positioned(
+              top: 208.h,
+              left: 24.w,
+              right: 24.w,
+              child: GestureDetector(
+                onTap: cancel,
+                child: Container(
+                  width: 232.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      border:
+                          Border.all(color: ColorTheme.secondary, width: 1)),
+                  child: Center(
+                    child: Text('No, update later',
+                        style: TextStyle(
+                            color: ColorTheme.secondary,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0.sp),
+                        textAlign: TextAlign.center),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
   }
 }
 

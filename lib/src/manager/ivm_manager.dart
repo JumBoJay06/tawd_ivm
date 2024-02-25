@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
+import 'package:tawd_ivm/src/manager/data/fw_info.dart';
 import 'package:tawd_ivm/src/manager/data/rs485_baud_rate.dart';
 import 'package:tawd_ivm/src/manager/data/valve_position_sensor_limit.dart';
 import 'package:tawd_ivm/src/manager/data/barometric_pressure_sensor_limit.dart';
@@ -27,6 +30,7 @@ class IvmManager {
       _logger.info(event);
       _scanController.sink.add(event);
     });
+
   }
 
   final Guid serviceUuid = Guid("7e400001-b5a3-f393-e0a9-e50e24dcca9e");
@@ -38,14 +42,15 @@ class IvmManager {
   BluetoothCharacteristic? _notifyCharacteristic;
 
   BluetoothDevice? get device => _device;
+  // 只給FirmwareUpdateCubit控制，讓IvmConnectionCubit知道是否要觸發斷線重連
+  bool isReboot = false;
 
   final StreamController<List<ScanResult>> _scanController =
       StreamController<List<ScanResult>>.broadcast();
 
   Stream<List<ScanResult>> get scanStream => _scanController.stream;
 
-  final StreamController<List<int>> _rxController =
-      StreamController<List<int>>.broadcast();
+  late StreamController<List<int>> _rxController;
 
   Logger get _logger => Logger("IvmManager");
 
@@ -88,7 +93,8 @@ class IvmManager {
     await FlutterBluePlus.stopScan();
   }
 
-  Future<bool> connect(BluetoothDevice device,{Duration timeout = const Duration(seconds: 8)}) async {
+  Future<bool> connect(BluetoothDevice device,
+      {Duration timeout = const Duration(seconds: 8)}) async {
     _device = device;
 
     try {
@@ -104,9 +110,9 @@ class IvmManager {
               } else if (characteristic.uuid == _notifyUuid) {
                 _notifyCharacteristic = characteristic;
                 await characteristic.setNotifyValue(true);
+                _rxController = StreamController<List<int>>.broadcast();
                 characteristic.onValueReceived.listen((value) {
                   _rxController.sink.add(value);
-                  _logger.fine("rx: $value");
                 });
                 _logger.info("Discover notify characteristic");
               }
@@ -118,6 +124,7 @@ class IvmManager {
           if (Platform.isAndroid) {
             await device.requestMtu(255);
           }
+          await setCurrentUTC();
           return true;
         } else {
           return false;
@@ -744,6 +751,132 @@ class IvmManager {
     return null;
   }
 
+  /// FW Update F0
+  Future<FwInfo?> switchToFwMode() async {
+    try {
+      final list = await _sendFwCmd(FwCmdId.switchToFwMode.id) ?? List.empty();
+      if (list.isNotEmpty) {
+        return FwInfo(BytesToInt.convert(list.sublist(0, 4)),
+            _fromAscii(list.sublist(4, list.length)));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      _logger.shout("switchToFwMode() ${e.toString()}", e);
+    }
+    return null;
+  }
+
+  /// FW Update F1
+  Future<bool> setFwParameter({bool isStart = true}) async {
+    try {
+      int isStartFlag = isStart ? 0 : 1;
+      var list = await _sendFwCmd(FwCmdId.setFwParameter.id,
+              data: List.empty(growable: true)..add(isStartFlag)) ??
+          List.empty();
+      if (list.isNotEmpty) {
+        return listEquals(list.sublist(0, 2), [0, 1]);
+      } else {
+        return false;
+      }
+    } catch (e) {
+      _logger.shout("setFwParameter() ${e.toString()}", e);
+    }
+    return false;
+  }
+
+  /// FW Update F2
+  Future<bool> sendFwData(List<int> data) async {
+    try {
+      while (data.length % 16 != 0) {
+        data.add(0);
+      }
+      final splitList = ListUtil.splitList(data, 256);
+      if (splitList.isEmpty) {
+        return false;
+      }
+      final blockQueue = Queue<List<int>>.from(splitList);
+      _logger.info("sendFwData() => block count: ${blockQueue.length} / total size: ${data.length}");
+      while (blockQueue.isNotEmpty) {
+        final currentBlock = blockQueue.removeFirst();
+        _logger.info(
+            "sendFwData() => currentBlock: ${splitList.length - blockQueue.length} / ${splitList.length}");
+        final currentBlockXor = _xor(currentBlock);
+        final packages = ListUtil.splitList(currentBlock, 16);
+        final packageQueue = Queue<List<int>>.from(packages);
+        _logger.info("sendFwData() => packages count: ${packageQueue.length}");
+        while (packageQueue.isNotEmpty) {
+          final isLast = packageQueue.length == 1;
+          final package = packageQueue.removeFirst();
+          _logger.info(
+              "sendFwData() => currentPackage: ${packages.length - packageQueue.length} / ${packages.length}");
+          if (!isLast) {
+            await _sendFwCmdWithoutRx(FwCmdId.sendFwData.id, data: package);
+          } else {
+            var list = await _sendFwCmd(FwCmdId.sendFwData.id, data: package) ??
+                List.empty();
+            if (list.isNotEmpty) {
+              _logger.info(
+                  "sendFwData() => last package: result(${listEquals(list, [
+                    0,
+                    1
+                  ])}), currentBlockXor($currentBlockXor), rxXor()${list[2]}");
+              return listEquals(list.sublist(0, 2), [0, 1]) && currentBlockXor == list[2];
+            } else {
+              _logger.info("sendFwData() => sendFwCmd fail");
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+    } catch (e) {
+      _logger.shout("sendFwData() ${e.toString()}", e);
+    }
+    return false;
+  }
+
+  /// FW Update F3
+  Future<bool> reBoot() async {
+    try {
+      var list = await _sendFwCmd(FwCmdId.reBoot.id) ?? List.empty();
+      if (list.isNotEmpty) {
+        return listEquals(list.sublist(0, 2), [0, 1]);
+      } else {
+        return false;
+      }
+    } catch (e) {
+      _logger.shout("reBoot() ${e.toString()}", e);
+    }
+    return false;
+  }
+
+  Future<List<int>?> _sendFwCmd(int cmdId, {List<int>? data}) {
+    final length = data?.length ?? 0;
+    if (length > 4095) {
+      return Future(() => null);
+    }
+    var lengthList = IntToBytes.convertToIntList(length, 2).reversed;
+    final send = [0x80, ...lengthList, cmdId];
+    if (data != null) {
+      send.addAll(data);
+    }
+    return _write(send, isFwUpdate: true);
+  }
+
+  Future<bool?> _sendFwCmdWithoutRx(int cmdId, {List<int>? data}) {
+    final length = data?.length ?? 0;
+    if (length > 4095) {
+      return Future(() => null);
+    }
+    var lengthList = IntToBytes.convertToIntList(length, 2).reversed;
+    final send = [0x80, ...lengthList, cmdId];
+    if (data != null) {
+      send.addAll(data);
+    }
+    return _writeWithoutRx(send);
+  }
+
   Future<List<int>?> _sendCmd(int cmdId, {List<int>? data}) {
     final length = (data?.length ?? 0) + 2;
     final send = [0x25, length, cmdId];
@@ -774,15 +907,36 @@ class IvmManager {
     return result;
   }
 
-  Future<List<int>?> _write(List<int> send) async {
+  Future<bool> _writeWithoutRx(List<int> send) async {
     try {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
       }
-      _logger.info("write(${send[2]}) -> $send");
-      _writeCharacteristic!.write(send);
+      _logger.info("write(${send[2]}) -> ${send.toHexString()}");
+      _writeCharacteristic!.write(send, withoutResponse: true);
       _logger.info("write(${send[2]}) -> done");
-      return await _waitRx(send[2]);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<List<int>?> _write(List<int> send, {bool isFwUpdate = false}) async {
+    try {
+      if (_writeCharacteristic == null || _notifyCharacteristic == null) {
+        throw Exception("No write characteristic");
+      }
+      if (isFwUpdate) {
+        _logger.info("write(${send[3]}) -> ${send.toHexString()}");
+        _writeCharacteristic!.write(send);
+        _logger.info("write(${send[3]}) -> done");
+        return await _waitFwRx(send[3]);
+      } else {
+        _logger.info("write(${send[2]}) -> ${send.toHexString()}");
+        _writeCharacteristic!.write(send);
+        _logger.info("write(${send[2]}) -> done");
+        return await _waitRx(send[2]);
+      }
     } catch (e) {
       return null;
     }
@@ -794,7 +948,7 @@ class IvmManager {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
       }
-      _logger.info("write(${send[2]}) -> $send");
+      _logger.info("write(${send[2]}) -> ${send.toHexString()}");
       _writeCharacteristic!.write(send);
       _logger.info("write(${send[2]}) -> done");
       return await _waitMultiRx(send[2], chunkSize);
@@ -803,14 +957,47 @@ class IvmManager {
     }
   }
 
+  Future<List<int>?> _waitFwRx(int cmdId) async {
+    final completer = Completer<List<int>?>();
+
+    StreamSubscription<List<int>>? subscription;
+    subscription = _rxController.stream.listen((value) {
+      _logger.info("any value: ${value.toHexString()}");
+      if (value[3] == cmdId) {
+        _logger.info("fw value($cmdId): ${value.toHexString()}");
+        final length = BytesToInt.convert(value.sublist(1, 3).reversed.toList());
+        if (length > 0) {
+          final data = value.sublist(4, value.length);
+          completer.complete(data);
+        } else {
+          completer.complete(null);
+        }
+        subscription?.cancel();
+      }
+    });
+
+    await Future.any([
+      completer.future,
+      Future.delayed(const Duration(seconds: 8), () {
+        if (!completer.isCompleted) {
+          _logger.warning("send $cmdId timeout");
+          completer.complete(null);
+          subscription?.cancel();
+        }
+      })
+    ]);
+
+    return completer.future.whenComplete(() => subscription?.cancel());
+  }
+
   Future<List<int>?> _waitRx(int cmdId) async {
     final completer = Completer<List<int>?>();
 
     StreamSubscription<List<int>>? subscription;
     subscription = _rxController.stream.listen((value) {
-      _logger.info("any value: $value");
+      _logger.info("any value: ${value.toHexString()}");
       if (value[2] == cmdId) {
-        _logger.info("value($cmdId): $value");
+        _logger.info("value($cmdId): ${value.toHexString()}");
         final length = value[1];
         if (length > 0) {
           final data = value.sublist(3, value.length - 1);
@@ -842,9 +1029,9 @@ class IvmManager {
     StreamSubscription<List<int>>? subscription;
     List<List<int>> results = List.empty(growable: true);
     subscription = _rxController.stream.listen((value) {
-      _logger.info("any value: $value");
+      _logger.info("any value: ${value.toHexString()}");
       if (value[2] == cmdId) {
-        _logger.info("value($cmdId): $value");
+        _logger.info("value($cmdId): ${value.toHexString()}");
         final length = BytesToInt.convert(value.sublist(3, 5));
         _logger.info("value($cmdId): length = $length");
         if (length > 0) {
@@ -852,7 +1039,7 @@ class IvmManager {
           results.add(rawData);
           var sublist = rawData.sublist(2, rawData.length - 1);
           var lastRawData = ListUtil.splitList(sublist, chunkSize).last;
-          _logger.info("value($cmdId): lastRawData = $lastRawData");
+          _logger.info("value($cmdId): lastRawData = ${lastRawData.toHexString()}");
           final currentIndex = BytesToInt.convert(lastRawData.sublist(0, 2));
           _logger.info("value($cmdId): currentIndex = $currentIndex($length)");
           if (length == currentIndex) {
@@ -937,4 +1124,19 @@ enum CmdId {
   const CmdId(this.id);
 
   final int id;
+}
+
+enum FwCmdId {
+  switchToFwMode(0xF0),
+  setFwParameter(0xF1),
+  sendFwData(0xF2),
+  reBoot(0xF3);
+
+  final int id;
+
+  const FwCmdId(this.id);
+}
+
+extension ListToHexString on List<int> {
+  String toHexString() => map((number) => number.toRadixString(16).padLeft(2, '0')).join(',');
 }

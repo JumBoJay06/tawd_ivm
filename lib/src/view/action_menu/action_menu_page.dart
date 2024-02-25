@@ -29,6 +29,7 @@ class _ActionMenuState extends State<ActionMenu> {
   IvmActionMenuCubit ivmActionMenuCubit = IvmActionMenuCubit();
   IvmConnectionCubit ivmConnectionCubit = IvmConnectionCubit();
   IvmCheckTemperatureCubit checkTemperature = IvmCheckTemperatureCubit();
+  IvmConnectionBloc ivmConnectionBloc = IvmConnectionBloc();
 
   Logger get _logger => Logger("ActionMenu");
   bool isConnecting = false;
@@ -46,6 +47,8 @@ class _ActionMenuState extends State<ActionMenu> {
     ivmActionMenuCubit.close();
     checkTemperature.close();
     ivmConnectionCubit.close();
+    ivmConnectionBloc.add(IvmDisconnect());
+    ivmConnectionBloc.close();
     super.dispose();
   }
 
@@ -126,7 +129,16 @@ class _ActionMenuState extends State<ActionMenu> {
               }
             })
       ],
-      child: Stack(
+      child: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {
+            if (didPop) {
+              return;
+            }
+            Navigator.pushNamedAndRemoveUntil(
+                context, kRouteScanStartPage, (route) => false);
+          },
+          child: Stack(
         children: [
           Container(
             width: 375.w,
@@ -151,7 +163,7 @@ class _ActionMenuState extends State<ActionMenu> {
               }),
           _createMenuWidget(context),
         ],
-      ),
+      )),
     );
   }
 
@@ -179,7 +191,6 @@ class _ActionMenuState extends State<ActionMenu> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                context.read<IvmConnectionBloc>().add(IvmDisconnect());
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
@@ -512,6 +523,7 @@ class _ActionMenuState extends State<ActionMenu> {
         child: GestureDetector(
           onTap: () {
             SmartDialog.showToast(S.of(context).fw_update);
+            // Navigator.pushNamed(context, kRouteFirmwareUpdatePage);
           },
           child: SizedBox(
             width: 343.w,
