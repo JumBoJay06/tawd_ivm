@@ -25,6 +25,7 @@ class AvailableDevicesPage extends StatefulWidget {
 
 class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   IvmConnectionBloc ivmConnectionBloc = IvmConnectionBloc();
+
   Logger get _logger => Logger("AvailableDevices");
 
   @override
@@ -35,34 +36,43 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        _createTitleWidget(context),
-        BlocBuilder<ScanBloc, ScanState>(builder: (context, state) {
-          if (state is ScanFailure) {
-            DialogLoading.dismissLoading('scan');
-            return _createEmptyDeviceWidget(context);
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return;
           }
-          if (state is ScanStarting) {
-            DialogLoading.showLoading('scan',
-                content: S.of(context).available_device_searching);
-          }
-          if (state is ScanSuccess) {
-            DialogLoading.dismissLoading('scan');
-            return _createDeviceWidget(state.scanResults);
-          }
-          if (state is FilterResults) {
-            return _createDeviceWidget(state.scanResults);
-          }
-          return _createEmptyDeviceWidget(context);
-        }),
-        Positioned(
-            bottom: 48.h,
-            left: 16.w,
-            right: 16.w,
-            child: _createScanAgainWidget(context))
-      ],
-    );
+          Navigator.pushNamedAndRemoveUntil(
+              context, kRouteSelectLanguage, (route) => false);
+        },
+        child: Stack(
+          children: [
+            _createTitleWidget(context),
+            BlocBuilder<ScanBloc, ScanState>(builder: (context, state) {
+              if (state is ScanFailure) {
+                DialogLoading.dismissLoading('scan');
+                return _createEmptyDeviceWidget(context);
+              }
+              if (state is ScanStarting) {
+                DialogLoading.showLoading('scan',
+                    content: S.of(context).available_device_searching);
+              }
+              if (state is ScanSuccess) {
+                DialogLoading.dismissLoading('scan');
+                return _createDeviceWidget(state.scanResults);
+              }
+              if (state is FilterResults) {
+                return _createDeviceWidget(state.scanResults);
+              }
+              return _createEmptyDeviceWidget(context);
+            }),
+            Positioned(
+                bottom: 48.h,
+                left: 16.w,
+                right: 16.w,
+                child: _createScanAgainWidget(context))
+          ],
+        ));
   }
 
   Widget _createTitleWidget(BuildContext context) {
@@ -331,7 +341,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   }
 
   Widget _createListItem(BuildContext context, ScanResult result) {
-    final deviceName = MacAddressUtil.getMacAddressText(result.device.platformName);
+    final deviceName =
+        MacAddressUtil.getMacAddressText(result.device.platformName);
     return BlocListener<IvmConnectionBloc, IvmConnectionState>(
       bloc: ivmConnectionBloc,
       listener: (context, state) async {
