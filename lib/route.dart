@@ -11,6 +11,7 @@ import 'package:tawd_ivm/src/view/action_menu/device_setting/led_indicator_page.
 import 'package:tawd_ivm/src/view/action_menu/device_setting/replace_ball_valve_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/device_setting/valve_position_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/device_setting/valve_torque_page.dart';
+import 'package:tawd_ivm/src/view/action_menu/firmware_update/firmware_update_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/maintenance_records/maintenance_records_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/record_chart/record_chart_page.dart';
 import 'package:tawd_ivm/src/view/action_menu/traceability/traceability_page.dart';
@@ -56,6 +57,7 @@ const String kRouteReplaceBallValvePage = '/action_menu/device_setting/replace_b
 const String kRouteRecordChartPage = '/action_menu/record_chart_page';
 const String kRouteTraceabilityPage = '/action_menu/traceability_page';
 const String kRouteAutomatedTestingPage = '/action_menu/automated_testing_page';
+const String kRouteFirmwareUpdatePage = '/action_menu/firmware_update_page';
 
 Map<String, WidgetBuilder> getRoutes() {
   return {
@@ -77,6 +79,7 @@ Map<String, WidgetBuilder> getRoutes() {
     kRouteRecordChartPage: (context) => const RecordChartPage(),
     kRouteTraceabilityPage: (context) => const TraceabilityPage(),
     kRouteAutomatedTestingPage: (context) => const AutomatedTestingPage(),
+    kRouteFirmwareUpdatePage: (context) => const FirmwareUpdatePage(),
   };
 }
 

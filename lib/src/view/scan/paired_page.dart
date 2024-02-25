@@ -44,20 +44,30 @@ class _PairedPageState extends State<PairedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return;
+          }
+          Navigator.pushNamedAndRemoveUntil(
+              context, kRouteSelectLanguage, (route) => false);
+        },
+        child: Stack(
       children: [
         _createTitleWidget(context),
         BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
             builder: (context, state) {
-          if (state.deviceList.isEmpty) {
-            _logger.info('show empty');
-            return _createEmptyDeviceListWidget(context);
-          } else {
-            _logger.info('show list(${state.deviceList.length})');
-            return _createDeviceListWidget(context, state.deviceList);
-          }
-        })
+              if (state.deviceList.isEmpty) {
+                _logger.info('show empty');
+                return _createEmptyDeviceListWidget(context);
+              } else {
+                _logger.info('show list(${state.deviceList.length})');
+                return _createDeviceListWidget(context, state.deviceList);
+              }
+            })
       ],
+    )
     );
   }
 
