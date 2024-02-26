@@ -31,7 +31,13 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ScanBloc>().add(ScanStart(8));
+    context.read<ScanBloc>().add(ScanStart(4));
+  }
+
+  @override
+  void dispose() {
+    ivmConnectionBloc.close();
+    super.dispose();
   }
 
   @override
@@ -308,7 +314,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
   Widget _createScanAgainWidget(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.read<ScanBloc>().add(ScanStart(8));
+        context.read<ScanBloc>().add(ScanStart(4));
       },
       child: Container(
         width: 343.w,

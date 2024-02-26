@@ -572,12 +572,12 @@ class DialogWidgetUtil {
   }
 
   static Widget firmwareUpdateSuccessDialog(BuildContext context) {
-    return _normalHintDialog(context, 'asserts/icon_title_confirm.png',
+    return _normalHintDialog(context, 'assets/icon_title_confirm.png',
         'Update Completed', 'Already at the latest firmware version.');
   }
 
   static Widget firmwareUpdateFailDialog(BuildContext context) {
-    return _normalHintDialog(context, 'asserts/icon_title_fail.png',
+    return _normalHintDialog(context, 'assets/icon_title_fail.png',
         'Update Failed', 'Please retry.');
   }
 
