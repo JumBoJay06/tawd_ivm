@@ -522,8 +522,8 @@ class _ActionMenuState extends State<ActionMenu> {
         right: 0,
         child: GestureDetector(
           onTap: () {
-            SmartDialog.showToast(S.of(context).fw_update);
-            // Navigator.pushNamed(context, kRouteFirmwareUpdatePage);
+            // SmartDialog.showToast(S.of(context).fw_update);
+            Navigator.pushNamed(context, kRouteFirmwareUpdatePage);
           },
           child: SizedBox(
             width: 343.w,
