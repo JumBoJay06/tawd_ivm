@@ -30,7 +30,6 @@ class IvmManager {
       _logger.info(event);
       _scanController.sink.add(event);
     });
-
   }
 
   final Guid serviceUuid = Guid("7e400001-b5a3-f393-e0a9-e50e24dcca9e");
@@ -42,6 +41,7 @@ class IvmManager {
   BluetoothCharacteristic? _notifyCharacteristic;
 
   BluetoothDevice? get device => _device;
+
   // 只給FirmwareUpdateCubit控制，讓IvmConnectionCubit知道是否要觸發斷線重連
   bool isReboot = false;
 
@@ -101,24 +101,30 @@ class IvmManager {
       await device.connect(timeout: timeout);
 
       return await device.discoverServices().then((services) async {
-        for (var service in services) {
-          if (service.uuid == serviceUuid) {
-            for (var characteristic in service.characteristics) {
-              if (characteristic.uuid == _writeUuid) {
-                _writeCharacteristic = characteristic;
-                _logger.info("Discover write characteristic");
-              } else if (characteristic.uuid == _notifyUuid) {
-                _notifyCharacteristic = characteristic;
-                await characteristic.setNotifyValue(true);
-                _rxController = StreamController<List<int>>.broadcast();
-                characteristic.onValueReceived.listen((value) {
-                  _rxController.sink.add(value);
-                });
-                _logger.info("Discover notify characteristic");
+        try {
+          for (var service in services) {
+            if (service.uuid == serviceUuid) {
+              for (var characteristic in service.characteristics) {
+                if (characteristic.uuid == _writeUuid) {
+                  _writeCharacteristic = characteristic;
+                  _logger.info("Discover write characteristic");
+                } else if (characteristic.uuid == _notifyUuid) {
+                  _notifyCharacteristic = characteristic;
+                  await characteristic.setNotifyValue(true);
+                  _rxController = StreamController<List<int>>.broadcast();
+                  characteristic.onValueReceived.listen((value) {
+                    _rxController.sink.add(value);
+                  });
+                  _logger.info("Discover notify characteristic");
+                }
               }
             }
           }
+        } catch (e) {
+          _logger.shout("discoverServices fail: $e", e);
+          return false;
         }
+
         if (_writeCharacteristic != null && _notifyCharacteristic != null) {
           // 部分指令需要這麼多，但不知道為什麼韌體更新還維持16bytes
           if (Platform.isAndroid) {
@@ -788,28 +794,33 @@ class IvmManager {
   /// FW Update F2
   Future<bool> sendFwData(List<int> data) async {
     try {
+      _logger.info(
+          "sendFwData() =>data: ${data.toHexString()}");
       while (data.length % 16 != 0) {
         data.add(0);
       }
+      _logger.info(
+          "sendFwData() => new data: ${data.toHexString()}");
       final splitList = ListUtil.splitList(data, 256);
       if (splitList.isEmpty) {
         return false;
       }
-      final blockQueue = Queue<List<int>>.from(splitList);
-      _logger.info("sendFwData() => block count: ${blockQueue.length} / total size: ${data.length}");
-      while (blockQueue.isNotEmpty) {
-        final currentBlock = blockQueue.removeFirst();
+      final totalLength = splitList.length;
+      _logger.info(
+          "sendFwData() => block count: $totalLength , total size: ${data.length}");
+      while (splitList.isNotEmpty) {
+        final currentBlock = splitList.removeAt(0);
         _logger.info(
-            "sendFwData() => currentBlock: ${splitList.length - blockQueue.length} / ${splitList.length}");
+            "sendFwData() => currentBlock: ${totalLength - splitList.length} / $totalLength");
         final currentBlockXor = _xor(currentBlock);
         final packages = ListUtil.splitList(currentBlock, 16);
-        final packageQueue = Queue<List<int>>.from(packages);
-        _logger.info("sendFwData() => packages count: ${packageQueue.length}");
-        while (packageQueue.isNotEmpty) {
-          final isLast = packageQueue.length == 1;
-          final package = packageQueue.removeFirst();
+        var totalPackagesLength = packages.length;
+        _logger.info("sendFwData() => packages count: $totalPackagesLength");
+        while (packages.isNotEmpty) {
+          final isLast = packages.length == 1;
+          final package = packages.removeAt(0);
           _logger.info(
-              "sendFwData() => currentPackage: ${packages.length - packageQueue.length} / ${packages.length}");
+              "sendFwData() => currentPackage: ${totalPackagesLength - packages.length} / $totalPackagesLength");
           if (!isLast) {
             await _sendFwCmdWithoutRx(FwCmdId.sendFwData.id, data: package);
           } else {
@@ -817,11 +828,10 @@ class IvmManager {
                 List.empty();
             if (list.isNotEmpty) {
               _logger.info(
-                  "sendFwData() => last package: result(${listEquals(list, [
-                    0,
-                    1
-                  ])}), currentBlockXor($currentBlockXor), rxXor()${list[2]}");
-              return listEquals(list.sublist(0, 2), [0, 1]) && currentBlockXor == list[2];
+                  "sendFwData() => last package: result(${listEquals(list.sublist(0, 2),
+                      [0, 1])}), currentBlockXor($currentBlockXor), rxXor()${list[2]}");
+              return listEquals(list.sublist(0, 2), [0, 1]) &&
+                  currentBlockXor == list[2];
             } else {
               _logger.info("sendFwData() => sendFwCmd fail");
               return false;
@@ -907,14 +917,23 @@ class IvmManager {
     return result;
   }
 
-  Future<bool> _writeWithoutRx(List<int> send) async {
+  Future<bool> _writeWithoutRx(List<int> send,
+      {bool isFwUpdate = false}) async {
     try {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
       }
-      _logger.info("write(${send[2]}) -> ${send.toHexString()}");
-      _writeCharacteristic!.write(send, withoutResponse: true);
-      _logger.info("write(${send[2]}) -> done");
+      if (isFwUpdate) {
+        _logger
+            .info("write(${send[3].toHexString()}) -> ${send.toHexString()}");
+        _writeCharacteristic!.write(send, withoutResponse: true);
+        _logger.info("write(${send[3].toHexString()}) -> done");
+      } else {
+        _logger
+            .info("write(${send[2].toHexString()}) -> ${send.toHexString()}");
+        _writeCharacteristic!.write(send, withoutResponse: true);
+        _logger.info("write(${send[2].toHexString()}) -> done");
+      }
       return true;
     } catch (e) {
       return false;
@@ -927,14 +946,16 @@ class IvmManager {
         throw Exception("No write characteristic");
       }
       if (isFwUpdate) {
-        _logger.info("write(${send[3]}) -> ${send.toHexString()}");
+        _logger
+            .info("write(${send[3].toHexString()}) -> ${send.toHexString()}");
         _writeCharacteristic!.write(send);
-        _logger.info("write(${send[3]}) -> done");
+        _logger.info("write(${send[3].toHexString()}) -> done");
         return await _waitFwRx(send[3]);
       } else {
-        _logger.info("write(${send[2]}) -> ${send.toHexString()}");
+        _logger
+            .info("write(${send[2].toHexString()}) -> ${send.toHexString()}");
         _writeCharacteristic!.write(send);
-        _logger.info("write(${send[2]}) -> done");
+        _logger.info("write(${send[2].toHexString()}) -> done");
         return await _waitRx(send[2]);
       }
     } catch (e) {
@@ -948,9 +969,9 @@ class IvmManager {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
       }
-      _logger.info("write(${send[2]}) -> ${send.toHexString()}");
+      _logger.info("write(${send[2].toHexString()}) -> ${send.toHexString()}");
       _writeCharacteristic!.write(send);
-      _logger.info("write(${send[2]}) -> done");
+      _logger.info("write(${send[2].toHexString()}) -> done");
       return await _waitMultiRx(send[2], chunkSize);
     } catch (e) {
       return null;
@@ -964,8 +985,10 @@ class IvmManager {
     subscription = _rxController.stream.listen((value) {
       _logger.info("any value: ${value.toHexString()}");
       if (value[3] == cmdId) {
-        _logger.info("fw value($cmdId): ${value.toHexString()}");
-        final length = BytesToInt.convert(value.sublist(1, 3).reversed.toList());
+        _logger
+            .info("fw value(${cmdId.toHexString()}): ${value.toHexString()}");
+        final length =
+            BytesToInt.convert(value.sublist(1, 3).reversed.toList());
         if (length > 0) {
           final data = value.sublist(4, value.length);
           completer.complete(data);
@@ -980,7 +1003,7 @@ class IvmManager {
       completer.future,
       Future.delayed(const Duration(seconds: 8), () {
         if (!completer.isCompleted) {
-          _logger.warning("send $cmdId timeout");
+          _logger.warning("send ${cmdId.toHexString()} timeout");
           completer.complete(null);
           subscription?.cancel();
         }
@@ -997,7 +1020,7 @@ class IvmManager {
     subscription = _rxController.stream.listen((value) {
       _logger.info("any value: ${value.toHexString()}");
       if (value[2] == cmdId) {
-        _logger.info("value($cmdId): ${value.toHexString()}");
+        _logger.info("value(${cmdId.toHexString()}): ${value.toHexString()}");
         final length = value[1];
         if (length > 0) {
           final data = value.sublist(3, value.length - 1);
@@ -1013,7 +1036,7 @@ class IvmManager {
       completer.future,
       Future.delayed(const Duration(seconds: 8), () {
         if (!completer.isCompleted) {
-          _logger.warning("send $cmdId timeout");
+          _logger.warning("send ${cmdId.toHexString()} timeout");
           completer.complete(null);
           subscription?.cancel();
         }
@@ -1031,17 +1054,19 @@ class IvmManager {
     subscription = _rxController.stream.listen((value) {
       _logger.info("any value: ${value.toHexString()}");
       if (value[2] == cmdId) {
-        _logger.info("value($cmdId): ${value.toHexString()}");
+        _logger.info("value(${cmdId.toHexString()}): ${value.toHexString()}");
         final length = BytesToInt.convert(value.sublist(3, 5));
-        _logger.info("value($cmdId): length = $length");
+        _logger.info("value(${cmdId.toHexString()}): length = $length");
         if (length > 0) {
           final rawData = value.sublist(3, value.length - 1);
           results.add(rawData);
           var sublist = rawData.sublist(2, rawData.length - 1);
           var lastRawData = ListUtil.splitList(sublist, chunkSize).last;
-          _logger.info("value($cmdId): lastRawData = ${lastRawData.toHexString()}");
+          _logger.info(
+              "value(${cmdId.toHexString()}): lastRawData = ${lastRawData.toHexString()}");
           final currentIndex = BytesToInt.convert(lastRawData.sublist(0, 2));
-          _logger.info("value($cmdId): currentIndex = $currentIndex($length)");
+          _logger.info(
+              "value(${cmdId.toHexString()}): currentIndex = $currentIndex($length)");
           if (length == currentIndex) {
             completer.complete(results);
           }
@@ -1138,5 +1163,10 @@ enum FwCmdId {
 }
 
 extension ListToHexString on List<int> {
-  String toHexString() => map((number) => number.toRadixString(16).padLeft(2, '0')).join(',');
+  String toHexString() =>
+      map((number) => number.toRadixString(16).padLeft(2, '0')).join(',');
+}
+
+extension IntToHexString on int {
+  String toHexString() => toRadixString(16).padLeft(2, '0');
 }

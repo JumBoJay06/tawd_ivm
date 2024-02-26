@@ -28,7 +28,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     on<ScanStart>((event, emit) async {
       emit(ScanStarting(true));
       myScanResults = List.empty();
-      await IvmManager.getInstance().startScan(8);
+      await IvmManager.getInstance().startScan(event.timeout);
       await Future.delayed(Duration(seconds: event.timeout), () {
         if (myScanResults.isEmpty) {
           emit(ScanFailure('empty'));
