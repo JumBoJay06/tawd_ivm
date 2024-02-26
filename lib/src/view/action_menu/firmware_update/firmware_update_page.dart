@@ -45,7 +45,7 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
         SmartDialog.dismiss(status: SmartStatus.allDialog);
         if (state is OnUpdating) {
           DialogLoading.showLoading('loading',
-              content: 'Updating firmware ...', myContext: context);
+              content: 'Updating firmware ...');
         }
         if (state is OnSuccess) {
           SmartDialog.show(
