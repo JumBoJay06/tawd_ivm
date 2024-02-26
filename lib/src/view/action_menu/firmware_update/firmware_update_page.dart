@@ -43,9 +43,9 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
       bloc: firmwareUpdateCubit,
       listener: (context, state) {
         SmartDialog.dismiss(status: SmartStatus.allDialog);
-        if (state is OnLoading) {
+        if (state is OnUpdating) {
           DialogLoading.showLoading('loading',
-              content: 'Updating firmware ...');
+              content: 'Updating firmware ...', myContext: context);
         }
         if (state is OnSuccess) {
           SmartDialog.show(
