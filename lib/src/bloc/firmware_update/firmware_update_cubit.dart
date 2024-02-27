@@ -40,7 +40,7 @@ class FirmwareUpdateCubit extends Cubit<FirmwareUpdateState> {
     }
     manager.isReboot = true;
     final isReboot = await manager.reBoot();
-    if (isReboot) {
+    if (!isReboot) {
       _logger.shout("startFwUpdate: reBoot fail");
       manager.isReboot = false;
       emit(OnFail());

@@ -15,8 +15,8 @@ class FirmwareUpdateInfoCubit extends Cubit<FirmwareUpdateInfoState> {
   final Logger _logger = Logger('FirmwareUpdateInfoCubit');
   List<int> binData = List.empty();
   //-----
-  final String binVersionName = 'MS2108_v1_0_t11';
-  final String _binAssertKey = "assets/bin/MS2108_v1_0_t11.bin";
+  final String binVersionName = 'MS2108_v1_0_t17';
+  final String _binAssertKey = "assets/bin/MS2108_v1_0_t17.bin";
 
   void getFwInfo() async {
     // todo 未來bin檔應該會以API的方式取得，也在這個地方實作，視情況新增state
