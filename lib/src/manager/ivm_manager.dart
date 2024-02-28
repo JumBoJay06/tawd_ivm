@@ -776,7 +776,7 @@ class IvmManager {
   /// FW Update F1
   Future<bool> setFwParameter({bool isStart = true}) async {
     try {
-      int isStartFlag = isStart ? 0 : 1;
+      int isStartFlag = isStart ? 1 : 0;
       var list = await _sendFwCmd(FwCmdId.setFwParameter.id,
               data: List.empty(growable: true)..add(isStartFlag)) ??
           List.empty();
@@ -792,7 +792,7 @@ class IvmManager {
   }
 
   /// FW Update F2
-  Future<bool> sendFwData(List<int> data) async {
+  Future<bool> sendFwData(List<int> data, {Duration packageDelay = const Duration(milliseconds: 150)}) async {
     try {
       _logger.info(
           "sendFwData() =>data: ${data.toHexString()}");
@@ -823,23 +823,28 @@ class IvmManager {
               "sendFwData() => currentPackage: ${totalPackagesLength - packages.length} / $totalPackagesLength");
           if (!isLast) {
             await _sendFwCmdWithoutRx(FwCmdId.sendFwData.id, data: package);
+            await Future.delayed(packageDelay);
           } else {
-            var list = await _sendFwCmd(FwCmdId.sendFwData.id, data: package) ??
+            var list = await _sendFwCmd(FwCmdId.sendFwData.id, data: package, timeout: const Duration(seconds: 10)) ??
                 List.empty();
             if (list.isNotEmpty) {
               _logger.info(
                   "sendFwData() => last package: result(${listEquals(list.sublist(0, 2),
                       [0, 1])}), currentBlockXor($currentBlockXor), rxXor()${list[2]}");
-              return listEquals(list.sublist(0, 2), [0, 1]) &&
+              final result = listEquals(list.sublist(0, 2), [0, 1]) &&
                   currentBlockXor == list[2];
+              if (!result) {
+                _logger.info("sendFwData() => sendFwCmd or xor fail");
+                return false;
+              }
             } else {
               _logger.info("sendFwData() => sendFwCmd fail");
               return false;
             }
           }
         }
-        return true;
       }
+      return true;
     } catch (e) {
       _logger.shout("sendFwData() ${e.toString()}", e);
     }
@@ -861,7 +866,7 @@ class IvmManager {
     return false;
   }
 
-  Future<List<int>?> _sendFwCmd(int cmdId, {List<int>? data}) {
+  Future<List<int>?> _sendFwCmd(int cmdId, {List<int>? data, Duration timeout = const Duration(seconds: 8)}) {
     final length = data?.length ?? 0;
     if (length > 4095) {
       return Future(() => null);
@@ -871,7 +876,7 @@ class IvmManager {
     if (data != null) {
       send.addAll(data);
     }
-    return _write(send, isFwUpdate: true);
+    return _write(send, isFwUpdate: true, timeout: timeout);
   }
 
   Future<bool?> _sendFwCmdWithoutRx(int cmdId, {List<int>? data}) {
@@ -887,14 +892,14 @@ class IvmManager {
     return _writeWithoutRx(send);
   }
 
-  Future<List<int>?> _sendCmd(int cmdId, {List<int>? data}) {
+  Future<List<int>?> _sendCmd(int cmdId, {List<int>? data, Duration timeout = const Duration(seconds: 8)}) {
     final length = (data?.length ?? 0) + 2;
     final send = [0x25, length, cmdId];
     if (data != null) {
       send.addAll(data);
     }
     send.add(_xor(send));
-    return _write(send);
+    return _write(send, timeout: timeout);
   }
 
   Future<List<List<int>>?> _sendCmdAndMultiRx(int cmdId, int chunkSize,
@@ -940,7 +945,7 @@ class IvmManager {
     }
   }
 
-  Future<List<int>?> _write(List<int> send, {bool isFwUpdate = false}) async {
+  Future<List<int>?> _write(List<int> send, {bool isFwUpdate = false, Duration timeout = const Duration(seconds: 8)}) async {
     try {
       if (_writeCharacteristic == null || _notifyCharacteristic == null) {
         throw Exception("No write characteristic");
@@ -950,13 +955,13 @@ class IvmManager {
             .info("write(${send[3].toHexString()}) -> ${send.toHexString()}");
         _writeCharacteristic!.write(send);
         _logger.info("write(${send[3].toHexString()}) -> done");
-        return await _waitFwRx(send[3]);
+        return await _waitFwRx(send[3], timeout: timeout);
       } else {
         _logger
             .info("write(${send[2].toHexString()}) -> ${send.toHexString()}");
         _writeCharacteristic!.write(send);
         _logger.info("write(${send[2].toHexString()}) -> done");
-        return await _waitRx(send[2]);
+        return await _waitRx(send[2], timeout: timeout);
       }
     } catch (e) {
       return null;
@@ -978,7 +983,7 @@ class IvmManager {
     }
   }
 
-  Future<List<int>?> _waitFwRx(int cmdId) async {
+  Future<List<int>?> _waitFwRx(int cmdId, {Duration timeout = const Duration(seconds: 8)}) async {
     final completer = Completer<List<int>?>();
 
     StreamSubscription<List<int>>? subscription;
@@ -1001,7 +1006,7 @@ class IvmManager {
 
     await Future.any([
       completer.future,
-      Future.delayed(const Duration(seconds: 8), () {
+      Future.delayed(timeout, () {
         if (!completer.isCompleted) {
           _logger.warning("send ${cmdId.toHexString()} timeout");
           completer.complete(null);
@@ -1013,7 +1018,7 @@ class IvmManager {
     return completer.future.whenComplete(() => subscription?.cancel());
   }
 
-  Future<List<int>?> _waitRx(int cmdId) async {
+  Future<List<int>?> _waitRx(int cmdId, {Duration timeout = const Duration(seconds: 8)}) async {
     final completer = Completer<List<int>?>();
 
     StreamSubscription<List<int>>? subscription;
@@ -1034,7 +1039,7 @@ class IvmManager {
 
     await Future.any([
       completer.future,
-      Future.delayed(const Duration(seconds: 8), () {
+      Future.delayed(timeout, () {
         if (!completer.isCompleted) {
           _logger.warning("send ${cmdId.toHexString()} timeout");
           completer.complete(null);
