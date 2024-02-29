@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -168,23 +171,40 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
                 right: 0,
                 child: info.isHasNewVersion
                     ? GestureDetector(
-                        onTap: () {
-                          SmartDialog.show(
-                              builder: (context) {
-                                return DialogWidgetUtil.firmwareUpdateDialog(
-                                    context,
-                                    firmwareUpdateInfoCubit.binVersionName, () {
-                                  SmartDialog.dismiss(
-                                      tag: 'firmwareUpdateDialog');
-                                  firmwareUpdateCubit.startFwUpdate(
-                                      firmwareUpdateInfoCubit.binData,
-                                      firmwareUpdateInfoCubit.binVersionName);
-                                }, () {
-                                  SmartDialog.dismiss(
-                                      tag: 'firmwareUpdateDialog');
-                                });
-                              },
-                              tag: 'firmwareUpdateDialog');
+                        onTap: () async {
+                          var filePickerResult = await FilePicker.platform
+                              .pickFiles(
+                                  dialogTitle: 'select file',
+                                  type: FileType.custom,
+                                  allowedExtensions: ['bin']);
+                          if(filePickerResult != null) {
+                            File file = File(filePickerResult.files.first.path!);
+                            SmartDialog.show(
+                                builder: (context) {
+                                  return DialogWidgetUtil.firmwareUpdateDialog(
+                                      context,
+                                      filePickerResult.files.first.name, () {
+                                    SmartDialog.dismiss(
+                                        tag: 'firmwareUpdateDialog');
+                                    firmwareUpdateCubit.startFwUpdate(
+                                        file.readAsBytesSync().toList(),
+                                        filePickerResult.files.first.name);
+                                  }, () {
+                                    SmartDialog.dismiss(
+                                        tag: 'firmwareUpdateDialog');
+                                  });
+                                },
+                                tag: 'firmwareUpdateDialog');
+                          } else {
+                            SmartDialog.show(
+                                builder: (context) {
+                                  return DialogWidgetUtil.firmwareUpdateFailDialog(context);
+                                },
+                                tag: 'firmwareUpdateFailDialog');
+                            Future.delayed(const Duration(seconds: 2), () {
+                              SmartDialog.dismiss(tag: 'firmwareUpdateFailDialog');
+                            });
+                          }
                         },
                         child: Container(
                           width: 343.w,
