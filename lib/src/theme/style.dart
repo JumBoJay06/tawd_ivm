@@ -26,6 +26,7 @@ class ColorTheme {
   static const Color black = Color(0xff000000);
   static const Color grey = Color(0xffDCDCDC);
   static const Color background = Color(0xffECEFF7);
+  static const Color background2 = Color(0xffF7F7F7);
   static const Color backgroundTransparent = Color(0x00eceff7);
   static const Color outline = Color(0xffEBEBEB);
   static const Color fontColor = Color(0xffFFFFFF);
