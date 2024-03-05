@@ -438,7 +438,11 @@ class IvmManager {
     try {
       final list = await _sendCmd(CmdId.getLedIndicatorState.id);
       if (list != null) {
-        return LedIndicatorState.fromList(list);
+        if (list.length < 5) {
+          return LedIndicatorState.fromList([18, ...list]);
+        } else {
+          return LedIndicatorState.fromList(list);
+        }
       } else {
         return null;
       }
