@@ -127,9 +127,10 @@ class _ledIndicator extends State<LedIndicatorPage> {
                     top: 112.h,
                     left: 16.w,
                     right: 16.w,
+                    bottom: 48.h,
                     child: Container(
                       width: 343.w,
-                      height: 204.h,
+                      height: 828.h,
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
@@ -139,7 +140,7 @@ class _ledIndicator extends State<LedIndicatorPage> {
                                 blurRadius: 30,
                                 spreadRadius: 0)
                           ],
-                          color: ColorTheme.white),
+                          color: ColorTheme.background2),
                       child: Stack(
                         children: [
                           Positioned(
@@ -179,6 +180,7 @@ class _ledIndicator extends State<LedIndicatorPage> {
                               top: 99.h,
                               left: 16.w,
                               right: 16.w,
+                              bottom: 0,
                               child: ListView.separated(
                                   itemBuilder: (context, index) {
                                     switch (index) {
@@ -287,9 +289,9 @@ class _ledIndicator extends State<LedIndicatorPage> {
                       fontSize: 14.0.sp),
                   textAlign: TextAlign.left)),
           Positioned(
-              top: 0,
-              bottom: 0,
-              left: isErrorLed ? 4.w : 0,
+              top: isErrorLed ? 20.h : 16.h,
+              bottom: isErrorLed ? 20.h : 16.h,
+              right: 16.w,
               child: isErrorLed
                   ? _createErrorLedWidget(context, color)
                   : _createSelectColorWidget(context, title, index, color))
