@@ -6,6 +6,8 @@ import 'package:tawd_ivm/src/data/device_setting.dart';
 import 'package:tawd_ivm/src/data/shared_preferences/my_shared_preferences.dart';
 import 'package:tawd_ivm/src/manager/ivm_manager.dart';
 
+import '../../../generated/l10n.dart';
+
 part 'ivm_device_setting_state.dart';
 
 class IvmDeviceSettingCubit extends Cubit<IvmDeviceSettingState> {
@@ -53,12 +55,12 @@ class IvmDeviceSettingCubit extends Cubit<IvmDeviceSettingState> {
 
       emit(Success(DeviceSetting(
           valveTorque: Item(
-              'assets/icon_torque.png', 'Valve torque', content1: "Unit : $torqueUnit", content2: "Limit : $strainGaugeMin~$strainGaugeMax"),
-        emissionDetection: Item('assets/icon_emission.png', 'Emission detection', content1: "Unit : $pressureUnit", content2: "Limit : $barometricPressureSensorMin~$barometricPressureSensorMax"),
-        valvePosition: Item('assets/icon_switch.png', 'Valve position', content1: 'Close : $valvePositionSensorMin°', content2: 'Open : $valvePositionSensorMax°'),
-        deviceLocation: Item('assets/icon_location_info.png', 'Device location'),
-        ledIndicator: Item('assets/icon_light.png', 'LED indicator'),
-        replaceBallValve: Item('assets/icon_ball_replace.png', 'Replace Ball Valve')
+              'assets/icon_torque.png', S.of(context).device_settings_valve_torque, content1: "${S.of(context).device_settings_unit} : $torqueUnit", content2: "${S.of(context).device_settings_limit} : $strainGaugeMin~$strainGaugeMax"),
+        emissionDetection: Item('assets/icon_emission.png', S.of(context).device_settings_emission_detection, content1: "${S.of(context).device_settings_unit} : $pressureUnit", content2: "${S.of(context).device_settings_limit} : $barometricPressureSensorMin~$barometricPressureSensorMax"),
+        valvePosition: Item('assets/icon_switch.png', S.of(context).device_settings_valve_position, content1: '${S.of(context).device_settings_close} : $valvePositionSensorMin°', content2: '${S.of(context).device_settings_open} : $valvePositionSensorMax°'),
+        deviceLocation: Item('assets/icon_location_info.png', S.of(context).device_settings_device_lacation),
+        ledIndicator: Item('assets/icon_light.png', S.of(context).device_settings_led_indicator),
+        replaceBallValve: Item('assets/icon_ball_replace.png', S.of(context).replace_ball_valve)
       )));
     } catch (e) {
       emit(Fail(e));

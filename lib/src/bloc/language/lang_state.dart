@@ -18,3 +18,15 @@ class LangZhTw extends LangState {
 class LangEn extends LangState {
   const LangEn(super.locale);
 }
+
+class LangDa extends LangState {
+  const LangDa(super.locale);
+}
+
+class LangSv extends LangState {
+  const LangSv(super.locale);
+}
+
+class LangDe extends LangState {
+  const LangDe(super.locale);
+}

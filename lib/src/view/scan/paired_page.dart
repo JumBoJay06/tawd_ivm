@@ -121,7 +121,7 @@ class _PairedPageState extends State<PairedPage> {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, kRouteSelectLanguage, (route) => false);
+                    context, kRouteScanStartPage, (route) => false);
               },
               child: SizedBox(
                 width: 56.w,
@@ -132,7 +132,7 @@ class _PairedPageState extends State<PairedPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Paired Device',
+            child: Text(S.of(context).ivm_service_paired_device,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -190,7 +190,7 @@ class _PairedPageState extends State<PairedPage> {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, kRouteSelectLanguage, (route) => false);
+                    context, kRouteScanStartPage, (route) => false);
               },
               child: SizedBox(
                 width: 48.w,
@@ -217,7 +217,7 @@ class _PairedPageState extends State<PairedPage> {
                       context.read<PairedDeviceBloc>().add(Filter(filter));
                     },
                     decoration: InputDecoration(
-                        hintText: 'Enter device number for quick search',
+                        hintText: S.of(context).available_device_type_device_number_quickly_find_content,
                         hintStyle: TextStyle(
                             color: ColorTheme.primaryAlpha_20,
                             fontWeight: FontWeight.w400,

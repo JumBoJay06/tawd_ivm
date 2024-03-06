@@ -58,7 +58,7 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: 407.h),
           child: ListView.builder(
-              itemCount: ELanguage.values.length,
+              itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
                 return _createListItem(context, index);
               }),
@@ -161,6 +161,15 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
               case ELanguage.zh:
                 context.read<LangBloc>().add(SettingLangZhTW());
                 break;
+              case ELanguage.da:
+                context.read<LangBloc>().add(SettingLangDa());
+                break;
+              case ELanguage.sv:
+                context.read<LangBloc>().add(SettingLangSv());
+                break;
+              case ELanguage.de:
+                context.read<LangBloc>().add(SettingLangDe());
+                break;
             }
             Navigator.pushNamed(context, kRouteScanStartPage);
           },
@@ -240,6 +249,15 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
         case ELanguage.zh:
           name = '中文';
           break;
+        case ELanguage.da:
+          name = 'Dansk';
+          break;
+        case ELanguage.sv:
+          name = 'Svenska';
+          break;
+        case ELanguage.de:
+          name = 'German';
+          break;
       }
     }
 
@@ -270,6 +288,17 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
             height: 32.h,
           );
           break;
+        case ELanguage.da:
+          image = Image.asset(
+            'assets/icon_flag_da.png',
+            width: 32.w,
+            height: 32.h,
+          );
+          break;
+        case ELanguage.sv:
+          break;
+        case ELanguage.de:
+          break;
       }
     }
 
@@ -277,4 +306,4 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
   }
 }
 
-enum ELanguage { zh, en }
+enum ELanguage { zh, en, da, sv, de }
