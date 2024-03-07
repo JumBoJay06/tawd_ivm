@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/bloc/device_setting/ivm_device_setting_cubit.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../route.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
@@ -85,7 +86,7 @@ class _deviceSetting extends State<DeviceSettingPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Device Settings',
+            child: Text(S.of(context).device_settings_,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -129,7 +130,7 @@ class _deviceSetting extends State<DeviceSettingPage> {
                       Positioned(
                           top: 18.h,
                           left: 16.w,
-                          child: Text('Setting item',
+                          child: Text(S.of(context).device_settings_item,
                               style: TextStyle(
                                   color: ColorTheme.secondary,
                                   fontWeight: FontWeight.w500,

@@ -8,6 +8,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:tawd_ivm/src/data/fw_info.dart';
 import 'package:tawd_ivm/src/util/dialog_widget_util.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/firmware_update/firmware_update_cubit.dart';
 import '../../../bloc/firmware_update/firmware_update_info_cubit.dart';
 import '../../../theme/style.dart';
@@ -122,7 +123,7 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
                       Positioned(
                           top: 18.h,
                           left: 16.w,
-                          child: Text('FW Info.',
+                          child: Text('Firmware info.',
                               style: TextStyle(
                                   color: ColorTheme.secondary,
                                   fontWeight: FontWeight.w500,
@@ -156,8 +157,8 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
                                         ? 'assets/icon_version.png'
                                         : 'assets/icon_updated_date.png',
                                     index == 0
-                                        ? 'Firmware version'
-                                        : 'Last updated date',
+                                        ? S.of(context).fw_update_version
+                                        : S.of(context).fw_update_last_updated_date,
                                     index == 0
                                         ? info.fwVersion
                                         : info.lastUpdateDate);
@@ -230,7 +231,7 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
                           ),
                           child: Center(
                             child: Text(
-                              'Update',
+                              S.of(context).fw_update_update,
                               style: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
@@ -336,7 +337,7 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Firmware Update',
+            child: Text(S.of(context).fw_update,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,

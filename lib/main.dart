@@ -74,6 +74,9 @@ class MyApp extends StatelessWidget {
             // 預設語系為繁體中文
             Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
             Locale('en'),
+            Locale('da'),
+            Locale('sv'),
+            Locale('de'),
           ],
           localizationsDelegates: const [
             S.delegate,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/device_setting/ivm_led_indicator_cubit.dart';
 import '../../../manager/data/led_indicator_state.dart';
 import '../../../theme/style.dart';
@@ -90,7 +91,7 @@ class _ledIndicator extends State<LedIndicatorPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('LED Indicator',
+            child: Text(S.of(context).device_settings_led_indicator,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -168,7 +169,7 @@ class _ledIndicator extends State<LedIndicatorPage> {
                               left: 16.w,
                               right: 16.w,
                               child: Text(
-                                  "Set different colors for each state (except for fault states) to enhance operational recognition.",
+                                  S.of(context).device_settings_led_indicator_conent,
                                   style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w300,
