@@ -130,7 +130,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, kRouteSelectLanguage, (route) => false);
+                    context, kRouteScanStartPage, (route) => false);
               },
               child: SizedBox(
                 width: 48.w,
@@ -199,7 +199,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
-                    context, kRouteSelectLanguage, (route) => false);
+                    context, kRouteScanStartPage, (route) => false);
               },
               child: SizedBox(
                 width: 56.w,
@@ -224,7 +224,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                     context.read<ScanBloc>().add(Filter(filter));
                   },
                   decoration: InputDecoration(
-                      hintText: 'Enter device number for quick search',
+                      hintText: S.of(context).available_device_type_device_number_quickly_find_content,
                       hintStyle: TextStyle(
                           color: ColorTheme.primaryAlpha_20,
                           fontWeight: FontWeight.w400,
@@ -285,7 +285,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   top: 320.h,
                   left: 0,
                   right: 0,
-                  child: Text('No available devices',
+                  child: Text(S.of(context).available_device_no_found,
                       style: TextStyle(
                           color: ColorTheme.primary,
                           fontWeight: FontWeight.w500,

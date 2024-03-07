@@ -52,65 +52,65 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
         ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
-      productInfoList.add(Item('Manufacturing date',
+      productInfoList.add(Item(S.of(context).about_device_date_manufacture,
           manufacturingDate != null ? manufacturingDateFormat : '--',
           iconAsset: 'assets/icon_date_ball.png'));
-      productInfoList.add(Item('Ball Valve ID', valveId,
+      productInfoList.add(Item(S.of(context).about_device_ball_id, valveId,
           iconAsset: 'assets/icon_ball.png', isShowError: last?.valveId == null));
       productInfoList.add(Item(
-        'Pairing date',
+        S.of(context).about_device_matching_date,
         last != null ? pairedDateFormat : '--',
         iconAsset: 'assets/icon_date_bel.png',
       ));
 
       List<Item> valveInfoList = List.empty(growable: true);
       valveInfoList.add(Item(
-        'Angle',
+        S.of(context).about_device_angle,
         "${inductivePositionSensor?.angle ?? 0}° (${inductivePositionSensorLimit?.angleMin ?? 0}°~${inductivePositionSensorLimit?.angleMax ?? 0}°)",
         iconAsset: 'assets/icon_angle.png',
       ));
       // todo 這邊有單位轉換功能
       valveInfoList.add(Item(
-        'Torque',
+        S.of(context).about_device_torque,
         "$strainGauge Nm (${strainGaugeLimit?.min ?? 0}~${strainGaugeLimit?.max ?? 0} Nm)",
         iconAsset: 'assets/icon_torque.png',
       ));
       valveInfoList.add(Item(
-        'Emission detection',
+        S.of(context).about_device_emission_detection,
         "$barometricPressureSensor psi (${barometricPressureSensorLimit?.min ?? 0}~${barometricPressureSensorLimit?.max ?? 0} psi)",
         iconAsset: 'assets/icon_emission.png',
       ));
       valveInfoList.add(Item(
-        'Cycle counter',
+        S.of(context).about_device_cycle_counter,
         "${last?.totalUsed ?? 0} time(s)",
         iconAsset: 'assets/icon_ball_time.png',
       ));
-      valveInfoList.add(Item('IVM total use', "$totalUsed time(s)",
+      valveInfoList.add(Item(S.of(context).about_device_total_use, "$totalUsed ${S.of(context).common_times}",
           iconAsset: 'assets/icon_ivm_user.png'));
 
       List<Item> ledIndicatorList = List.empty(growable: true);
-      ledIndicatorList.add(Item('Abnormal / Fault', 'Short flash',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_abnormal, S.of(context).device_settings_led_short_flash,
           ledIndicatorColor:
           ledIndicatorState?.error.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('Maintenance notice', 'Long flash',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_maintenande_notify, S.of(context).device_settings_led_long_flash,
           ledIndicatorColor:
           ledIndicatorState?.maintain.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('Valve open', 'Constant',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_valve_open, S.of(context).device_settings_led_constant,
           ledIndicatorColor:
           ledIndicatorState?.valveOpen.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('Valve close', 'Constant',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_valve_close, S.of(context).device_settings_led_constant,
           ledIndicatorColor:
           ledIndicatorState?.valveClose.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('RS485 disconnected', 'Short flash',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_rs485_disconnected, S.of(context).device_settings_led_short_flash,
           ledIndicatorColor: ledIndicatorState?.RS485Disconnect.toColor() ??
               ColorTheme.primary));
-      ledIndicatorList.add(Item('RS485 connected', 'Breathing',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_rs485_connected, S.of(context).device_settings_led_breathing,
           ledIndicatorColor:
           ledIndicatorState?.RS485Connected.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('BLE disconnected', 'Short flash',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_ble_disconnected, S.of(context).device_settings_led_short_flash,
           ledIndicatorColor:
           ledIndicatorState?.bleDisconnect.toColor() ?? ColorTheme.primary));
-      ledIndicatorList.add(Item('BLE connected', 'Breathing',
+      ledIndicatorList.add(Item(S.of(context).device_settings_led_ble_connected, S.of(context).device_settings_led_breathing,
           ledIndicatorColor:
           ledIndicatorState?.bleConnected.toColor() ?? ColorTheme.primary));
 
