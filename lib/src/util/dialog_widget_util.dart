@@ -178,7 +178,7 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: Text('Pairing Successful',
+              child: Text(S.of(context).available_device_paired,
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
@@ -252,7 +252,7 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: Text('Pairing Successful',
+              child: Text(S.of(context).available_device_paired,
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
@@ -287,7 +287,7 @@ class DialogWidgetUtil {
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
-                    child: Text('Set Ball Valve ID',
+                    child: Text(S.of(context).available_device_set_ball_id,
                         style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
@@ -463,7 +463,7 @@ class DialogWidgetUtil {
       BuildContext context, String deviceName, Function() confirm) {
     return Container(
       width: 280.w,
-      height: 306.h,
+      height: 307.h,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(24)),
           color: ColorTheme.white),
@@ -481,7 +481,7 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: Text('Temp. Abnormal',
+              child: Text(S.of(context).ball_valve_setting_temp_abnormal,
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
@@ -495,7 +495,7 @@ class DialogWidgetUtil {
               left: 24.w,
               right: 24.w,
               child: Text(
-                  "IVM ID : $deviceName\n\nThe machine temperature is higher than normal. Please contact the manufacturer.",
+                  "Ivm ID : $deviceName\n\n${S.of(context).ball_valve_setting_temp_higher}",
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w400,
@@ -543,17 +543,17 @@ class DialogWidgetUtil {
 
   static Widget aboutDeviceRefreshFailDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_fail.png',
-        S.of(context).about_device_refreshed_failed, 'Please retry.');
+        S.of(context).about_device_refreshed_failed, S.of(context).auto_test_please_retry);
   }
 
   static Widget deviceSettingSuccessDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_confirm.png',
-        'Save Successfully', 'Setting is saved.');
+        S.of(context).replace_ball_valve_seccess, S.of(context).replace_ball_valve_setting_saved);
   }
 
   static Widget deviceSettingFailDialog(BuildContext context) {
     return _normalHintDialog(
-        context, 'assets/icon_title_fail.png', 'Save Failed', 'Please retry.');
+        context, 'assets/icon_title_fail.png', 'Save Failed', S.of(context).auto_test_please_retry);
   }
 
   static Widget ivmConnectedDialog(BuildContext context) {
@@ -563,17 +563,17 @@ class DialogWidgetUtil {
 
   static Widget automatedTestingSuccessDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_confirm.png',
-        'Test Completed', 'Up-to-date status.');
+        S.of(context).auto_test_completed, S.of(context).auto_test_status_newest);
   }
 
   static Widget automatedTestingFailDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_fail.png',
-        'Automated Testing Failed', 'Please retry.');
+        S.of(context).auto_test_fail, S.of(context).auto_test_please_retry);
   }
 
   static Widget firmwareUpdateSuccessDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_confirm.png',
-        'Update Completed', 'Already at the latest firmware version.');
+        S.of(context).fw_update_completed, S.of(context).fw_update_version_is_newest);
   }
 
   static Widget firmwareUpdateFailDialog(BuildContext context) {

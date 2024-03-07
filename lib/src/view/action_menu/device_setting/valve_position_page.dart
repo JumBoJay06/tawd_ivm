@@ -6,6 +6,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/data/valve_position.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/device_setting/ivm_valve_position_cubit.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
@@ -24,6 +25,7 @@ class ValvePositionPage extends StatefulWidget {
 class _valvePosition extends State<ValvePositionPage> {
   Logger get _logger => Logger("ValvePositionPage");
   var isUpdateData = false;
+  var textFieldHeight = 0.0;
   final minControl = TextEditingController(text: '0');
   final maxControl = TextEditingController(text: '0');
 
@@ -33,6 +35,12 @@ class _valvePosition extends State<ValvePositionPage> {
   void initState() {
     super.initState();
     ivmValvePositionCubit.loadValvePositionData();
+    minControl.addListener(() {
+      textFieldHeight = 494.h;
+    });
+    maxControl.addListener(() {
+      textFieldHeight = 412.h;
+    });
   }
 
   @override
@@ -43,6 +51,14 @@ class _valvePosition extends State<ValvePositionPage> {
 
   @override
   Widget build(BuildContext context) {
+    var keyboardPadding = MediaQuery.of(context).viewInsets.bottom;
+    if (keyboardPadding > 0) {
+      if (keyboardPadding > textFieldHeight) {
+        keyboardPadding = keyboardPadding - textFieldHeight;
+      } else {
+        keyboardPadding = 0;
+      }
+    }
     return BlocBuilder(
       bloc: ivmValvePositionCubit,
         builder: (context, state) {
@@ -62,12 +78,30 @@ class _valvePosition extends State<ValvePositionPage> {
         }
         maxControl.text = state.data.max.toString();
         minControl.text = state.data.min.toString();
-        return Stack(
-          children: [
-            _createTitleWidget(context),
-            _createAlertValueSettingWidget(context),
-            _createSaveButton(context)
-          ],
+        return GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: SingleChildScrollView(
+              reverse: true,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: keyboardPadding),
+                child: Container(
+                  width: 375.w,
+                  height: 812.h,
+                  child: Stack(
+                    children: [
+                      _createTitleWidget(context),
+                      _createAlertValueSettingWidget(context),
+                      _createSaveButton(context)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         );
       } else {
         // todo error
@@ -125,7 +159,7 @@ class _valvePosition extends State<ValvePositionPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Valve Position',
+            child: Text(S.of(context).device_settings_valve_position,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -162,7 +196,7 @@ class _valvePosition extends State<ValvePositionPage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: Text('Alert value',
+                      child: Text(S.of(context).device_settings_alert_value,
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
@@ -184,7 +218,7 @@ class _valvePosition extends State<ValvePositionPage> {
                       left: 16.w,
                       right: 16.w,
                       child: Text(
-                          "The device will record each valve opening and closing operation based on the configured opening and closing angle thresholds.",
+                          S.of(context).device_settings_angle_setting_content,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
@@ -203,7 +237,7 @@ class _valvePosition extends State<ValvePositionPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Min. value',
+                            labelText: S.of(context).device_settings_min,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -222,7 +256,7 @@ class _valvePosition extends State<ValvePositionPage> {
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: Text("Factory default: 0",
+                      child: Text("${S.of(context).device_settings_factory_default}: 0",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -241,7 +275,7 @@ class _valvePosition extends State<ValvePositionPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Max. value',
+                            labelText: S.of(context).device_settings_max,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -260,7 +294,7 @@ class _valvePosition extends State<ValvePositionPage> {
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: Text("Factory default: 90",
+                      child: Text("${S.of(context).device_settings_factory_default}: 90",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -310,7 +344,7 @@ class _valvePosition extends State<ValvePositionPage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save',
+                    S.of(context).common_save,
                     style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,

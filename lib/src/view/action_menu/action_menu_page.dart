@@ -336,7 +336,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).selt_test,
+                    child: Text(S.of(context).auto_test,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -377,7 +377,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).operational_records,
+                    child: Text(S.of(context).maintenance_records,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,
@@ -459,7 +459,7 @@ class _ActionMenuState extends State<ActionMenu> {
                     top: 100.h,
                     left: 0,
                     right: 0,
-                    child: Text(S.of(context).traceability_,
+                    child: Text(S.of(context).traceability,
                         style: TextStyle(
                             color: ColorTheme.primary,
                             fontWeight: FontWeight.w500,

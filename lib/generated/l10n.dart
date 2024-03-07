@@ -70,20 +70,20 @@ class S {
     );
   }
 
-  /// `Choose Language`
+  /// `Select language`
   String get language_choose_language {
     return Intl.message(
-      'Choose Language',
+      'Select language',
       name: 'language_choose_language',
       desc: '',
       args: [],
     );
   }
 
-  /// `Finish Setting`
+  /// `Setup complete`
   String get language_finish_setting {
     return Intl.message(
-      'Finish Setting',
+      'Setup complete',
       name: 'language_finish_setting',
       desc: '',
       args: [],
@@ -100,20 +100,20 @@ class S {
     );
   }
 
-  /// `Device Connect`
+  /// `Connect device`
   String get ivm_service_device_connect {
     return Intl.message(
-      'Device Connect',
+      'Connect device',
       name: 'ivm_service_device_connect',
       desc: '',
       args: [],
     );
   }
 
-  /// `Paired Device`
+  /// `Paired devices`
   String get ivm_service_paired_device {
     return Intl.message(
-      'Paired Device',
+      'Paired devices',
       name: 'ivm_service_paired_device',
       desc: '',
       args: [],
@@ -130,10 +130,10 @@ class S {
     );
   }
 
-  /// `Please enable Bluetooth in your device's settings.`
+  /// `Please turn on Bluetooth.`
   String get ivm_service_please_enable_ble {
     return Intl.message(
-      'Please enable Bluetooth in your device\'s settings.',
+      'Please turn on Bluetooth.',
       name: 'ivm_service_please_enable_ble',
       desc: '',
       args: [],
@@ -160,40 +160,40 @@ class S {
     );
   }
 
-  /// `available Device`
+  /// `Available Devices`
   String get available_device {
     return Intl.message(
-      'available Device',
+      'Available Devices',
       name: 'available_device',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device Searching`
+  /// `Searching`
   String get available_device_searching {
     return Intl.message(
-      'Device Searching',
+      'Searching',
       name: 'available_device_searching',
       desc: '',
       args: [],
     );
   }
 
-  /// `No devices found`
+  /// `No available devices`
   String get available_device_no_found {
     return Intl.message(
-      'No devices found',
+      'No available devices',
       name: 'available_device_no_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `Re-search`
+  /// `Search again`
   String get available_device_research {
     return Intl.message(
-      'Re-search',
+      'Search again',
       name: 'available_device_research',
       desc: '',
       args: [],
@@ -210,20 +210,20 @@ class S {
     );
   }
 
-  /// `Type device number to quickly find`
+  /// `Enter device number for quick search`
   String get available_device_type_device_number_quickly_find_content {
     return Intl.message(
-      'Type device number to quickly find',
+      'Enter device number for quick search',
       name: 'available_device_type_device_number_quickly_find_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device paired`
+  /// `Pairing Successful`
   String get available_device_paired {
     return Intl.message(
-      'Device paired',
+      'Pairing Successful',
       name: 'available_device_paired',
       desc: '',
       args: [],
@@ -240,20 +240,30 @@ class S {
     );
   }
 
-  /// `Action Menu`
+  /// `Action menu`
   String get common_action_menu {
     return Intl.message(
-      'Action Menu',
+      'Action menu',
       name: 'common_action_menu',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please retry to pair device.`
+  /// `Set Ball Valve ID`
+  String get available_device_set_ball_id {
+    return Intl.message(
+      'Set Ball Valve ID',
+      name: 'available_device_set_ball_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please re-pair the device.`
   String get available_device_please_retry {
     return Intl.message(
-      'Please retry to pair device.',
+      'Please re-pair the device.',
       name: 'available_device_please_retry',
       desc: '',
       args: [],
@@ -300,30 +310,170 @@ class S {
     );
   }
 
-  /// `The list shows devices ever been paired only.`
+  /// `This list only shows previously paired devices.`
   String get available_device_show_devices_paired_content {
     return Intl.message(
-      'The list shows devices ever been paired only.',
+      'This list only shows previously paired devices.',
       name: 'available_device_show_devices_paired_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Product Info`
+  /// `Ball Valve Setting`
+  String get ball_valve_setting {
+    return Intl.message(
+      'Ball Valve Setting',
+      name: 'ball_valve_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To set the Ball Valve ID to record data correctly.`
+  String get ball_valve_setting_set_id_content {
+    return Intl.message(
+      'To set the Ball Valve ID to record data correctly.',
+      name: 'ball_valve_setting_set_id_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The ID cannot be edited after setting.`
+  String get ball_valve_setting_id_cannot_edited {
+    return Intl.message(
+      'The ID cannot be edited after setting.',
+      name: 'ball_valve_setting_id_cannot_edited',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice`
+  String get notice {
+    return Intl.message(
+      'Notice',
+      name: 'notice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings are not saved. Are you sure to skip?`
+  String get ball_valve_setting_save_skip_content {
+    return Intl.message(
+      'Settings are not saved. Are you sure to skip?',
+      name: 'ball_valve_setting_save_skip_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, skip to menu`
+  String get ball_valve_setting_yes_and_skip {
+    return Intl.message(
+      'Yes, skip to menu',
+      name: 'ball_valve_setting_yes_and_skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setting Confirm`
+  String get ball_valve_setting_comfirm {
+    return Intl.message(
+      'Setting Confirm',
+      name: 'ball_valve_setting_comfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is the Ball Valve ID correct?`
+  String get ball_valve_setting_is_id_correct {
+    return Intl.message(
+      'Is the Ball Valve ID correct?',
+      name: 'ball_valve_setting_is_id_correct',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, confirm setting`
+  String get ball_valve_setting_confirm_setting {
+    return Intl.message(
+      'Yes, confirm setting',
+      name: 'ball_valve_setting_confirm_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-enter`
+  String get ball_valve_setting_reenter {
+    return Intl.message(
+      'Re-enter',
+      name: 'ball_valve_setting_reenter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device Information`
+  String get about_device {
+    return Intl.message(
+      'Device Information',
+      name: 'about_device',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Temp. Abnormal`
+  String get ball_valve_setting_temp_abnormal {
+    return Intl.message(
+      'Temp. Abnormal',
+      name: 'ball_valve_setting_temp_abnormal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The device's temperature is abnormally high. Please contact the manufacturer.`
+  String get ball_valve_setting_temp_higher {
+    return Intl.message(
+      'The device\'s temperature is abnormally high. Please contact the manufacturer.',
+      name: 'ball_valve_setting_temp_higher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Ball Valve usage reached maintenance threshold. Please perform required maintenance, then reset cycle count when complete.`
+  String get ball_valve_setting_maintenance_threshold {
+    return Intl.message(
+      'The Ball Valve usage reached maintenance threshold. Please perform required maintenance, then reset cycle count when complete.',
+      name: 'ball_valve_setting_maintenance_threshold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product info.`
   String get about_device_product_info {
     return Intl.message(
-      'Product Info',
+      'Product info.',
       name: 'about_device_product_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Date of Manufacture`
+  /// `Manufacturing date`
   String get about_device_date_manufacture {
     return Intl.message(
-      'Date of Manufacture',
+      'Manufacturing date',
       name: 'about_device_date_manufacture',
       desc: '',
       args: [],
@@ -340,20 +490,20 @@ class S {
     );
   }
 
-  /// `Matching Date`
+  /// `Pairing date`
   String get about_device_matching_date {
     return Intl.message(
-      'Matching Date',
+      'Pairing date',
       name: 'about_device_matching_date',
       desc: '',
       args: [],
     );
   }
 
-  /// `Valve Info`
+  /// `Valve info.`
   String get about_device_info {
     return Intl.message(
-      'Valve Info',
+      'Valve info.',
       name: 'about_device_info',
       desc: '',
       args: [],
@@ -390,20 +540,20 @@ class S {
     );
   }
 
-  /// `Cycle Counter`
+  /// `Cycle counter`
   String get about_device_cycle_counter {
     return Intl.message(
-      'Cycle Counter',
+      'Cycle counter',
       name: 'about_device_cycle_counter',
       desc: '',
       args: [],
     );
   }
 
-  /// `IVM Total Use`
+  /// `IVM total use`
   String get about_device_total_use {
     return Intl.message(
-      'IVM Total Use',
+      'IVM total use',
       name: 'about_device_total_use',
       desc: '',
       args: [],
@@ -450,10 +600,10 @@ class S {
     );
   }
 
-  /// `The data is up to date.`
+  /// `This is the latest data.`
   String get about_device_info_newest {
     return Intl.message(
-      'The data is up to date.',
+      'This is the latest data.',
       name: 'about_device_info_newest',
       desc: '',
       args: [],
@@ -470,31 +620,31 @@ class S {
     );
   }
 
-  /// `Data Refresh`
+  /// `Refresh Data`
   String get about_device_data_refresh {
     return Intl.message(
-      'Data Refresh',
+      'Refresh Data',
       name: 'about_device_data_refresh',
       desc: '',
       args: [],
     );
   }
 
-  /// `Time last fetched from device.\nTo view new data, please refresh after 5 minutes again.`
+  /// `The displayed time is the most recent data retrieved from the device. To view new data, please refresh again in 5 minutes.`
   String get about_device_lastest_data_please_refresh_after_5_min_content {
     return Intl.message(
-      'Time last fetched from device.\nTo view new data, please refresh after 5 minutes again.',
+      'The displayed time is the most recent data retrieved from the device. To view new data, please refresh again in 5 minutes.',
       name: 'about_device_lastest_data_please_refresh_after_5_min_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Self Test`
-  String get selt_test {
+  /// `Automated Testing`
+  String get auto_test {
     return Intl.message(
-      'Self Test',
-      name: 'selt_test',
+      'Automated Testing',
+      name: 'auto_test',
       desc: '',
       args: [],
     );
@@ -510,10 +660,10 @@ class S {
     );
   }
 
-  /// `Fail`
+  /// `Failed`
   String get common_fail {
     return Intl.message(
-      'Fail',
+      'Failed',
       name: 'common_fail',
       desc: '',
       args: [],
@@ -521,89 +671,89 @@ class S {
   }
 
   /// `RS485 Connection`
-  String get selt_test_rs485_connection {
+  String get auto_test_rs485_connection {
     return Intl.message(
       'RS485 Connection',
-      name: 'selt_test_rs485_connection',
+      name: 'auto_test_rs485_connection',
       desc: '',
       args: [],
     );
   }
 
   /// `Valve Position`
-  String get selt_test_valve_position {
+  String get auto_test_valve_position {
     return Intl.message(
       'Valve Position',
-      name: 'selt_test_valve_position',
+      name: 'auto_test_valve_position',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device faulty, contact manufacturer.`
-  String get selt_test_device_faulty {
+  /// `Device faulty, please contact manufacturer.`
+  String get auto_test_device_faulty {
     return Intl.message(
-      'Device faulty, contact manufacturer.',
-      name: 'selt_test_device_faulty',
+      'Device faulty, please contact manufacturer.',
+      name: 'auto_test_device_faulty',
       desc: '',
       args: [],
     );
   }
 
-  /// `IVM Service Temp.`
-  String get selt_test_ivm_temp {
+  /// `IVM Temp.`
+  String get auto_test_ivm_temp {
     return Intl.message(
-      'IVM Service Temp.',
-      name: 'selt_test_ivm_temp',
+      'IVM Temp.',
+      name: 'auto_test_ivm_temp',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start Test`
-  String get selt_test_start_test {
+  /// `Start test`
+  String get auto_test_start_test {
     return Intl.message(
-      'Start Test',
-      name: 'selt_test_start_test',
+      'Start test',
+      name: 'auto_test_start_test',
       desc: '',
       args: [],
     );
   }
 
-  /// `Connection Lost`
+  /// `Connection Interrupted`
   String get ble_connection_lost {
     return Intl.message(
-      'Connection Lost',
+      'Connection Interrupted',
       name: 'ble_connection_lost',
       desc: '',
       args: [],
     );
   }
 
-  /// `Bluetooth disconnected. Please retry connecting to resume using the test feature.`
+  /// `Bluetooth disconnected. Please retry the connection to use the system's automated testing function.`
   String get ble_disconnected_content {
     return Intl.message(
-      'Bluetooth disconnected. Please retry connecting to resume using the test feature.',
+      'Bluetooth disconnected. Please retry the connection to use the system\'s automated testing function.',
       name: 'ble_disconnected_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reconnect Now`
+  /// `Reconnect now`
   String get ble_reconnect_now {
     return Intl.message(
-      'Reconnect Now',
+      'Reconnect now',
       name: 'ble_reconnect_now',
       desc: '',
       args: [],
     );
   }
 
-  /// `Back to Menu`
+  /// `Back to menu`
   String get common_back_menu {
     return Intl.message(
-      'Back to Menu',
+      'Back to menu',
       name: 'common_back_menu',
       desc: '',
       args: [],
@@ -620,101 +770,101 @@ class S {
     );
   }
 
-  /// `Please return to the start screen and redo the pairing process.`
+  /// `Please return to the start page and redo the Bluetooth pairing process.`
   String get ble_plesae_return_start_screen_repairing_content {
     return Intl.message(
-      'Please return to the start screen and redo the pairing process.',
+      'Please return to the start page and redo the Bluetooth pairing process.',
       name: 'ble_plesae_return_start_screen_repairing_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Back to Start`
+  /// `Back to start`
   String get common_back_start {
     return Intl.message(
-      'Back to Start',
+      'Back to start',
       name: 'common_back_start',
       desc: '',
       args: [],
     );
   }
 
-  /// `Self-Test in progress...`
-  String get selt_test_in_progress {
+  /// `Automated testing  in progress…`
+  String get auto_test_in_progress {
     return Intl.message(
-      'Self-Test in progress...',
-      name: 'selt_test_in_progress',
+      'Automated testing  in progress…',
+      name: 'auto_test_in_progress',
       desc: '',
       args: [],
     );
   }
 
   /// `Test Completed`
-  String get selt_test_completed {
+  String get auto_test_completed {
     return Intl.message(
       'Test Completed',
-      name: 'selt_test_completed',
+      name: 'auto_test_completed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Status is up to date.`
-  String get selt_test_status_newest {
+  /// `Up-to-date status.`
+  String get auto_test_status_newest {
     return Intl.message(
-      'Status is up to date.',
-      name: 'selt_test_status_newest',
+      'Up-to-date status.',
+      name: 'auto_test_status_newest',
       desc: '',
       args: [],
     );
   }
 
-  /// `Self-Test Failed`
-  String get selt_test_fail {
+  /// `Automated testing Failed`
+  String get auto_test_fail {
     return Intl.message(
-      'Self-Test Failed',
-      name: 'selt_test_fail',
+      'Automated testing Failed',
+      name: 'auto_test_fail',
       desc: '',
       args: [],
     );
   }
 
   /// `Please retry.`
-  String get selt_test_please_retry {
+  String get auto_test_please_retry {
     return Intl.message(
       'Please retry.',
-      name: 'selt_test_please_retry',
+      name: 'auto_test_please_retry',
       desc: '',
       args: [],
     );
   }
 
-  /// `Operational Records`
-  String get operational_records {
+  /// `Maintenance Record`
+  String get maintenance_records {
     return Intl.message(
-      'Operational Records',
-      name: 'operational_records',
+      'Maintenance Record',
+      name: 'maintenance_records',
       desc: '',
       args: [],
     );
   }
 
-  /// `Current Valve`
-  String get operational_records_current_valve {
+  /// `Current valve`
+  String get maintenance_records_current_valve {
     return Intl.message(
-      'Current Valve',
-      name: 'operational_records_current_valve',
+      'Current valve',
+      name: 'maintenance_records_current_valve',
       desc: '',
       args: [],
     );
   }
 
-  /// `Past Valve`
-  String get operational_records_past_valve {
+  /// `Historical valve`
+  String get maintenance_records_past_valve {
     return Intl.message(
-      'Past Valve',
-      name: 'operational_records_past_valve',
+      'Historical valve',
+      name: 'maintenance_records_past_valve',
       desc: '',
       args: [],
     );
@@ -760,11 +910,31 @@ class S {
     );
   }
 
+  /// `T & E`
+  String get record_chart_t_e {
+    return Intl.message(
+      'T & E',
+      name: 'record_chart_t_e',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Traceability`
-  String get traceability_ {
+  String get traceability {
     return Intl.message(
       'Traceability',
-      name: 'traceability_',
+      name: 'traceability',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Ball Valve's ID`
+  String get traceability_current_ball_valve_id {
+    return Intl.message(
+      'Current Ball Valve\'s ID',
+      name: 'traceability_current_ball_valve_id',
       desc: '',
       args: [],
     );
@@ -790,10 +960,10 @@ class S {
     );
   }
 
-  /// `Please enter the serial number of your purchased product to check traceability.`
+  /// `Please enter the product serial No. you purchased to search about the valve's traceability.`
   String get traceability_please_enter_serial_no_conent {
     return Intl.message(
-      'Please enter the serial number of your purchased product to check traceability.',
+      'Please enter the product serial No. you purchased to search about the valve\'s traceability.',
       name: 'traceability_please_enter_serial_no_conent',
       desc: '',
       args: [],
@@ -810,40 +980,40 @@ class S {
     );
   }
 
-  /// `The serial number could not be identified. Please double check the number on the device.`
+  /// `The serial No. could not be identified. Please double check the valve's serial No.`
   String get traceability_serial_number_could_not_identified_conent {
     return Intl.message(
-      'The serial number could not be identified. Please double check the number on the device.',
+      'The serial No. could not be identified. Please double check the valve\'s serial No.',
       name: 'traceability_serial_number_could_not_identified_conent',
       desc: '',
       args: [],
     );
   }
 
-  /// `Serical No. should contain 12 chars.`
+  /// `Valve's serial No. should contain 12 characters.`
   String get traceability_serial_no_should_12_chars_content {
     return Intl.message(
-      'Serical No. should contain 12 chars.',
+      'Valve\'s serial No. should contain 12 characters.',
       name: 'traceability_serial_no_should_12_chars_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device Settings`
+  /// `Device Setting`
   String get device_settings_ {
     return Intl.message(
-      'Device Settings',
+      'Device Setting',
       name: 'device_settings_',
       desc: '',
       args: [],
     );
   }
 
-  /// `Setting Item`
+  /// `Setting item`
   String get device_settings_item {
     return Intl.message(
-      'Setting Item',
+      'Setting item',
       name: 'device_settings_item',
       desc: '',
       args: [],
@@ -870,21 +1040,21 @@ class S {
     );
   }
 
-  /// `Open`
-  String get device_settings__open {
-    return Intl.message(
-      'Open',
-      name: 'device_settings__open',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Close`
   String get device_settings_close {
     return Intl.message(
       'Close',
       name: 'device_settings_close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get device_settings_open {
+    return Intl.message(
+      'Open',
+      name: 'device_settings_open',
       desc: '',
       args: [],
     );
@@ -1030,30 +1200,80 @@ class S {
     );
   }
 
-  /// `Device Lacation`
+  /// `Switch point setting`
+  String get device_settings_sp_setting {
+    return Intl.message(
+      'Switch point setting',
+      name: 'device_settings_sp_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SP angle-1`
+  String get device_settings_sp_1 {
+    return Intl.message(
+      'SP angle-1',
+      name: 'device_settings_sp_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SP angle-2`
+  String get device_settings_sp_2 {
+    return Intl.message(
+      'SP angle-2',
+      name: 'device_settings_sp_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SP Out of Range`
+  String get device_settings_sp_out_of_range {
+    return Intl.message(
+      'SP Out of Range',
+      name: 'device_settings_sp_out_of_range',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The angle of switch point should be between opening & closing angle. Please check the switch point angle again.`
+  String get device_settings_sp_setting_chaek {
+    return Intl.message(
+      'The angle of switch point should be between opening & closing angle. Please check the switch point angle again.',
+      name: 'device_settings_sp_setting_chaek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device Location`
   String get device_settings_device_lacation {
     return Intl.message(
-      'Device Lacation',
+      'Device Location',
       name: 'device_settings_device_lacation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add lacation description to improve device identification. (Limit 80 chars)`
+  /// `Add a location description to enhance device identification. (Limit: 50 characters)`
   String get device_settings_device_lacation_content {
     return Intl.message(
-      'Add lacation description to improve device identification. (Limit 80 chars)',
+      'Add a location description to enhance device identification. (Limit: 50 characters)',
       name: 'device_settings_device_lacation_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add lacation description here`
+  /// `Add location description here`
   String get device_settings_add_description {
     return Intl.message(
-      'Add lacation description here',
+      'Add location description here',
       name: 'device_settings_add_description',
       desc: '',
       args: [],
@@ -1070,10 +1290,10 @@ class S {
     );
   }
 
-  /// `Set different colors for each status (except Fault status) to improve action identification.`
+  /// `Set different colors for each state (except for fault states) to enhance operational recognition.`
   String get device_settings_led_indicator_conent {
     return Intl.message(
-      'Set different colors for each status (except Fault status) to improve action identification.',
+      'Set different colors for each state (except for fault states) to enhance operational recognition.',
       name: 'device_settings_led_indicator_conent',
       desc: '',
       args: [],
@@ -1200,10 +1420,230 @@ class S {
     );
   }
 
-  /// `FW Update`
+  /// `Replace Ball Valve`
+  String get replace_ball_valve {
+    return Intl.message(
+      'Replace Ball Valve',
+      name: 'replace_ball_valve',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After replacing the ball valve, you need to set the new ball valve's serial No. to synchronize the correct data.`
+  String get replace_ball_valve_enter_new_id {
+    return Intl.message(
+      'After replacing the ball valve, you need to set the new ball valve\'s serial No. to synchronize the correct data.',
+      name: 'replace_ball_valve_enter_new_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Replace Confirm`
+  String get replace_ball_valve_confirm {
+    return Intl.message(
+      'Replace Confirm',
+      name: 'replace_ball_valve_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Successfully`
+  String get replace_ball_valve_seccess {
+    return Intl.message(
+      'Save Successfully',
+      name: 'replace_ball_valve_seccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setting is saved.`
+  String get replace_ball_valve_setting_saved {
+    return Intl.message(
+      'Setting is saved.',
+      name: 'replace_ball_valve_setting_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance notify`
+  String get maintenance_notify {
+    return Intl.message(
+      'Maintenance notify',
+      name: 'maintenance_notify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The maintenance indicator light will turn on to notify when the Ball Valve usage reaches the configured threshold value.`
+  String get maintenance_notify_configured_threshold {
+    return Intl.message(
+      'The maintenance indicator light will turn on to notify when the Ball Valve usage reaches the configured threshold value.',
+      name: 'maintenance_notify_configured_threshold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cycle counter time(s)`
+  String get maintenance_notify_cycle_counter {
+    return Intl.message(
+      'Cycle counter time(s)',
+      name: 'maintenance_notify_cycle_counter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current cycle counter time(s)`
+  String get maintenance_notify_cycle_counter_times {
+    return Intl.message(
+      'Current cycle counter time(s)',
+      name: 'maintenance_notify_cycle_counter_times',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get maintenance_notify_reset {
+    return Intl.message(
+      'Reset',
+      name: 'maintenance_notify_reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initial setting`
+  String get maintenance_notify_initial_setting {
+    return Intl.message(
+      'Initial setting',
+      name: 'maintenance_notify_initial_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address ID`
+  String get address_id {
+    return Intl.message(
+      'Address ID',
+      name: 'address_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Baud rate`
+  String get baud_rate {
+    return Intl.message(
+      'Baud rate',
+      name: 'baud_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terminal resistor switch`
+  String get terminal_resistor_switch {
+    return Intl.message(
+      'Terminal resistor switch',
+      name: 'terminal_resistor_switch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `STEM`
+  String get stem {
+    return Intl.message(
+      'STEM',
+      name: 'stem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calibrate angle`
+  String get calibrate_angle {
+    return Intl.message(
+      'Calibrate angle',
+      name: 'calibrate_angle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setting Hint`
+  String get setting_hint {
+    return Intl.message(
+      'Setting Hint',
+      name: 'setting_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RS485 Identification ID. Please enter a value between 1-255. RS485 Address IDs in the same series cannot be duplicated.`
+  String get rs485_enter_id_content {
+    return Intl.message(
+      'RS485 Identification ID. Please enter a value between 1-255. RS485 Address IDs in the same series cannot be duplicated.',
+      name: 'rs485_enter_id_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The communication speed of RS485 cable. Generally higher baud rates mean faster transmission, but lower rates can better maintain stability with longer cable runs. Suggested baud rates based on cable length:`
+  String get rs485_cable_length_content {
+    return Intl.message(
+      'The communication speed of RS485 cable. Generally higher baud rates mean faster transmission, but lower rates can better maintain stability with longer cable runs. Suggested baud rates based on cable length:',
+      name: 'rs485_cable_length_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Must not exceed 1100 m`
+  String get rs485_suggested_baud_rates_based_on_cable_length {
+    return Intl.message(
+      'Must not exceed 1100 m',
+      name: 'rs485_suggested_baud_rates_based_on_cable_length',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The above recommended values are based on using: 24 AWG, twisted pair, unshielded, 52.4 pF/meter cable.`
+  String get rs485_recommended_values_content {
+    return Intl.message(
+      'The above recommended values are based on using: 24 AWG, twisted pair, unshielded, 52.4 pF/meter cable.',
+      name: 'rs485_recommended_values_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When the IVM is the last device in the series, please turn on the termination resistor switch for this item.`
+  String get rs485_termination_resistor_sontent {
+    return Intl.message(
+      'When the IVM is the last device in the series, please turn on the termination resistor switch for this item.',
+      name: 'rs485_termination_resistor_sontent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Firmware Update`
   String get fw_update {
     return Intl.message(
-      'FW Update',
+      'Firmware Update',
       name: 'fw_update',
       desc: '',
       args: [],
@@ -1240,40 +1680,40 @@ class S {
     );
   }
 
-  /// `Select file to update`
+  /// `Format Error`
   String get fw_update_select_file_content {
     return Intl.message(
-      'Select file to update',
+      'Format Error',
       name: 'fw_update_select_file_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select file`
+  /// `Incorrect file format. Please select a .bin file.`
   String get fw_update_select_file {
     return Intl.message(
-      'Select file',
+      'Incorrect file format. Please select a .bin file.',
       name: 'fw_update_select_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Format Error`
+  /// `Download Error`
   String get fw_update_file_error {
     return Intl.message(
-      'Format Error',
+      'Download Error',
       name: 'fw_update_file_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Incorrect file format. Please select a .bin file.`
+  /// `Unable to download file from server. Please check your internet connection.`
   String get fw_update_file_error_content {
     return Intl.message(
-      'Incorrect file format. Please select a .bin file.',
+      'Unable to download file from server. Please check your internet connection.',
       name: 'fw_update_file_error_content',
       desc: '',
       args: [],
@@ -1281,10 +1721,10 @@ class S {
   }
 
   /// `Firmware Update`
-  String get fw_update_dialog_title {
+  String get fw_update_download_error {
     return Intl.message(
       'Firmware Update',
-      name: 'fw_update_dialog_title',
+      name: 'fw_update_download_error',
       desc: '',
       args: [],
     );
@@ -1300,20 +1740,20 @@ class S {
     );
   }
 
-  /// `Yes, Update Now`
+  /// `Yes, update now`
   String get fw_update_dialog_yes {
     return Intl.message(
-      'Yes, Update Now',
+      'Yes, update now',
       name: 'fw_update_dialog_yes',
       desc: '',
       args: [],
     );
   }
 
-  /// `No, Later`
+  /// `No, update later`
   String get fw_update_dialog_no {
     return Intl.message(
-      'No, Later',
+      'No, update later',
       name: 'fw_update_dialog_no',
       desc: '',
       args: [],
@@ -1340,10 +1780,10 @@ class S {
     );
   }
 
-  /// `Firmware is up to date.`
+  /// `Already at the latest firmware version.`
   String get fw_update_version_is_newest {
     return Intl.message(
-      'Firmware is up to date.',
+      'Already at the latest firmware version.',
       name: 'fw_update_version_is_newest',
       desc: '',
       args: [],
@@ -1367,6 +1807,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'da'),
+      Locale.fromSubtags(languageCode: 'de'),
+      Locale.fromSubtags(languageCode: 'sv'),
       Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
     ];
   }

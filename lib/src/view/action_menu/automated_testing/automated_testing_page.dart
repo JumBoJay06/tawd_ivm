@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:tawd_ivm/route.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/automated_testing/automated_testing_cubit.dart';
 import '../../../data/automated_testing_result.dart';
 import '../../../data/enum_util.dart';
@@ -24,7 +25,6 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
   @override
   void initState() {
     super.initState();
-    automatedTestingCubit.startTest();
   }
 
   @override
@@ -95,19 +95,60 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
             Positioned(
                 top: 0,
                 child: _createItemWidget(
-                    context, 'Valve position', result.isValvePositionState)),
+                    context, S.of(context).device_settings_valve_position, result.isValvePositionState)),
             Positioned(
                 top: 96.h,
                 child: _createItemWidget(
-                    context, 'Valve torque', result.isValveTorqueState)),
+                    context, S.of(context).device_settings_valve_torque, result.isValveTorqueState)),
             Positioned(
                 top: 192.h,
-                child: _createItemWidget(context, 'Emission detection',
+                child: _createItemWidget(context, S.of(context).device_settings_emission_detection,
                     result.isEmissionDetectionState)),
             Positioned(
                 top: 288.h,
                 child: _createItemWidget(
-                    context, 'IVM temp.', result.isIvmTempState)),
+                    context, S.of(context).auto_test_ivm_temp, result.isIvmTempState)),
+            Positioned(
+                bottom: 65.h,
+                left: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () async {
+                    automatedTestingCubit.startTest();
+                  },
+                  child: Container(
+                    width: 343.w,
+                    height: 56.h,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(30.h)),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: ColorTheme.primary,
+                            offset: Offset(0, 10),
+                            blurRadius: 25,
+                            spreadRadius: 0)
+                      ],
+                      gradient: const LinearGradient(
+                          begin: Alignment(0.6116728186607361, 0),
+                          end: Alignment(
+                              0.37270376086235046, 1.0995962619781494),
+                          colors: [
+                            ColorTheme.secondaryGradient,
+                            ColorTheme.secondary
+                          ]),
+                    ),
+                    child: Center(
+                      child: Text(
+                        S.of(context).fw_update_update,
+                        style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: ColorTheme.fontColor),
+                      ),
+                    ),
+                  ),
+                ))
           ],
         ));
   }
@@ -155,7 +196,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
               child: state == ItemState.fail
                   ? FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text("Device faulty, please contact manufacturer.",
+                      child: Text(S.of(context).auto_test_device_faulty,
                           style: TextStyle(
                               color: ColorTheme.redAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -169,7 +210,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
               top: 31.h,
               right: 16.w,
               child: state != ItemState.init
-                  ? Text(state == ItemState.success ? 'Pass' : 'Failed',
+                  ? Text(state == ItemState.success ? S.of(context).common_pass : S.of(context).common_fail,
                       style: TextStyle(
                           color: state == ItemState.success
                               ? ColorTheme.green
@@ -249,7 +290,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Automated Testing',
+            child: Text(S.of(context).auto_test,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
