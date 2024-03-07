@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/record_chart/record_chart_cubit.dart';
 import '../../../data/about_device_data.dart';
 import '../../../data/shared_preferences/my_shared_preferences.dart';
@@ -92,7 +93,7 @@ class _recordChart extends State<RecordChartPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Record Chart',
+            child: Text(S.of(context).record_chart_,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -210,7 +211,7 @@ class _recordChart extends State<RecordChartPage> {
           Positioned(
               top: 251.h,
               left: 124.w,
-              child: Text("This chart shows the last 300 records.",
+              child: Text(S.of(context).record_chart_last_300_records,
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w300,
@@ -336,17 +337,17 @@ class _recordChart extends State<RecordChartPage> {
     String title2 = '';
     switch (selectIndex) {
       case 0:
-        title1 = 'Angle';
+        title1 = S.of(context).about_device_angle;
         break;
       case 1:
-        title1 = 'Torque';
+        title1 = S.of(context).about_device_torque;
         break;
       case 2:
-        title1 = 'Emission';
+        title1 = S.of(context).record_chart_emission;
         break;
       case 3:
-        title1 = 'Torque';
-        title2 = 'Emission';
+        title1 = S.of(context).about_device_torque;
+        title2 = S.of(context).record_chart_emission;
         break;
     }
     return SizedBox(
@@ -437,7 +438,7 @@ class _recordChart extends State<RecordChartPage> {
                       });
                     },
                     child: _createTabItem(context, 'assets/icon_angle.png',
-                        'assets/icon_angle_light_32.png', 'Angle',
+                        'assets/icon_angle_light_32.png', S.of(context).about_device_angle,
                         isSelected: selectIndex == 0),
                   )),
               Positioned(
@@ -450,7 +451,7 @@ class _recordChart extends State<RecordChartPage> {
                       });
                     },
                     child: _createTabItem(context, 'assets/icon_torque.png',
-                        'assets/icon_torque_light_32.png', 'Torque',
+                        'assets/icon_torque_light_32.png', S.of(context).about_device_torque,
                         isSelected: selectIndex == 1),
                   )),
               Positioned(
@@ -463,7 +464,7 @@ class _recordChart extends State<RecordChartPage> {
                       });
                     },
                     child: _createTabItem(context, 'assets/icon_emission.png',
-                        'assets/icon_emission_light_32.png', 'Emission',
+                        'assets/icon_emission_light_32.png', S.of(context).record_chart_emission,
                         isSelected: selectIndex == 2),
                   )),
               Positioned(
@@ -476,7 +477,7 @@ class _recordChart extends State<RecordChartPage> {
                       });
                     },
                     child: _createTabItem(context, 'assets/icon_t_e.png',
-                        'assets/icon_t_e_light_32.png', 'T & E',
+                        'assets/icon_t_e_light_32.png', S.of(context).record_chart_t_e,
                         isSelected: selectIndex == 3),
                   )),
               Positioned(

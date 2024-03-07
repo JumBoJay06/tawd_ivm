@@ -605,7 +605,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('About Device',
+            child: Text(S.of(context).about_device,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,

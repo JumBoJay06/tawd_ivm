@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:tawd_ivm/src/manager/data/history_log.dart';
 
+import '../../../generated/l10n.dart';
 import '../../data/about_device_data.dart';
 import '../../data/record_chart.dart';
 import '../../manager/ivm_manager.dart';
@@ -38,25 +39,14 @@ class RecordChartCubit extends Cubit<RecordChartState> {
         ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
-      ivmInfo.add(Item('Manufacturing date',
+      ivmInfo.add(Item(S.of(context).about_device_date_manufacture,
           manufacturingDate != null ? manufacturingDateFormat : '--',
           iconAsset: 'assets/icon_date_ball.png'));
       ivmInfo
-          .add(Item('Ball Valve ID', valveId, iconAsset: 'assets/icon_ball.png'));
+          .add(Item(S.of(context).about_device_ball_id, valveId, iconAsset: 'assets/icon_ball.png'));
 
       // todo 單位轉換
       var logs = await manager.getHistoryLog() ?? List.empty();
-      // 圖表測試資料
-      // var logs = List<HistoryLog>.empty(growable: true);
-      // for (int i = 0; i < 300; i++) {
-      //   logs.add(HistoryLog(
-      //       i,
-      //       DateTime.now().millisecondsSinceEpoch ~/ 1000 + (i * 86400),
-      //       i.toDouble() + 10,
-      //       i,
-      //       i.toDouble(),
-      //       i));
-      // }
       emit(Success(RecordChart(ivmInfo, logs)));
     } catch (e) {
       emit(Fail(e as Exception));

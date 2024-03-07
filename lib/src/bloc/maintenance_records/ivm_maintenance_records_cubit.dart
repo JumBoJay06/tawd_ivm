@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:tawd_ivm/src/data/Maintenance_records_data.dart';
 import 'package:tawd_ivm/src/data/about_device_data.dart';
 
+import '../../../generated/l10n.dart';
 import '../../manager/ivm_manager.dart';
 import '../../util/mac_address_util.dart';
 
@@ -44,21 +45,21 @@ class IvmMaintenanceRecordsCubit extends Cubit<IvmMaintenanceRecordsState> {
         ivmId,
         iconAsset: 'assets/icon_ivm.png',
       ));
-      ivmInfo.add(Item('Manufacturing date',
+      ivmInfo.add(Item(S.of(context).about_device_date_manufacture,
           manufacturingDate != null ? manufacturingDateFormat : '--',
           iconAsset: 'assets/icon_date_ball.png'));
-      ivmInfo.add(Item('IVM total use', "$totalUsed time(s)",
+      ivmInfo.add(Item(S.of(context).about_device_total_use, "$totalUsed ${S.of(context).common_times}",
           iconAsset: 'assets/icon_ivm_user.png'));
 
       List<Item> currentValve = List.empty(growable: true);
       currentValve
-          .add(Item('Ball Valve ID', valveId, iconAsset: 'assets/icon_ball.png'));
+          .add(Item(S.of(context).about_device_ball_id, valveId, iconAsset: 'assets/icon_ball.png'));
       currentValve.add(Item(
-        'Pairing date',
+        S.of(context).about_device_matching_date,
         last != null ? pairedDateFormat : '--',
         iconAsset: 'assets/icon_date_bel.png',
       ));
-      currentValve.add(Item('Cycle counter', "$cycleCount time(s)",
+      currentValve.add(Item(S.of(context).about_device_cycle_counter, "$cycleCount time(s)",
           iconAsset: 'assets/icon_ball_time.png'));
 
       List<PairingLog> logs = List.empty(growable: true);

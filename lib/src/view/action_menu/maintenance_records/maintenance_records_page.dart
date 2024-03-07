@@ -90,7 +90,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Maintenance Records',
+            child: Text(S.of(context).maintenance_records,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -236,7 +236,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: Text('Current valve',
+              child: Text(S.of(context).maintenance_records_current_valve,
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
@@ -288,7 +288,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
           Positioned(
               top: 18.h,
               left: 16.w,
-              child: Text('Historical valve.',
+              child: Text(S.of(context).maintenance_records_past_valve,
                   style: TextStyle(
                       color: ColorTheme.secondary,
                       fontWeight: FontWeight.w500,
@@ -331,7 +331,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 24.w,
-                        child: Text("Ball Valve ID",
+                        child: Text(S.of(context).about_device_ball_id,
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
@@ -351,7 +351,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 139.w,
-                        child: Text("Pairing date",
+                        child: Text(S.of(context).about_device_matching_date,
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
@@ -371,7 +371,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                     Positioned(
                         top: 39.h,
                         left: 248.w,
-                        child: Text("Cycle counter",
+                        child: Text(S.of(context).about_device_cycle_counter,
                             style: TextStyle(
                                 color: ColorTheme.primary,
                                 fontWeight: FontWeight.w400,
@@ -441,7 +441,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                               top: 13.h,
                               bottom: 11.h,
                               left: 267.w,
-                              child: Text("${item.totalUsed} time(s)",
+                              child: Text("${item.totalUsed} ${S.of(context).common_times}",
                                   style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w400,

@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/data/emission_detection.dart';
 import 'package:tawd_ivm/src/data/enum_util.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/device_setting/ivm_emission_detection_cubit.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
@@ -27,6 +28,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
   var selectIndex = 0;
   var isChangeUnit = false;
   var isUpdateData = false;
+  var textFieldHeight = 0.0;
   final minControl = TextEditingController(text: '0');
   final maxControl = TextEditingController(text: '0');
 
@@ -37,6 +39,12 @@ class _emissionDetection extends State<EmissionDetectionPage> {
   void initState() {
     super.initState();
     ivmEmissionDetectionCubit.loadEmissionDetectionData();
+    minControl.addListener(() {
+      textFieldHeight = 259.h;
+    });
+    maxControl.addListener(() {
+      textFieldHeight = 177.h;
+    });
   }
 
   @override
@@ -47,6 +55,14 @@ class _emissionDetection extends State<EmissionDetectionPage> {
 
   @override
   Widget build(BuildContext context) {
+    var keyboardPadding = MediaQuery.of(context).viewInsets.bottom;
+    if (keyboardPadding > 0) {
+      if (keyboardPadding > textFieldHeight) {
+        keyboardPadding = keyboardPadding - textFieldHeight;
+      } else {
+        keyboardPadding = 0;
+      }
+    }
     return BlocBuilder(
         bloc: ivmEmissionDetectionCubit,
         builder: (context, state) {
@@ -70,13 +86,31 @@ class _emissionDetection extends State<EmissionDetectionPage> {
             if (!isChangeUnit) {
               selectIndex = state.data.unit.id;
             }
-            return Stack(
-              children: [
-                _createTitleWidget(context),
-                _createUnitSelectWidget(context),
-                _createAlertValueSettingWidget(context),
-                _createSaveButton(context)
-              ],
+            return GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: SingleChildScrollView(
+                  reverse: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: keyboardPadding),
+                    child: Container(
+                      width: 375.w,
+                      height: 812.h,
+                      child: Stack(
+                        children: [
+                          _createTitleWidget(context),
+                          _createUnitSelectWidget(context),
+                          _createAlertValueSettingWidget(context),
+                          _createSaveButton(context)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
           } else {
             // todo error
@@ -134,7 +168,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Emission Detection',
+            child: Text(S.of(context).about_device_emission_detection,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -171,7 +205,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: Text('Unit',
+                      child: Text(S.of(context).device_settings_unit,
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
@@ -326,7 +360,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: Text('Alert value',
+                      child: Text(S.of(context).device_settings_alert_value,
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
@@ -348,7 +382,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                       left: 16.w,
                       right: 16.w,
                       child: Text(
-                          "Once the value of emission is below or above the set value, the LED indicator will show abnormal light.",
+                          S.of(context).device_settings_emission_detection_abnormal,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
@@ -367,7 +401,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Min. value',
+                            labelText: S.of(context).device_settings_min,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -386,7 +420,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: Text("Factory default: 0",
+                      child: Text("${S.of(context).device_settings_factory_default}: 0",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -405,7 +439,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Max. value',
+                            labelText: S.of(context).device_settings_max,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -424,7 +458,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: Text("Factory default: 30",
+                      child: Text("${S.of(context).device_settings_factory_default}: 30",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -478,7 +512,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save',
+                    S.of(context).common_save,
                     style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,

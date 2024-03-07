@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/data/enum_util.dart';
 import 'package:tawd_ivm/src/data/valve_torque.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/device_setting/ivm_valve_torque_cubit.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
@@ -29,6 +32,7 @@ class _valveTorque extends State<ValveTorquePage> {
   var selectIndex = 0;
   var isChangeUnit = false;
   var isUpdateData = false;
+  var textFieldHeight = 0.0;
   final minControl = TextEditingController(text: '0');
   final maxControl = TextEditingController(text: '0');
   final IvmValveTorqueCubit ivmValveTorqueCubit = IvmValveTorqueCubit();
@@ -36,6 +40,12 @@ class _valveTorque extends State<ValveTorquePage> {
   @override
   void initState() {
     ivmValveTorqueCubit.loadValveTorqueData();
+    minControl.addListener(() {
+      textFieldHeight = 315.h;
+    });
+    maxControl.addListener(() {
+      textFieldHeight = 233.h;
+    });
     super.initState();
   }
 
@@ -47,6 +57,14 @@ class _valveTorque extends State<ValveTorquePage> {
 
   @override
   Widget build(BuildContext context) {
+    var keyboardPadding = MediaQuery.of(context).viewInsets.bottom;
+    if (keyboardPadding > 0) {
+      if (keyboardPadding > textFieldHeight) {
+        keyboardPadding = keyboardPadding - textFieldHeight;
+      } else {
+        keyboardPadding = 0;
+      }
+    }
     return BlocBuilder<IvmValveTorqueCubit, IvmValveTorqueState>(
         bloc: ivmValveTorqueCubit,
         builder: (context, state) {
@@ -70,13 +88,31 @@ class _valveTorque extends State<ValveTorquePage> {
             if (!isChangeUnit) {
               selectIndex = state.data.unit.id;
             }
-            return Stack(
-              children: [
-                _createTitleWidget(context),
-                _createUnitSelectWidget(context),
-                _createAlertValueSettingWidget(context),
-                _createSaveButton(context)
-              ],
+            return GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: SingleChildScrollView(
+                  reverse: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: keyboardPadding),
+                    child: Container(
+                      width: 375.w,
+                      height: 812.h,
+                      child: Stack(
+                        children: [
+                          _createTitleWidget(context),
+                          _createUnitSelectWidget(context),
+                          _createAlertValueSettingWidget(context),
+                          _createSaveButton(context)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
           } else {
             // todo error
@@ -134,7 +170,7 @@ class _valveTorque extends State<ValveTorquePage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Valve Torque',
+            child: Text(S.of(context).device_settings_valve_torque,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -171,7 +207,7 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: Text('Unit',
+                      child: Text(S.of(context).device_settings_unit,
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
@@ -303,7 +339,7 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 18.h,
                       left: 16.w,
-                      child: Text('Alert value',
+                      child: Text(S.of(context).device_settings_alert_value,
                           style: TextStyle(
                               color: ColorTheme.secondary,
                               fontWeight: FontWeight.w500,
@@ -325,7 +361,7 @@ class _valveTorque extends State<ValveTorquePage> {
                       left: 16.w,
                       right: 16.w,
                       child: Text(
-                          "Once the value of torque is below or above the set value, the LED indicator will show abnormal light.",
+                          S.of(context).device_settings_valve_torque_abnormal_content,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
@@ -344,7 +380,7 @@ class _valveTorque extends State<ValveTorquePage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Min. value',
+                            labelText: S.of(context).device_settings_min,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -363,7 +399,7 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: Text("Factory default: 100",
+                      child: Text("${S.of(context).device_settings_factory_default}: 100",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -382,7 +418,7 @@ class _valveTorque extends State<ValveTorquePage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         decoration: InputDecoration(
-                            labelText: 'Max. value',
+                            labelText: S.of(context).device_settings_max,
                             labelStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -401,7 +437,7 @@ class _valveTorque extends State<ValveTorquePage> {
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: Text("Factory default: 400",
+                      child: Text("${S.of(context).device_settings_factory_default}: 400",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -454,7 +490,7 @@ class _valveTorque extends State<ValveTorquePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save',
+                    S.of(context).common_save,
                     style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,

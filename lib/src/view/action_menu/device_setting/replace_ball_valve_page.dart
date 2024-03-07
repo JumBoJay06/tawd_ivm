@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:tawd_ivm/src/data/replace_ball_valve.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../bloc/device_setting/ivm_replace_ball_valve_cubit.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
@@ -22,6 +23,7 @@ class ReplaceBallValvePage extends StatefulWidget {
 class _replaceBallValve extends State<ReplaceBallValvePage> {
   final idControl = TextEditingController();
   var isUpdateData = false;
+  final textFieldHeight = 383.h;
   IvmReplaceBallValveCubit ivmReplaceBallValveCubit =
       IvmReplaceBallValveCubit();
 
@@ -39,6 +41,14 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
 
   @override
   Widget build(BuildContext context) {
+    var keyboardPadding = MediaQuery.of(context).viewInsets.bottom;
+    if (keyboardPadding > 0) {
+      if (keyboardPadding > textFieldHeight) {
+        keyboardPadding = keyboardPadding - textFieldHeight;
+      } else {
+        keyboardPadding = 0;
+      }
+    }
     return BlocBuilder(
         bloc: ivmReplaceBallValveCubit,
         builder: (context, state) {
@@ -56,12 +66,30 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                 SmartDialog.dismiss(tag: 'success');
               });
             }
-            return Stack(
-              children: [
-                _createTitleWidget(context),
-                _createBallValveIdSettingsWidget(context, state.data),
-                _createSaveButton(context)
-              ],
+            return GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: SingleChildScrollView(
+                  reverse: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: keyboardPadding),
+                    child: Container(
+                      width: 375.w,
+                      height: 812.h,
+                      child: Stack(
+                        children: [
+                          _createTitleWidget(context),
+                          _createBallValveIdSettingsWidget(context, state.data),
+                          _createSaveButton(context)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
           } else {
             // todo error
@@ -116,7 +144,7 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Replace Ball Valve',
+            child: Text(S.of(context).replace_ball_valve,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -243,7 +271,7 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                             Positioned(
                                 top: 2.h,
                                 left: 50.w,
-                                child: Text("Currrent Ball Valve ID",
+                                child: Text(S.of(context).traceability_current_ball_valve_id,
                                     style: TextStyle(
                                         color: ColorTheme.primary,
                                         fontWeight: FontWeight.w500,
@@ -293,7 +321,7 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                   Positioned(
                       top: 287.h,
                       right: 24.w,
-                      child: Text("Factory default: 0",
+                      child: Text("${S.of(context).device_settings_factory_default}: 0",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -344,7 +372,7 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save',
+                    S.of(context).common_save,
                     style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,

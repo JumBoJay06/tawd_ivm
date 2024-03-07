@@ -6,6 +6,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:tawd_ivm/src/bloc/device_setting/ivm_device_location_cubit.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../theme/style.dart';
 import '../../../util/dialog_loading.dart';
 import '../../../util/dialog_widget_util.dart';
@@ -61,12 +62,17 @@ class _deviceLocation extends State<DeviceLocationPage> {
               });
             }
             locationControl.text = state.data;
-            return Stack(
-              children: [
-                _createTitleWidget(context),
-                _createLocationSettingWidget(context),
-                _createSaveButton(context)
-              ],
+            return GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Stack(
+                children: [
+                  _createTitleWidget(context),
+                  _createLocationSettingWidget(context),
+                  _createSaveButton(context)
+                ],
+              ),
             );
           } else {
             // todo error
@@ -124,7 +130,7 @@ class _deviceLocation extends State<DeviceLocationPage> {
             top: 64.h,
             left: 0,
             right: 0,
-            child: Text('Device Location',
+            child: Text(S.of(context).device_settings_device_lacation,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
                     fontWeight: FontWeight.w700,
@@ -183,7 +189,7 @@ class _deviceLocation extends State<DeviceLocationPage> {
                       left: 16.w,
                       right: 16.w,
                       child: Text(
-                          "Add a location description to enhance device identification. (Limit: 50 characters)",
+                          S.of(context).device_settings_device_lacation_content,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
@@ -206,7 +212,7 @@ class _deviceLocation extends State<DeviceLocationPage> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: ColorTheme.primaryAlpha_35),
                             ),
-                            hintText: 'Add location description here.',
+                            hintText: S.of(context).device_settings_add_description,
                             hintStyle: TextStyle(
                                 color: ColorTheme.primaryAlpha_35,
                                 fontWeight: FontWeight.w400,
@@ -260,7 +266,7 @@ class _deviceLocation extends State<DeviceLocationPage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save',
+                    S.of(context).common_save,
                     style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
