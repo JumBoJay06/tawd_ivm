@@ -26,7 +26,9 @@ class PairedPage extends StatefulWidget {
 
 class _PairedPageState extends State<PairedPage> {
   IvmConnectionBloc ivmConnectionBloc = IvmConnectionBloc();
+
   Logger get _logger => Logger("PairedPage");
+  bool isDeviceClicked = false;
 
   @override
   void initState() {
@@ -35,10 +37,10 @@ class _PairedPageState extends State<PairedPage> {
     context.read<DeviceTextFieldBloc>().add(StopFilter());
   }
 
-
   @override
   void dispose() {
     ivmConnectionBloc.close();
+    isDeviceClicked = false;
     super.dispose();
   }
 
@@ -50,14 +52,15 @@ class _PairedPageState extends State<PairedPage> {
           if (didPop) {
             return;
           }
+          context.read<DeviceTextFieldBloc>().add(StopFilter());
           Navigator.pushNamedAndRemoveUntil(
-              context, kRouteSelectLanguage, (route) => false);
+              context, kRouteScanStartPage, (route) => false);
         },
         child: Stack(
-      children: [
-        _createTitleWidget(context),
-        BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
-            builder: (context, state) {
+          children: [
+            _createTitleWidget(context),
+            BlocBuilder<PairedDeviceBloc, PairedDeviceState>(
+                builder: (context, state) {
               if (state.deviceList.isEmpty) {
                 _logger.info('show empty');
                 return _createEmptyDeviceListWidget(context);
@@ -66,9 +69,8 @@ class _PairedPageState extends State<PairedPage> {
                 return _createDeviceListWidget(context, state.deviceList);
               }
             })
-      ],
-    )
-    );
+          ],
+        ));
   }
 
   Widget _createTitleWidget(BuildContext context) {
@@ -115,23 +117,25 @@ class _PairedPageState extends State<PairedPage> {
               fit: BoxFit.fill,
             )),
         Positioned(
-            top: 42.h,
-            left: 0.w,
+            top: 46.h,
+            left: 4.w,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
+                context.read<DeviceTextFieldBloc>().add(StopFilter());
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
-              child: SizedBox(
-                width: 56.w,
-                height: 56.h,
+              child: Container(
+                color: ColorTheme.secondaryAlpha_10,
+                width: 48.w,
+                height: 48.h,
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).ivm_service_paired_device,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -180,6 +184,7 @@ class _PairedPageState extends State<PairedPage> {
             left: 16.w,
             child: Image.asset(
               'assets/light_6.png',
+              fit: BoxFit.fill,
               width: 24.w,
               height: 24.h,
             )),
@@ -189,6 +194,7 @@ class _PairedPageState extends State<PairedPage> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
+                context.read<DeviceTextFieldBloc>().add(StopFilter());
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
@@ -217,7 +223,10 @@ class _PairedPageState extends State<PairedPage> {
                       context.read<PairedDeviceBloc>().add(Filter(filter));
                     },
                     decoration: InputDecoration(
-                        hintText: S.of(context).available_device_type_device_number_quickly_find_content,
+                        border: InputBorder.none,
+                        hintText: S
+                            .of(context)
+                            .available_device_type_device_number_quickly_find_content,
                         hintStyle: TextStyle(
                             color: ColorTheme.primaryAlpha_20,
                             fontWeight: FontWeight.w400,
@@ -230,7 +239,7 @@ class _PairedPageState extends State<PairedPage> {
             )),
         Positioned(
             top: 62.h,
-            right: 16.w,
+            left: 318.w,
             child: GestureDetector(
               onTap: () {
                 context.read<DeviceTextFieldBloc>().add(StopFilter());
@@ -330,6 +339,7 @@ class _PairedPageState extends State<PairedPage> {
             left: 16.w,
             right: 16.w,
             child: ListView.builder(
+                padding: EdgeInsets.zero,
                 itemCount: deviceList.length,
                 itemBuilder: (BuildContext context, int index) =>
                     _createListItem(context, deviceList[index])))
@@ -369,6 +379,10 @@ class _PairedPageState extends State<PairedPage> {
       },
       child: InkWell(
         onTap: () async {
+          if (isDeviceClicked) {
+            return;
+          }
+          isDeviceClicked = true;
           final scanResult =
               await IvmManager.getInstance().startScanWithName(device.name, 8);
 
@@ -476,7 +490,11 @@ class _PairedPageState extends State<PairedPage> {
     SmartDialog.show(
         builder: (context) {
           return DialogWidgetUtil.pairFailDialog(
-              context, () => {SmartDialog.dismiss(tag: 'pair_fail')});
+              context,
+              () => {
+                    isDeviceClicked = false,
+                    SmartDialog.dismiss(tag: 'pair_fail')
+                  });
         },
         tag: 'pair_fail');
   }

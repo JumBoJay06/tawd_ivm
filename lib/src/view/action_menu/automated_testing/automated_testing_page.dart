@@ -124,15 +124,14 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
                       BorderRadius.all(Radius.circular(30.h)),
                       boxShadow: const [
                         BoxShadow(
-                            color: ColorTheme.primary,
+                            color: ColorTheme.secondaryAlpha_30,
                             offset: Offset(0, 10),
                             blurRadius: 25,
                             spreadRadius: 0)
                       ],
                       gradient: const LinearGradient(
-                          begin: Alignment(0.6116728186607361, 0),
-                          end: Alignment(
-                              0.37270376086235046, 1.0995962619781494),
+                          begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                          end: Alignment(0.31717830896377563, 1.3271920680999756),
                           colors: [
                             ColorTheme.secondaryGradient,
                             ColorTheme.secondary
@@ -140,7 +139,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
                     ),
                     child: Center(
                       child: Text(
-                        S.of(context).fw_update_update,
+                        S.of(context).auto_test_start_test,
                         style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
@@ -180,7 +179,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
                           BoxDecoration(color: _getItemStateColor(state)))),
           Positioned(
               left: 24.w,
-              top: state == ItemState.fail ? 21.h : 31.h,
+              bottom: state == ItemState.fail ? 40.h : 30.h,
               child: Text(title,
                   style: TextStyle(
                       color: ColorTheme.primary,
@@ -192,7 +191,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
           Positioned(
               left: 24.w,
               right: 70.w,
-              top: 42.h,
+              bottom: 22.h,
               child: state == ItemState.fail
                   ? FittedBox(
                       fit: BoxFit.scaleDown,
@@ -207,7 +206,7 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
                     )
                   : const SizedBox()),
           Positioned(
-              top: 31.h,
+              bottom: 30.h,
               right: 16.w,
               child: state != ItemState.init
                   ? Text(state == ItemState.success ? S.of(context).common_pass : S.of(context).common_fail,
@@ -287,9 +286,9 @@ class _AutomatedTesting extends State<AutomatedTestingPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).auto_test,
                 style: TextStyle(
                     color: ColorTheme.fontColor,

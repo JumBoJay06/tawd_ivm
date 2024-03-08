@@ -44,14 +44,14 @@ class IvmDeviceSettingCubit extends Cubit<IvmDeviceSettingState> {
       final strainGaugeLimit = await manager.getStrainGaugeLimit();
       await prefs.setTorqueLimitMax(strainGaugeLimit?.max ?? 400);
       await prefs.setTorqueLimitMin(strainGaugeLimit?.min ?? 100);
-      final strainGaugeMax = prefs.getTorqueLimitMax() * torqueFormat;
-      final strainGaugeMin = prefs.getTorqueLimitMin() * torqueFormat;
+      final strainGaugeMax = (prefs.getTorqueLimitMax() * torqueFormat).toStringAsFixed(1);
+      final strainGaugeMin = (prefs.getTorqueLimitMin() * torqueFormat).toStringAsFixed(1);
       final barometricPressureSensorLimit = await manager
           .getBarometricPressureSensorLimit();
       await prefs.setPressureLimitMax(barometricPressureSensorLimit?.max.toInt() ?? 30);
       await prefs.setPressureLimitMin(barometricPressureSensorLimit?.min.toInt() ?? 0);
-      final barometricPressureSensorMax = prefs.getPressureLimitMax() * pressureFormat;
-      final barometricPressureSensorMin = prefs.getPressureLimitMin() * pressureFormat;
+      final barometricPressureSensorMax = (prefs.getPressureLimitMax() * pressureFormat).toStringAsFixed(1);
+      final barometricPressureSensorMin = (prefs.getPressureLimitMin() * pressureFormat).toStringAsFixed(1);
 
       emit(Success(DeviceSetting(
           valveTorque: Item(
