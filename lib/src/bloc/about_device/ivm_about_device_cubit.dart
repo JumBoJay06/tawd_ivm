@@ -8,6 +8,7 @@ import 'package:tawd_ivm/src/util/mac_address_util.dart';
 
 import '../../../generated/l10n.dart';
 import '../../data/about_device_data.dart';
+import '../../data/shared_preferences/my_shared_preferences.dart';
 
 part 'ivm_about_device_state.dart';
 
@@ -17,6 +18,27 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
   void loadAboutDeviceData(BuildContext context) async {
     emit(Loading());
     try {
+      final MySharedPreferences prefs = MySharedPreferences.getInstance();
+      final isTorqueUnitNm = prefs.getTorqueUnit().id == 0;
+      final torqueUnit = isTorqueUnitNm ? 'Nm' : 'kgf*cm';
+      final torqueFormat = isTorqueUnitNm ? 1 : 10.2;
+      final pressureUnitSetting = prefs.getPressureUnit().id;
+      String pressureUnit;
+      double pressureFormat;
+      switch (pressureUnitSetting) {
+        case 1:
+          pressureUnit = 'bar';
+          pressureFormat = 0.07;
+          break;
+        case 2:
+          pressureUnit = 'kPa';
+          pressureFormat = 7;
+          break;
+        default:
+          pressureUnit = 'psi';
+          pressureFormat = 1;
+          break;
+      }
       final manager = IvmManager.getInstance();
       final manufacturingDate = await manager.getManufacturingDate();
       final dateTime = DateTime.fromMillisecondsSinceEpoch(
@@ -34,11 +56,17 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
       final inductivePositionSensorLimit =
       await manager.getValvePositionSensorLimit();
       final strainGauge = await manager.getStrainGauge() ?? 0;
+      final torque = (strainGauge * torqueFormat).toStringAsFixed(1);
       final strainGaugeLimit = await manager.getStrainGaugeLimit();
+      final torqueMax = ((strainGaugeLimit?.max ?? 0) * torqueFormat).toStringAsFixed(1);
+      final torqueMin = ((strainGaugeLimit?.min ?? 0) * torqueFormat).toStringAsFixed(1);
       final barometricPressureSensor =
           await manager.getBarometricPressureSensor() ?? 0;
+      final pressure = (barometricPressureSensor * pressureFormat).toStringAsFixed(1);
       final barometricPressureSensorLimit =
       await manager.getBarometricPressureSensorLimit();
+      final pressureMax = ((barometricPressureSensorLimit?.max ?? 0) * pressureFormat).toStringAsFixed(1);
+      final pressureMin = ((barometricPressureSensorLimit?.min ?? 0) * pressureFormat).toStringAsFixed(1);
       final totalUsed = await manager.getValveTotalUsed() ?? 0;
       final ledIndicatorState = await manager.getLedIndicatorState();
 
@@ -69,15 +97,14 @@ class IvmAboutDeviceCubit extends Cubit<IvmAboutDeviceState> {
         "${inductivePositionSensor?.angle ?? 0}° (${inductivePositionSensorLimit?.angleMin ?? 0}°~${inductivePositionSensorLimit?.angleMax ?? 0}°)",
         iconAsset: 'assets/icon_angle.png',
       ));
-      // todo 這邊有單位轉換功能
       valveInfoList.add(Item(
         S.of(context).about_device_torque,
-        "$strainGauge Nm (${strainGaugeLimit?.min ?? 0}~${strainGaugeLimit?.max ?? 0} Nm)",
+        "$torque $torqueUnit ($torqueMin~$torqueMax $torqueUnit)",
         iconAsset: 'assets/icon_torque.png',
       ));
       valveInfoList.add(Item(
         S.of(context).about_device_emission_detection,
-        "$barometricPressureSensor psi (${barometricPressureSensorLimit?.min ?? 0}~${barometricPressureSensorLimit?.max ?? 0} psi)",
+        "$pressure $pressureUnit ($pressureMin~$pressureMax $pressureUnit)",
         iconAsset: 'assets/icon_emission.png',
       ));
       valveInfoList.add(Item(

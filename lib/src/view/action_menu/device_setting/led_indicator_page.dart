@@ -88,9 +88,9 @@ class _ledIndicator extends State<LedIndicatorPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).device_settings_led_indicator,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -254,7 +254,14 @@ class _ledIndicator extends State<LedIndicatorPage> {
             // todo error
             DialogLoading.dismissLoading('loading');
             isUpdateData = false;
-            return Container();
+            SmartDialog.show(builder: (context) {
+              return DialogWidgetUtil.deviceSettingFailDialog(context);
+            }, tag: 'fail');
+            Future.delayed(const Duration(seconds: 3), () {
+              SmartDialog.dismiss(tag: 'fail');
+              indicatorCubit.loadLedIndicatorData();
+            });
+            return Container(color: ColorTheme.background,);
           }
         });
   }

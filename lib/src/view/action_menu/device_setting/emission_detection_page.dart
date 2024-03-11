@@ -29,6 +29,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
   var isChangeUnit = false;
   var isUpdateData = false;
   var textFieldHeight = 0.0;
+  var isFirstTime = true;
   final minControl = TextEditingController(text: '0');
   final maxControl = TextEditingController(text: '0');
 
@@ -39,12 +40,6 @@ class _emissionDetection extends State<EmissionDetectionPage> {
   void initState() {
     super.initState();
     ivmEmissionDetectionCubit.loadEmissionDetectionData();
-    minControl.addListener(() {
-      textFieldHeight = 259.h;
-    });
-    maxControl.addListener(() {
-      textFieldHeight = 177.h;
-    });
   }
 
   @override
@@ -73,18 +68,37 @@ class _emissionDetection extends State<EmissionDetectionPage> {
             DialogLoading.dismissLoading('loading');
             if (isUpdateData) {
               isUpdateData = false;
-              SmartDialog.show(builder: (context) {
-                return DialogWidgetUtil.deviceSettingSuccessDialog(context);
-              }, tag: 'success');
+              SmartDialog.show(
+                  builder: (context) {
+                    return DialogWidgetUtil.deviceSettingSuccessDialog(context);
+                  },
+                  tag: 'success');
               Future.delayed(const Duration(seconds: 3), () {
                 SmartDialog.dismiss(tag: 'success');
               });
             }
             _logger.info("${state.data.unit}");
-            maxControl.text = state.data.max.toString();
-            minControl.text = state.data.min.toString();
             if (!isChangeUnit) {
               selectIndex = state.data.unit.id;
+            }
+            if (isFirstTime) {
+              isFirstTime = false;
+              double pressureFormat;
+              switch (selectIndex) {
+                case 1:
+                  pressureFormat = 0.07;
+                  break;
+                case 2:
+                  pressureFormat = 7;
+                  break;
+                default:
+                  pressureFormat = 1;
+                  break;
+              }
+              maxControl.text =
+                  (state.data.max * pressureFormat).toStringAsFixed(0);
+              minControl.text =
+                  (state.data.min * pressureFormat).toStringAsFixed(0);
             }
             return GestureDetector(
               onTap: () {
@@ -96,7 +110,7 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   reverse: true,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: keyboardPadding),
-                    child: Container(
+                    child: SizedBox(
                       width: 375.w,
                       height: 812.h,
                       child: Stack(
@@ -119,7 +133,15 @@ class _emissionDetection extends State<EmissionDetectionPage> {
             }
             DialogLoading.dismissLoading('loading');
             isUpdateData = false;
-            return Container();
+            isFirstTime = true;
+            SmartDialog.show(builder: (context) {
+              return DialogWidgetUtil.deviceSettingFailDialog(context);
+            }, tag: 'fail');
+            Future.delayed(const Duration(seconds: 3), () {
+              SmartDialog.dismiss(tag: 'fail');
+              ivmEmissionDetectionCubit.loadEmissionDetectionData();
+            });
+            return Container(color: ColorTheme.background,);
           }
         });
   }
@@ -165,9 +187,9 @@ class _emissionDetection extends State<EmissionDetectionPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).about_device_emission_detection,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -248,6 +270,28 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                         onTap: () {
                           setState(() {
                             isChangeUnit = true;
+                            double pressureFormat;
+                            switch (selectIndex) {
+                              case 1:
+                                pressureFormat = 1 / 0.07;
+                                break;
+                              case 2:
+                                pressureFormat = 1 / 7;
+                                break;
+                              default:
+                                pressureFormat = 1;
+                                break;
+                            }
+                            maxControl.text =
+                                (ivmEmissionDetectionCubit.max * pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMax(
+                                int.parse(maxControl.text));
+                            minControl.text =
+                                (ivmEmissionDetectionCubit.min * pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMin(
+                                int.parse(minControl.text));
                             selectIndex = 0;
                           });
                         },
@@ -262,6 +306,28 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                         onTap: () {
                           setState(() {
                             isChangeUnit = true;
+                            double pressureFormat;
+                            switch (selectIndex) {
+                              case 1:
+                                pressureFormat = 1;
+                                break;
+                              case 2:
+                                pressureFormat = 100;
+                                break;
+                              default:
+                                pressureFormat = 1 / 0.07;
+                                break;
+                            }
+                            maxControl.text =
+                                (ivmEmissionDetectionCubit.max / pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMax(
+                                int.parse(maxControl.text));
+                            minControl.text =
+                                (ivmEmissionDetectionCubit.min / pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMin(
+                                int.parse(minControl.text));
                             selectIndex = 1;
                           });
                         },
@@ -276,6 +342,28 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                         onTap: () {
                           setState(() {
                             isChangeUnit = true;
+                            double pressureFormat;
+                            switch (selectIndex) {
+                              case 1:
+                                pressureFormat = 0.01;
+                                break;
+                              case 2:
+                                pressureFormat = 1;
+                                break;
+                              default:
+                                pressureFormat = 1 / 7;
+                                break;
+                            }
+                            maxControl.text =
+                                (ivmEmissionDetectionCubit.max / pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMax(
+                                int.parse(maxControl.text));
+                            minControl.text =
+                                (ivmEmissionDetectionCubit.min / pressureFormat)
+                                    .toStringAsFixed(0);
+                            ivmEmissionDetectionCubit.setEmissionDetectionMin(
+                                int.parse(minControl.text));
                             selectIndex = 2;
                           });
                         },
@@ -336,6 +424,18 @@ class _emissionDetection extends State<EmissionDetectionPage> {
   }
 
   _createAlertValueSettingWidget(BuildContext context) {
+    num pressureFormat = 1;
+    switch (selectIndex) {
+      case 1:
+        pressureFormat = 0.07;
+        break;
+      case 2:
+        pressureFormat = 7;
+        break;
+      default:
+        pressureFormat = 1;
+        break;
+    }
     return Stack(
       children: [
         Positioned(
@@ -382,7 +482,9 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                       left: 16.w,
                       right: 16.w,
                       child: Text(
-                          S.of(context).device_settings_emission_detection_abnormal,
+                          S
+                              .of(context)
+                              .device_settings_emission_detection_abnormal,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_50,
                               fontWeight: FontWeight.w300,
@@ -396,6 +498,18 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                       right: 16.w,
                       child: TextField(
                         controller: minControl,
+                        onTap: () {
+                          textFieldHeight = 259.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmEmissionDetectionCubit
+                                .setEmissionDetectionMin(int.parse(value));
+                          } else {
+                            ivmEmissionDetectionCubit
+                                .setEmissionDetectionMin(0);
+                          }
+                        },
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
@@ -415,12 +529,13 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: Text("${S.of(context).device_settings_factory_default}: 0",
+                      child: Text(
+                          "${S.of(context).device_settings_factory_default}: 0",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -429,12 +544,24 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                               fontSize: 12.0.sp),
                           textAlign: TextAlign.right)),
                   Positioned(
-                      top: 214.h,
-                      left: 16.w,
-                      right: 16.w,
-                      child: TextField(
+                    top: 214.h,
+                    left: 16.w,
+                    right: 16.w,
+                    child: TextField(
                         controller: maxControl,
                         keyboardType: TextInputType.number,
+                        onTap: () {
+                          textFieldHeight = 177.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmEmissionDetectionCubit
+                                .setEmissionDetectionMax(int.parse(value));
+                          } else {
+                            ivmEmissionDetectionCubit
+                                .setEmissionDetectionMax(0);
+                          }
+                        },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -453,12 +580,13 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
-                      )),
+                            fillColor: ColorTheme.primary.withOpacity(0.035))),
+                  ),
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: Text("${S.of(context).device_settings_factory_default}: 30",
+                      child: Text(
+                          "${S.of(context).device_settings_factory_default}:${(30 * pressureFormat).toStringAsFixed(1)}",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -482,13 +610,27 @@ class _emissionDetection extends State<EmissionDetectionPage> {
             right: 16.w,
             child: GestureDetector(
               onTap: () {
+                double pressureFormat;
+                switch (selectIndex) {
+                  case 1:
+                    pressureFormat = 1 / 0.07;
+                    break;
+                  case 2:
+                    pressureFormat = 1 / 7;
+                    break;
+                  default:
+                    pressureFormat = 1;
+                    break;
+                }
+                final max = (ivmEmissionDetectionCubit.max / pressureFormat)
+                    .toStringAsFixed(0);
+                final min = (ivmEmissionDetectionCubit.min / pressureFormat)
+                    .toStringAsFixed(0);
                 isChangeUnit = false;
                 isUpdateData = true;
                 ivmEmissionDetectionCubit.setEmissionDetectionData(
-                    EmissionDetection(
-                        PressureUnit.fromInt(selectIndex),
-                        int.parse(maxControl.text),
-                        int.parse(minControl.text)));
+                    EmissionDetection(PressureUnit.fromInt(selectIndex),
+                        int.parse(max), int.parse(min)));
               },
               child: Container(
                 width: 343.w,
@@ -497,14 +639,14 @@ class _emissionDetection extends State<EmissionDetectionPage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.h)),
                   boxShadow: const [
                     BoxShadow(
-                        color: ColorTheme.primary,
+                        color: ColorTheme.secondaryAlpha_30,
                         offset: Offset(0, 10),
                         blurRadius: 25,
                         spreadRadius: 0)
                   ],
                   gradient: const LinearGradient(
-                      begin: Alignment(0.6116728186607361, 0),
-                      end: Alignment(0.37270376086235046, 1.0995962619781494),
+                      begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                      end: Alignment(0.31717830896377563, 1.3271920680999756),
                       colors: [
                         ColorTheme.secondaryGradient,
                         ColorTheme.secondary

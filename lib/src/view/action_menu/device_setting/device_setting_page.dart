@@ -83,9 +83,9 @@ class _deviceSetting extends State<DeviceSettingPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).device_settings_,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -349,7 +349,9 @@ class _deviceSetting extends State<DeviceSettingPage> {
           Positioned(
               top: 36.h,
               left: 78.w,
+              right: 189.w,
               child: Text(content1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,
@@ -369,7 +371,9 @@ class _deviceSetting extends State<DeviceSettingPage> {
           Positioned(
               top: 36.h,
               left: 184.w,
+              right: 32.w,
               child: Text(content2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: ColorTheme.primaryAlpha_50,
                       fontWeight: FontWeight.w500,

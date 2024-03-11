@@ -33,19 +33,14 @@ class _valveTorque extends State<ValveTorquePage> {
   var isChangeUnit = false;
   var isUpdateData = false;
   var textFieldHeight = 0.0;
-  final minControl = TextEditingController(text: '0');
-  final maxControl = TextEditingController(text: '0');
+  var isFirstTime = true;
+  var minControl = TextEditingController(text: '0');
+  var maxControl = TextEditingController(text: '0');
   final IvmValveTorqueCubit ivmValveTorqueCubit = IvmValveTorqueCubit();
 
   @override
   void initState() {
     ivmValveTorqueCubit.loadValveTorqueData();
-    minControl.addListener(() {
-      textFieldHeight = 315.h;
-    });
-    maxControl.addListener(() {
-      textFieldHeight = 233.h;
-    });
     super.initState();
   }
 
@@ -83,10 +78,14 @@ class _valveTorque extends State<ValveTorquePage> {
               });
             }
             _logger.info("${state.data.unit}");
-            maxControl.text = state.data.max.toString();
-            minControl.text = state.data.min.toString();
             if (!isChangeUnit) {
               selectIndex = state.data.unit.id;
+            }
+            if (isFirstTime){
+              isFirstTime = false;
+              final torqueFormat = selectIndex == 0 ? 1 : 10.2;
+              maxControl.text = (state.data.max * torqueFormat).toStringAsFixed(0);
+              minControl.text = (state.data.min * torqueFormat).toStringAsFixed(0);
             }
             return GestureDetector(
               onTap: () {
@@ -98,7 +97,7 @@ class _valveTorque extends State<ValveTorquePage> {
                   reverse: true,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: keyboardPadding),
-                    child: Container(
+                    child: SizedBox(
                       width: 375.w,
                       height: 812.h,
                       child: Stack(
@@ -121,7 +120,15 @@ class _valveTorque extends State<ValveTorquePage> {
             }
             DialogLoading.dismissLoading('loading');
             isUpdateData = false;
-            return Container();
+            isFirstTime = true;
+            SmartDialog.show(builder: (context) {
+              return DialogWidgetUtil.deviceSettingFailDialog(context);
+            }, tag: 'fail');
+            Future.delayed(const Duration(seconds: 3), () {
+              SmartDialog.dismiss(tag: 'fail');
+              ivmValveTorqueCubit.loadValveTorqueData();
+            });
+            return Container(color: ColorTheme.background,);
           }
         });
   }
@@ -167,9 +174,9 @@ class _valveTorque extends State<ValveTorquePage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).device_settings_valve_torque,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -242,6 +249,11 @@ class _valveTorque extends State<ValveTorquePage> {
                           setState(() {
                             isChangeUnit = true;
                             selectIndex = 0;
+                            final torqueFormat = 10.2;
+                            maxControl.text = (ivmValveTorqueCubit.max / torqueFormat).toStringAsFixed(0);
+                            ivmValveTorqueCubit.setValveTorqueMax(int.parse(maxControl.text));
+                            minControl.text = (ivmValveTorqueCubit.min / torqueFormat).toStringAsFixed(0);
+                            ivmValveTorqueCubit.setValveTorqueMin(int.parse(minControl.text));
                           });
                         },
                         child:
@@ -256,6 +268,11 @@ class _valveTorque extends State<ValveTorquePage> {
                           setState(() {
                             isChangeUnit = true;
                             selectIndex = 1;
+                            final torqueFormat = 10.2;
+                            maxControl.text = (ivmValveTorqueCubit.max * torqueFormat).toStringAsFixed(0);
+                            ivmValveTorqueCubit.setValveTorqueMax(int.parse(maxControl.text));
+                            minControl.text = (ivmValveTorqueCubit.min * torqueFormat).toStringAsFixed(0);
+                            ivmValveTorqueCubit.setValveTorqueMin(int.parse(minControl.text));
                           });
                         },
                         child: _createUnitWidget(
@@ -315,6 +332,7 @@ class _valveTorque extends State<ValveTorquePage> {
   }
 
   _createAlertValueSettingWidget(BuildContext context) {
+    final torqueFormat = selectIndex == 0 ? 1 : 10.2;
     return Stack(
       children: [
         Positioned(
@@ -376,6 +394,16 @@ class _valveTorque extends State<ValveTorquePage> {
                       child: TextField(
                         controller: minControl,
                         keyboardType: TextInputType.number,
+                        onTap: () {
+                          textFieldHeight = 315.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmValveTorqueCubit.setValveTorqueMin(int.parse(value));
+                          } else {
+                            ivmValveTorqueCubit.setValveTorqueMin(0);
+                          }
+                        },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -394,12 +422,12 @@ class _valveTorque extends State<ValveTorquePage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 192.h,
                       right: 24.w,
-                      child: Text("${S.of(context).device_settings_factory_default}: 100",
+                      child: Text("${S.of(context).device_settings_factory_default}: ${(100 * torqueFormat).toStringAsFixed(0)}",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -414,6 +442,16 @@ class _valveTorque extends State<ValveTorquePage> {
                       child: TextField(
                         controller: maxControl,
                         keyboardType: TextInputType.number,
+                        onTap: () {
+                          textFieldHeight = 233.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmValveTorqueCubit.setValveTorqueMax(int.parse(value));
+                          } else {
+                            ivmValveTorqueCubit.setValveTorqueMax(0);
+                          }
+                        },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -432,12 +470,12 @@ class _valveTorque extends State<ValveTorquePage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 274.h,
                       right: 24.w,
-                      child: Text("${S.of(context).device_settings_factory_default}: 400",
+                      child: Text("${S.of(context).device_settings_factory_default}: ${(400 * torqueFormat).toStringAsFixed(0)}",
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -463,10 +501,13 @@ class _valveTorque extends State<ValveTorquePage> {
               onTap: () {
                 isChangeUnit = false;
                 isUpdateData = true;
-                ivmValveTorqueCubit.setValveTorqueData(ValveTorque(
+                final torqueFormat = selectIndex == 0 ? 1 : 10.2;
+                final max = (ivmValveTorqueCubit.max / torqueFormat).toStringAsFixed(0);
+                final min = (ivmValveTorqueCubit.min / torqueFormat).toStringAsFixed(0);
+                ivmValveTorqueCubit.sendValveTorqueData(ValveTorque(
                     TorqueUnit.fromInt(selectIndex),
-                    int.parse(maxControl.text),
-                    int.parse(minControl.text)));
+                    int.parse(max),
+                    int.parse(min)));
               },
               child: Container(
                 width: 343.w,
@@ -475,14 +516,14 @@ class _valveTorque extends State<ValveTorquePage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.h)),
                   boxShadow: const [
                     BoxShadow(
-                        color: ColorTheme.primary,
+                        color: ColorTheme.secondaryAlpha_30,
                         offset: Offset(0, 10),
                         blurRadius: 25,
                         spreadRadius: 0)
                   ],
                   gradient: const LinearGradient(
-                      begin: Alignment(0.6116728186607361, 0),
-                      end: Alignment(0.37270376086235046, 1.0995962619781494),
+                      begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                      end: Alignment(0.31717830896377563, 1.3271920680999756),
                       colors: [
                         ColorTheme.secondaryGradient,
                         ColorTheme.secondary

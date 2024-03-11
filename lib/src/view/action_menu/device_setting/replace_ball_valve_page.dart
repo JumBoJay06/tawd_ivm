@@ -76,7 +76,7 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                   reverse: true,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: keyboardPadding),
-                    child: Container(
+                    child: SizedBox(
                       width: 375.w,
                       height: 812.h,
                       child: Stack(
@@ -95,7 +95,14 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
             // todo error
             DialogLoading.dismissLoading('loading');
             isUpdateData = false;
-            return Container();
+            SmartDialog.show(builder: (context) {
+              return DialogWidgetUtil.deviceSettingFailDialog(context);
+            }, tag: 'fail');
+            Future.delayed(const Duration(seconds: 3), () {
+              SmartDialog.dismiss(tag: 'fail');
+              ivmReplaceBallValveCubit.loadReplaceBallValveData();
+            });
+            return Container(color: ColorTheme.background,);
           }
         });
   }
@@ -141,9 +148,9 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).replace_ball_valve,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -316,12 +323,12 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                                   BorderSide(color: ColorTheme.primaryAlpha_10),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 287.h,
                       right: 24.w,
-                      child: Text("${S.of(context).device_settings_factory_default}: 0",
+                      child: Text(S.of(context).ball_valve_setting_id_cannot_edited,
                           style: TextStyle(
                               color: ColorTheme.primaryAlpha_35,
                               fontWeight: FontWeight.w400,
@@ -357,14 +364,14 @@ class _replaceBallValve extends State<ReplaceBallValvePage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.h)),
                   boxShadow: const [
                     BoxShadow(
-                        color: ColorTheme.primary,
+                        color: ColorTheme.secondaryAlpha_30,
                         offset: Offset(0, 10),
                         blurRadius: 25,
                         spreadRadius: 0)
                   ],
                   gradient: const LinearGradient(
-                      begin: Alignment(0.6116728186607361, 0),
-                      end: Alignment(0.37270376086235046, 1.0995962619781494),
+                      begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                      end: Alignment(0.31717830896377563, 1.3271920680999756),
                       colors: [
                         ColorTheme.secondaryGradient,
                         ColorTheme.secondary

@@ -180,14 +180,14 @@ class _SelectLanguagePageState extends State<_SelectLanguagePage> {
               borderRadius: BorderRadius.all(Radius.circular(30.h)),
               boxShadow: const [
                 BoxShadow(
-                    color: ColorTheme.primary,
+                    color: ColorTheme.primaryAlpha_15,
                     offset: Offset(0, 10),
                     blurRadius: 25,
                     spreadRadius: 0)
               ],
               gradient: const LinearGradient(
-                  begin: Alignment(0.6116728186607361, 0),
-                  end: Alignment(0.37270376086235046, 1.0995962619781494),
+                  begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                  end: Alignment(0.31717830896377563, 1.3271920680999756),
                   colors: [ColorTheme.primaryGradient, ColorTheme.primary]),
             ),
             child: Center(
