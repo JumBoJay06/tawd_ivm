@@ -48,8 +48,10 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
           if (didPop) {
             return;
           }
+          context.read<DeviceTextFieldBloc>().add(StopFilter());
+          context.read<ScanBloc>().add(Filter(''));
           Navigator.pushNamedAndRemoveUntil(
-              context, kRouteSelectLanguage, (route) => false);
+              context, kRouteScanStartPage, (route) => false);
         },
         child: Stack(
           children: [
@@ -129,6 +131,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
+                context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<ScanBloc>().add(Filter(''));
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
@@ -138,9 +142,9 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).available_device,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -198,6 +202,8 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
+                context.read<DeviceTextFieldBloc>().add(StopFilter());
+                context.read<ScanBloc>().add(Filter(''));
                 Navigator.pushNamedAndRemoveUntil(
                     context, kRouteScanStartPage, (route) => false);
               },
@@ -219,18 +225,24 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
                   color: ColorTheme.white),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: TextField(
-                  onChanged: (filter) {
-                    context.read<ScanBloc>().add(Filter(filter));
-                  },
-                  decoration: InputDecoration(
-                      hintText: S.of(context).available_device_type_device_number_quickly_find_content,
-                      hintStyle: TextStyle(
-                          color: ColorTheme.primaryAlpha_20,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "SFProDisplay",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0.sp)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 14.w, right: 14.w),
+                  child: TextField(
+                    onChanged: (filter) {
+                      context.read<ScanBloc>().add(Filter(filter));
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: S
+                            .of(context)
+                            .available_device_type_device_number_quickly_find_content,
+                        hintStyle: TextStyle(
+                            color: ColorTheme.primaryAlpha_20,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "SFProDisplay",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0.sp)),
+                  ),
                 ),
               ),
             )),
@@ -305,6 +317,7 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
         left: 16.w,
         right: 16.w,
         child: ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: scanResults.length,
             itemBuilder: (BuildContext context, int index) {
               return _createListItem(context, scanResults[index]);
@@ -323,14 +336,14 @@ class _AvailableDevicesPageState extends State<AvailableDevicesPage> {
           borderRadius: BorderRadius.all(Radius.circular(30.h)),
           boxShadow: const [
             BoxShadow(
-                color: ColorTheme.primary,
+                color: ColorTheme.secondaryAlpha_30,
                 offset: Offset(0, 10),
                 blurRadius: 25,
                 spreadRadius: 0)
           ],
           gradient: const LinearGradient(
-              begin: Alignment(0.6116728186607361, 0),
-              end: Alignment(0.37270376086235046, 1.0995962619781494),
+              begin: Alignment(0.8071713447570801, -0.3236607015132904),
+              end: Alignment(0.31717830896377563, 1.3271920680999756),
               colors: [ColorTheme.secondaryGradient, ColorTheme.secondary]),
         ),
         child: Center(

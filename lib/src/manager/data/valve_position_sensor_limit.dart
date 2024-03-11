@@ -8,7 +8,7 @@ class ValvePositionSensorLimit {
   final int delay;
 
   ValvePositionSensorLimit(
-      this.angleMax, this.angleMin, this.SSC2, this.SSC3, this.delay);
+  this.angleMin, this.angleMax, this.SSC2, this.SSC3, this.delay);
 
   List<int> toList() {
     return List.empty(growable: true)

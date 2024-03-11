@@ -6,12 +6,15 @@ class ColorTheme {
   static const Color primaryAlpha_50 = Color(0x7f03263b);
   static const Color primaryAlpha_35 = Color(0x5903263b);
   static const Color primaryAlpha_20 = Color(0x3303263b);
+  static const Color primaryAlpha_15 = Color(0x2603263b);
   static const Color primaryAlpha_10 = Color(0x1a03263b);
   static const Color primaryGradient = Color(0xff0b486d);
   static const Color primaryVariant = Color(0xff0D4D74);
   static const Color secondary = Color(0xff00ADA2);
   static const Color secondaryAlpha_10 = Color(0x1a00ADA2);
   static const Color secondaryAlpha_15 = Color(0x2600ADA2);
+  static const Color secondaryAlpha_30 = Color(0x4d00ADA2);
+  static const Color secondaryAlpha_35 = Color(0x5900ADA2);
   static const Color secondaryGradient = Color(0xff00E5D6);
   static const Color red = Color(0xffFF0000);
   static const Color redAlpha_35 = Color(0x59FF0000);

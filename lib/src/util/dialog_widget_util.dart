@@ -578,7 +578,7 @@ class DialogWidgetUtil {
 
   static Widget firmwareUpdateFailDialog(BuildContext context) {
     return _normalHintDialog(context, 'assets/icon_title_fail.png',
-        'Update Failed', 'Please retry.');
+        S.of(context).fw_update_fail, S.of(context).auto_test_please_retry);
   }
 
   static Widget _normalHintDialog(
@@ -1095,7 +1095,7 @@ class DialogWidgetUtil {
               top: 96.h,
               left: 0,
               right: 0,
-              child: Text('Firmware Update',
+              child: Text(S.of(context).fw_update,
                   style: TextStyle(
                       color: ColorTheme.primary,
                       fontWeight: FontWeight.w500,
@@ -1110,7 +1110,7 @@ class DialogWidgetUtil {
               right: 24.w,
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: Text("Update firmware to $versionName ?",
+                child: Text(S.of(context).fw_update_dialog_content.replaceAll('...', versionName),
                     style: TextStyle(
                         color: ColorTheme.primaryAlpha_50,
                         fontWeight: FontWeight.w400,
@@ -1133,7 +1133,7 @@ class DialogWidgetUtil {
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       color: ColorTheme.secondary),
                   child: Center(
-                    child: Text('Yes, update now',
+                    child: Text(S.of(context).fw_update_dialog_yes,
                         style: TextStyle(
                             color: ColorTheme.fontColor,
                             fontWeight: FontWeight.w500,
@@ -1159,7 +1159,7 @@ class DialogWidgetUtil {
                       border:
                           Border.all(color: ColorTheme.secondary, width: 1)),
                   child: Center(
-                    child: Text('No, update later',
+                    child: Text(S.of(context).fw_update_dialog_no,
                         style: TextStyle(
                             color: ColorTheme.secondary,
                             fontWeight: FontWeight.w500,

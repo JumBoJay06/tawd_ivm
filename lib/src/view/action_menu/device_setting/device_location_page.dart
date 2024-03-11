@@ -81,7 +81,14 @@ class _deviceLocation extends State<DeviceLocationPage> {
             }
             DialogLoading.dismissLoading('loading');
             isUpdateData = false;
-            return Container();
+            SmartDialog.show(builder: (context) {
+              return DialogWidgetUtil.deviceSettingFailDialog(context);
+            }, tag: 'fail');
+            Future.delayed(const Duration(seconds: 3), () {
+              SmartDialog.dismiss(tag: 'fail');
+              ivmDeviceLocationCubit.loadDeviceLocationData();
+            });
+            return Container(color: ColorTheme.background,);
           }
     });
   }
@@ -127,9 +134,9 @@ class _deviceLocation extends State<DeviceLocationPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).device_settings_device_lacation,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -251,14 +258,14 @@ class _deviceLocation extends State<DeviceLocationPage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.h)),
                   boxShadow: const [
                     BoxShadow(
-                        color: ColorTheme.primary,
+                        color: ColorTheme.secondaryAlpha_30,
                         offset: Offset(0, 10),
                         blurRadius: 25,
                         spreadRadius: 0)
                   ],
                   gradient: const LinearGradient(
-                      begin: Alignment(0.6116728186607361, 0),
-                      end: Alignment(0.37270376086235046, 1.0995962619781494),
+                      begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                      end: Alignment(0.31717830896377563, 1.3271920680999756),
                       colors: [
                         ColorTheme.secondaryGradient,
                         ColorTheme.secondary

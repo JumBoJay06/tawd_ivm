@@ -26,6 +26,7 @@ class _valvePosition extends State<ValvePositionPage> {
   Logger get _logger => Logger("ValvePositionPage");
   var isUpdateData = false;
   var textFieldHeight = 0.0;
+  var isFirstTime = true;
   final minControl = TextEditingController(text: '0');
   final maxControl = TextEditingController(text: '0');
 
@@ -35,12 +36,6 @@ class _valvePosition extends State<ValvePositionPage> {
   void initState() {
     super.initState();
     ivmValvePositionCubit.loadValvePositionData();
-    minControl.addListener(() {
-      textFieldHeight = 494.h;
-    });
-    maxControl.addListener(() {
-      textFieldHeight = 412.h;
-    });
   }
 
   @override
@@ -76,8 +71,11 @@ class _valvePosition extends State<ValvePositionPage> {
             SmartDialog.dismiss(tag: 'success');
           });
         }
-        maxControl.text = state.data.max.toString();
-        minControl.text = state.data.min.toString();
+        if (isFirstTime) {
+          isFirstTime = false;
+          maxControl.text = state.data.max.toString();
+          minControl.text = state.data.min.toString();
+        }
         return GestureDetector(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
@@ -88,7 +86,7 @@ class _valvePosition extends State<ValvePositionPage> {
               reverse: true,
               child: Padding(
                 padding: EdgeInsets.only(bottom: keyboardPadding),
-                child: Container(
+                child: SizedBox(
                   width: 375.w,
                   height: 812.h,
                   child: Stack(
@@ -110,7 +108,15 @@ class _valvePosition extends State<ValvePositionPage> {
         }
         DialogLoading.dismissLoading('loading');
         isUpdateData = false;
-        return Container();
+        isFirstTime = true;
+        SmartDialog.show(builder: (context) {
+          return DialogWidgetUtil.deviceSettingFailDialog(context);
+        }, tag: 'fail');
+        Future.delayed(const Duration(seconds: 3), () {
+          SmartDialog.dismiss(tag: 'fail');
+          ivmValvePositionCubit.loadValvePositionData();
+        });
+        return Container(color: ColorTheme.background,);
       }
     });
   }
@@ -156,9 +162,9 @@ class _valvePosition extends State<ValvePositionPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).device_settings_valve_position,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -233,6 +239,16 @@ class _valvePosition extends State<ValvePositionPage> {
                       child: TextField(
                         controller: minControl,
                         keyboardType: TextInputType.number,
+                        onTap: () {
+                          textFieldHeight = 494.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmValvePositionCubit.setValvePositionMin(int.parse(value));
+                          } else {
+                            ivmValvePositionCubit.setValvePositionMin(0);
+                          }
+                        },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -251,7 +267,7 @@ class _valvePosition extends State<ValvePositionPage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 192.h,
@@ -271,6 +287,16 @@ class _valvePosition extends State<ValvePositionPage> {
                       child: TextField(
                         controller: maxControl,
                         keyboardType: TextInputType.number,
+                        onTap: () {
+                          textFieldHeight = 412.h;
+                        },
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            ivmValvePositionCubit.setValvePositionMax(int.parse(value));
+                          } else {
+                            ivmValvePositionCubit.setValvePositionMax(0);
+                          }
+                        },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -289,7 +315,7 @@ class _valvePosition extends State<ValvePositionPage> {
                               borderSide: BorderSide(color: ColorTheme.primary),
                             ),
                             filled: true,
-                            fillColor: ColorTheme.primaryAlpha_10),
+                            fillColor: ColorTheme.primary.withOpacity(0.035)),
                       )),
                   Positioned(
                       top: 274.h,
@@ -329,14 +355,14 @@ class _valvePosition extends State<ValvePositionPage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.h)),
                   boxShadow: const [
                     BoxShadow(
-                        color: ColorTheme.primary,
+                        color: ColorTheme.secondaryAlpha_30,
                         offset: Offset(0, 10),
                         blurRadius: 25,
                         spreadRadius: 0)
                   ],
                   gradient: const LinearGradient(
-                      begin: Alignment(0.6116728186607361, 0),
-                      end: Alignment(0.37270376086235046, 1.0995962619781494),
+                      begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                      end: Alignment(0.31717830896377563, 1.3271920680999756),
                       colors: [
                         ColorTheme.secondaryGradient,
                         ColorTheme.secondary
