@@ -29,10 +29,35 @@ class _recordChart extends State<RecordChartPage> {
   Logger get _logger => Logger("MaintenanceRecordsPage");
   int selectIndex = 0;
   RecordChartCubit recordChartCubit = RecordChartCubit();
+  late String torqueUnit;
+  late double torqueFormat;
+  late int pressureUnitSetting;
+  late String pressureUnit;
+  late double pressureFormat;
+
 
   @override
   void initState() {
     super.initState();
+    final MySharedPreferences prefs = MySharedPreferences.getInstance();
+    final isTorqueUnitNm = prefs.getTorqueUnit().id == 0;
+    torqueUnit = isTorqueUnitNm ? 'Nm' : 'kgf*cm';
+    torqueFormat = isTorqueUnitNm ? 1 : 10.2;
+    pressureUnitSetting = prefs.getPressureUnit().id;
+    switch (pressureUnitSetting) {
+      case 1:
+        pressureUnit = 'bar';
+        pressureFormat = 0.07;
+        break;
+      case 2:
+        pressureUnit = 'kPa';
+        pressureFormat = 7;
+        break;
+      default:
+        pressureUnit = 'psi';
+        pressureFormat = 1;
+        break;
+    }
     recordChartCubit.loadRecordChart(context);
   }
 
@@ -90,9 +115,9 @@ class _recordChart extends State<RecordChartPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).record_chart_,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -208,6 +233,15 @@ class _recordChart extends State<RecordChartPage> {
                 mainData(logs),
                 duration: const Duration(milliseconds: 500),
               )),
+          // Positioned(
+          //     top: 20.h,
+          //     left: 10.5.w,
+          //     right: 10.5.w,
+          //     bottom: 24.5.h,
+          //     child: selectIndex == 3 ? LineChart(
+          //       mainData2(logs),
+          //       duration: const Duration(milliseconds: 500),
+          //     ) : const SizedBox()),
           Positioned(
               top: 251.h,
               left: 124.w,
@@ -246,7 +280,7 @@ class _recordChart extends State<RecordChartPage> {
       height: 40.h,
       decoration: BoxDecoration(
           color:
-              (index % 2 == 1) ? ColorTheme.primaryAlpha_10 : ColorTheme.white),
+              (index % 2 == 1) ? ColorTheme.primary.withOpacity(0.025) : ColorTheme.white),
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
         children: [
@@ -292,40 +326,19 @@ class _recordChart extends State<RecordChartPage> {
 
   List<String> getItemValue(int index, HistoryLog log) {
     List<String> result = List.empty(growable: true);
-    final MySharedPreferences prefs = MySharedPreferences.getInstance();
-    final isTorqueUnitNm = prefs.getTorqueUnit().id == 0;
-    final torqueUnit = isTorqueUnitNm ? 'Nm' : 'kgf*cm';
-    final torqueFormat = isTorqueUnitNm ? 1 : 10.2;
-    final pressureUnitSetting = prefs.getPressureUnit().id;
-    String pressureUnit;
-    double pressureFormat;
-    switch (pressureUnitSetting) {
-      case 1:
-        pressureUnit = 'bar';
-        pressureFormat = 0.07;
-        break;
-      case 2:
-        pressureUnit = 'kPa';
-        pressureFormat = 7;
-        break;
-      default:
-        pressureUnit = 'psi';
-        pressureFormat = 1;
-        break;
-    }
     switch (selectIndex) {
       case 0:
         result.add("${log.valveAngle}°");
         break;
       case 1:
-        result.add("${log.strainGauge * torqueFormat} $torqueUnit");
+        result.add("${(log.strainGauge * torqueFormat).toStringAsFixed(1)} $torqueUnit");
         break;
       case 2:
-        result.add("${log.pressure * pressureFormat} $pressureUnit");
+        result.add("${(log.pressure * pressureFormat).toStringAsFixed(1)} $pressureUnit");
         break;
       case 3:
-        result.add("${log.strainGauge * torqueFormat} $torqueUnit");
-        result.add("${log.pressure * pressureFormat} $pressureUnit");
+        result.add("${(log.strainGauge * torqueFormat).toStringAsFixed(1)} $torqueUnit");
+        result.add("${(log.pressure * pressureFormat).toStringAsFixed(1)} $pressureUnit");
         break;
     }
 
@@ -637,7 +650,7 @@ class _recordChart extends State<RecordChartPage> {
 
   LineChartData mainData(List<HistoryLog> logs) {
     return LineChartData(
-      clipData: FlClipData.all(),
+      clipData: const FlClipData.all(),
       gridData: FlGridData(
         show: false,
         drawVerticalLine: true,
@@ -651,7 +664,7 @@ class _recordChart extends State<RecordChartPage> {
         },
       ),
       titlesData: FlTitlesData(
-        show: false,
+        show: true,
         leftTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
@@ -679,11 +692,105 @@ class _recordChart extends State<RecordChartPage> {
         show: true,
         border: Border.all(color: const Color(0xff37434d)),
       ),
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: ColorTheme.primary,
+          getTooltipItems: (touchedSpots) {
+            return touchedSpots.map((LineBarSpot touchedSpot) {
+              final TextStyle textStyle = TextStyle(
+                color: ColorTheme.fontColor,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Helvetica",
+                fontStyle: FontStyle.normal,
+                fontSize: 12.0.sp,
+              );
+              return LineTooltipItem(
+                  touchedSpot.y.toStringAsFixed(1),
+                  textStyle,
+                  textAlign: TextAlign.center);
+            }).toList();
+          },
+        ),
+        handleBuiltInTouches: true,
+      ),
       minX: getChartMinX(logs).toDouble(),
       maxX: getChartMaxX(logs).toDouble(),
       minY: getChartMinY(logs).toDouble(),
       maxY: getChartMaxY(logs).toDouble(),
       lineBarsData: getLineCharts(logs),
+    );
+  }
+
+  LineChartData mainData2(List<HistoryLog> logs) {
+    return LineChartData(
+      clipData: const FlClipData.all(),
+      gridData: FlGridData(
+        show: false,
+        drawVerticalLine: true,
+        horizontalInterval: 1,
+        verticalInterval: 1,
+        getDrawingVerticalLine: (value) {
+          return const FlLine(
+            color: ColorTheme.primaryAlpha_10,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        leftTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: leftTitleWidgets2,
+            reservedSize: 42,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+        // lineTouchData: LineTouchData(
+        //   touchTooltipData: LineTouchTooltipData(
+        //     tooltipBgColor: ColorTheme.primary,
+        //     getTooltipItems: (touchedSpots) {
+        //       return touchedSpots.map((LineBarSpot touchedSpot) {
+        //         final TextStyle textStyle = TextStyle(
+        //           color: ColorTheme.fontColor,
+        //           fontWeight: FontWeight.w500,
+        //           fontFamily: "Helvetica",
+        //           fontStyle: FontStyle.normal,
+        //           fontSize: 12.0.sp,
+        //         );
+        //         return LineTooltipItem(
+        //             touchedSpot.y.toStringAsFixed(1),
+        //             textStyle,
+        //             textAlign: TextAlign.center);
+        //       }).toList();
+        //     },
+        //   ),
+        //   handleBuiltInTouches: true,
+        // ),
+      minX: getChartMinX(logs).toDouble(),
+      maxX: getChartMaxX(logs).toDouble(),
+      minY: getChartMinY2(logs).toDouble(),
+      maxY: getChartMaxY2(logs).toDouble(),
+      lineBarsData: getLineCharts2(logs),
     );
   }
 
@@ -693,13 +800,32 @@ class _recordChart extends State<RecordChartPage> {
         var map = logs.map((e) => e.valveAngle);
         return map.reduce(max) + 10;
       case 1:
-        var map = logs.map((e) => e.strainGauge);
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
         return map.reduce(max) + 10;
       case 2:
-        var map = logs.map((e) => e.pressure.toInt());
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
         return map.reduce(max) + 10;
       case 3:
-        var map = logs.map((e) => e.strainGauge);
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
+        return map.reduce(max) + 10;
+      default:
+        return 0;
+    }
+  }
+
+  int getChartMaxY2(List<HistoryLog> logs) {
+    switch (selectIndex) {
+      case 0:
+        var map = logs.map((e) => e.valveAngle);
+        return map.reduce(max) + 10;
+      case 1:
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
+        return map.reduce(max) + 10;
+      case 2:
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
+        return map.reduce(max) + 10;
+      case 3:
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
         return map.reduce(max) + 10;
       default:
         return 0;
@@ -712,13 +838,32 @@ class _recordChart extends State<RecordChartPage> {
         var map = logs.map((e) => e.valveAngle);
         return map.reduce(min) - 10;
       case 1:
-        var map = logs.map((e) => e.strainGauge);
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
         return map.reduce(min) - 10;
       case 2:
-        var map = logs.map((e) => e.pressure.toInt());
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
         return map.reduce(min) - 10;
       case 3:
-        var map = logs.map((e) => e.strainGauge);
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
+        return map.reduce(min) - 10;
+      default:
+        return 0;
+    }
+  }
+
+  int getChartMinY2(List<HistoryLog> logs) {
+    switch (selectIndex) {
+      case 0:
+        var map = logs.map((e) => e.valveAngle);
+        return map.reduce(min) - 10;
+      case 1:
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
+        return map.reduce(min) - 10;
+      case 2:
+        var map = logs.map((e) => (e.pressure * pressureFormat).toInt());
+        return map.reduce(min) - 10;
+      case 3:
+        var map = logs.map((e) => (e.strainGauge * torqueFormat).toInt());
         return map.reduce(min) - 10;
       default:
         return 0;
@@ -736,14 +881,14 @@ class _recordChart extends State<RecordChartPage> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    // String dateFormat = '';
-    // final datum = (meta.max - meta.min).toInt() ~/ 6;
-    // if (value.toInt() % datum == 0) {
-    //   final dateTime = DateTime.fromMillisecondsSinceEpoch(value.toInt() * 1000,
-    //       isUtc: true);
-    //   dateFormat = DateFormat("MM/dd").format(dateTime);
-    // }
-    Widget text = Text("${value.toInt()}",
+    String dateFormat = '';
+    final datum = (meta.max - meta.min).toInt() ~/ 6;
+    if (value.toInt() % datum == 0) {
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(value.toInt() * 1000,
+          isUtc: true);
+      dateFormat = DateFormat("MM/dd").format(dateTime);
+    }
+    Widget text = Text(dateFormat,
         style: TextStyle(
             color: ColorTheme.primary,
             fontWeight: FontWeight.w300,
@@ -760,18 +905,59 @@ class _recordChart extends State<RecordChartPage> {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     String title = '';
+    String unit = '';
     final datum = (meta.max - meta.min).toInt() ~/ 6;
     if (value.toInt() % datum == 0) {
       title = value.toInt().toString();
+      // switch (selectIndex) {
+      //   case 0:
+      //     title = value.toInt().toString();
+      //     unit = '°';
+      //     break;
+      //   case 1:
+      //     title = (value * torqueFormat).toStringAsFixed(1);
+      //     unit = " $torqueUnit";
+      //     break;
+      //   case 2:
+      //     title = (value * pressureFormat).toStringAsFixed(1);
+      //     unit = " $pressureUnit";
+      //     break;
+      //   case 3:
+      //     title = (value * torqueFormat).toStringAsFixed(1);
+      //     unit = " $torqueUnit";
+      //     break;
+      // }
     }
-    Widget text = Text(title,
-        style: TextStyle(
-            color: ColorTheme.primary,
-            fontWeight: FontWeight.w300,
-            fontFamily: "Helvetica",
-            fontStyle: FontStyle.normal,
-            fontSize: 10.0.sp),
-        textAlign: TextAlign.left);
+    Widget text = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text("$title$unit",
+          style: TextStyle(
+              color: ColorTheme.primary,
+              fontWeight: FontWeight.w300,
+              fontFamily: "Helvetica",
+              fontStyle: FontStyle.normal,
+              fontSize: 10.0.sp),
+          textAlign: TextAlign.left),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget leftTitleWidgets2(double value, TitleMeta meta) {
+    Widget text = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text('',
+          style: TextStyle(
+              color: ColorTheme.primary,
+              fontWeight: FontWeight.w300,
+              fontFamily: "Helvetica",
+              fontStyle: FontStyle.normal,
+              fontSize: 10.0.sp),
+          textAlign: TextAlign.left),
+    );
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -783,18 +969,16 @@ class _recordChart extends State<RecordChartPage> {
     List<LineChartBarData> list = List.empty(growable: true);
     switch (selectIndex) {
       case 0:
-        var spots = logs
-            .map((value) =>
-                FlSpot(value.index.toDouble(), value.valveAngle.toDouble()))
-            .toList();
-        _logger.info("spots => $spots");
         list.add(LineChartBarData(
-          spots: spots,
+          spots: logs
+              .map((value) =>
+              FlSpot(value.index.toDouble(), value.valveAngle.toDouble()))
+              .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: [getChartLineColor()[0], getChartLineColor()[0]],
           ),
-          barWidth: 5.w,
+          barWidth: 2.w,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -815,13 +999,13 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.index.toDouble(), value.strainGauge.toDouble()))
+              FlSpot(value.index.toDouble(), value.strainGauge * torqueFormat))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: [getChartLineColor()[0], getChartLineColor()[0]],
           ),
-          barWidth: 5,
+          barWidth: 2.w,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -842,13 +1026,13 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.index.toDouble(), value.pressure.toDouble()))
+              FlSpot(value.index.toDouble(), value.pressure * pressureFormat))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: [getChartLineColor()[0], getChartLineColor()[0]],
           ),
-          barWidth: 5,
+          barWidth: 2.w,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -869,13 +1053,13 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.index.toDouble(), value.strainGauge.toDouble()))
+              FlSpot(value.index.toDouble(), value.strainGauge * torqueFormat))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: [getChartLineColor()[0], getChartLineColor()[0]],
           ),
-          barWidth: 5,
+          barWidth: 2.w,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -894,13 +1078,13 @@ class _recordChart extends State<RecordChartPage> {
         list.add(LineChartBarData(
           spots: logs
               .map((value) =>
-                  FlSpot(value.index.toDouble(), value.pressure.toDouble()))
+              FlSpot(value.index.toDouble(), value.pressure * pressureFormat))
               .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: [getChartLineColor()[1], getChartLineColor()[1]],
           ),
-          barWidth: 5,
+          barWidth: 2.w,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -911,6 +1095,122 @@ class _recordChart extends State<RecordChartPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [getChartLineColor()[1], Colors.white]
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ));
+        break;
+    }
+
+    return list;
+  }
+
+  List<LineChartBarData> getLineCharts2(List<HistoryLog> logs) {
+    List<LineChartBarData> list = List.empty(growable: true);
+    switch (selectIndex) {
+      case 0:
+        list.add(LineChartBarData(
+          spots: logs
+              .map((value) =>
+              FlSpot(value.index.toDouble(), value.valveAngle.toDouble()))
+              .toList(),
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: [getChartLineColor()[0], getChartLineColor()[0]],
+          ),
+          barWidth: 2.w,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [getChartLineColor()[0], Colors.white]
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ));
+        break;
+      case 1:
+        list.add(LineChartBarData(
+          spots: logs
+              .map((value) =>
+                  FlSpot(value.index.toDouble(), value.strainGauge * torqueFormat))
+              .toList(),
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: [getChartLineColor()[0], getChartLineColor()[0]],
+          ),
+          barWidth: 2.w,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [getChartLineColor()[0], Colors.white]
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ));
+        break;
+      case 2:
+        list.add(LineChartBarData(
+          spots: logs
+              .map((value) =>
+                  FlSpot(value.index.toDouble(), value.pressure * pressureFormat))
+              .toList(),
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: [getChartLineColor()[0], getChartLineColor()[0]],
+          ),
+          barWidth: 2.w,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [getChartLineColor()[0], Colors.white]
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ));
+        break;
+      case 3:
+        list.add(LineChartBarData(
+          spots: logs
+              .map((value) =>
+              FlSpot(value.index.toDouble(), value.strainGauge * torqueFormat))
+              .toList(),
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: [getChartLineColor()[0], getChartLineColor()[0]],
+          ),
+          barWidth: 2.w,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [getChartLineColor()[0], Colors.white]
                   .map((color) => color.withOpacity(0.3))
                   .toList(),
             ),

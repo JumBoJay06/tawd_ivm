@@ -18,6 +18,7 @@ import 'package:tawd_ivm/src/bloc/paired_device/paired_device_bloc.dart';
 import 'package:tawd_ivm/src/data/language.dart';
 import 'package:tawd_ivm/src/data/paired_device.dart';
 import 'package:tawd_ivm/src/data/shared_preferences/my_shared_preferences.dart';
+import 'package:tawd_ivm/src/theme/style.dart';
 
 import 'generated/l10n.dart';
 
@@ -86,7 +87,12 @@ class MyApp extends StatelessWidget {
           ],
           locale: state.locale,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: ColorTheme.primary),
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: ColorTheme.secondary,
+              selectionColor: ColorTheme.secondary,
+              selectionHandleColor: ColorTheme.secondary,
+            ),
             useMaterial3: true,
           ),
           onGenerateRoute: onRoute,

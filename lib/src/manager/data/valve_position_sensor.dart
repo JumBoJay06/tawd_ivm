@@ -1,5 +1,5 @@
 class ValvePositionSensor {
-  final int angle;
+  final double angle;
   final bool pressureAlert;
   final bool torqueAlert;
 

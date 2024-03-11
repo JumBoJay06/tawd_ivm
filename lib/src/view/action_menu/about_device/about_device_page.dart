@@ -39,29 +39,35 @@ class _AboutDevicePage extends State<AboutDevicePage> {
       bloc: aboutDeviceCubit,
       listener: (context, state) {
         if (state is Success) {
-          SmartDialog.show(builder: (context) {
-            return DialogWidgetUtil.aboutDeviceRefreshedDialog(context);
-          }, tag: 'success');
+          SmartDialog.show(
+              builder: (context) {
+                return DialogWidgetUtil.aboutDeviceRefreshedDialog(context);
+              },
+              tag: 'success');
           Future.delayed(const Duration(seconds: 3), () {
             SmartDialog.dismiss(tag: 'success');
           });
         }
         if (state is Fail) {
-          SmartDialog.show(builder: (context) {
-            return DialogWidgetUtil.aboutDeviceRefreshFailDialog(context);
-          }, tag: 'fail');
+          SmartDialog.show(
+              builder: (context) {
+                return DialogWidgetUtil.aboutDeviceRefreshFailDialog(context);
+              },
+              tag: 'fail');
           Future.delayed(const Duration(seconds: 3), () {
             SmartDialog.dismiss(tag: 'fail');
           });
         }
-      }, child: Stack(
-      children: [
-        _createTitleWidget(context),
-        _createInfoWidget(context),
-        _createTabWidget(context),
-        _createBottomMask()
-      ],
-    ),);
+      },
+      child: Stack(
+        children: [
+          _createTitleWidget(context),
+          _createInfoWidget(context),
+          _createTabWidget(context),
+          _createBottomMask()
+        ],
+      ),
+    );
   }
 
   @override
@@ -77,7 +83,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
       setState(() {
         if (currentOffset >= 0 && currentOffset < 306.h) {
           groupSelect = 0;
-        } else if (currentOffset >= 306.h && currentOffset < 687.h) {
+        } else if (currentOffset >= 306.h && currentOffset < 680.h) {
           groupSelect = 1;
         } else {
           groupSelect = 2;
@@ -99,9 +105,9 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                     begin: Alignment(0.4375917911529541, 0.6623137593269348),
                     end: Alignment(0.4371386766433716, 0),
                     colors: [
-                      ColorTheme.background,
-                      ColorTheme.backgroundTransparent
-                    ]))));
+                  ColorTheme.background,
+                  ColorTheme.backgroundTransparent
+                ]))));
   }
 
   _createInfoWidget(BuildContext context) {
@@ -137,9 +143,9 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                                   decoration: BoxDecoration(
                                       borderRadius: groupSelect == 0
                                           ? BorderRadius.vertical(
-                                          bottom: Radius.circular(30.h))
+                                              bottom: Radius.circular(30.h))
                                           : BorderRadius.all(
-                                          Radius.circular(30.h)),
+                                              Radius.circular(30.h)),
                                       boxShadow: const [
                                         BoxShadow(
                                             color: ColorTheme.secondaryAlpha_10,
@@ -160,9 +166,9 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                                   decoration: BoxDecoration(
                                       borderRadius: groupSelect == 1
                                           ? BorderRadius.vertical(
-                                          bottom: Radius.circular(30.h))
+                                              bottom: Radius.circular(30.h))
                                           : BorderRadius.all(
-                                          Radius.circular(30.h)),
+                                              Radius.circular(30.h)),
                                       boxShadow: const [
                                         BoxShadow(
                                             color: ColorTheme.secondaryAlpha_10,
@@ -183,9 +189,9 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                                   decoration: BoxDecoration(
                                       borderRadius: groupSelect == 2
                                           ? BorderRadius.vertical(
-                                          bottom: Radius.circular(30.h))
+                                              bottom: Radius.circular(30.h))
                                           : BorderRadius.all(
-                                          Radius.circular(30.h)),
+                                              Radius.circular(30.h)),
                                       boxShadow: const [
                                         BoxShadow(
                                             color: ColorTheme.secondaryAlpha_10,
@@ -217,9 +223,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
         Positioned(
             top: 18.h,
             left: 16.w,
-            child: Text(S
-                .of(context)
-                .about_device_product_info,
+            child: Text(S.of(context).about_device_product_info,
                 style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
@@ -262,9 +266,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
         Positioned(
             top: 18.h,
             left: 16.w,
-            child: Text(S
-                .of(context)
-                .about_device_info,
+            child: Text(S.of(context).about_device_info,
                 style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
@@ -306,9 +308,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
         Positioned(
             top: 18.h,
             left: 16.w,
-            child: Text(S
-                .of(context)
-                .device_settings_led_indicator,
+            child: Text(S.of(context).device_settings_led_indicator,
                 style: TextStyle(
                     color: ColorTheme.secondary,
                     fontWeight: FontWeight.w500,
@@ -346,17 +346,17 @@ class _AboutDevicePage extends State<AboutDevicePage> {
 
   _createDetailItemWidget(BuildContext context,
       {String iconAsset = 'assets/icon_light_white.png',
-        Color backgroundColor = ColorTheme.white,
-        String title = '',
-        String content = '',
-        bool isNoBallValveId = false}) {
+      Color backgroundColor = ColorTheme.white,
+      String title = '',
+      String content = '',
+      bool isNoBallValveId = false}) {
     return GestureDetector(
       onTap: () {
         // 沒有 ball valve id 才會有點擊功能，其他的沒有
         // 之後有的話，把isNoBallValveId改成enum，並新增其他狀態
         if (isNoBallValveId) {
-          Navigator.pushNamed(context, kRouteReplaceBallValvePage).then((
-              value) => aboutDeviceCubit.loadAboutDeviceData(context));
+          Navigator.pushNamed(context, kRouteReplaceBallValvePage)
+              .then((value) => aboutDeviceCubit.loadAboutDeviceData(context));
         }
       },
       child: SizedBox(
@@ -392,11 +392,11 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                             right: 0,
                             child: isNoBallValveId
                                 ? Image.asset(
-                              width: 16.w,
-                              height: 16.h,
-                              'assets/icon_info_right.png',
-                              fit: BoxFit.fill,
-                            )
+                                    width: 16.w,
+                                    height: 16.h,
+                                    'assets/icon_info_right.png',
+                                    fit: BoxFit.fill,
+                                  )
                                 : const SizedBox())
                       ],
                     ))),
@@ -454,6 +454,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             Positioned(
               top: 0,
               bottom: 0,
+              right: 216.w,
               left: 16.w,
               child: InkWell(
                 onTap: () {
@@ -462,27 +463,44 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                     _gotoAnchorPoint();
                   });
                 },
-                child: Row(
+                child: Stack(
                   children: [
-                    Radio(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      activeColor: ColorTheme.secondary,
-                      groupValue: groupSelect,
-                      onChanged: (value) {},
-                      value: 0,
-                    ),
-                    Text(S
-                        .of(context)
-                        .about_device_product_info,
-                        style: TextStyle(
-                            color: groupSelect == 0
-                                ? ColorTheme.secondary
-                                : ColorTheme.primaryAlpha_35,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "SFProDisplay",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0.sp),
-                        textAlign: TextAlign.left)
+                    Positioned(
+                        top: 0,
+                        bottom: 0,
+                        child: Radio(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          fillColor: MaterialStateProperty.all(
+                            groupSelect == 0 ? ColorTheme.secondary :ColorTheme.primaryAlpha_35,
+                          ),
+                          groupValue: groupSelect,
+                          onChanged: (value) {
+                            setState(() {
+                              groupSelect = 0;
+                              _gotoAnchorPoint();
+                            });
+                          },
+                          value: 0,
+                        )),
+                    Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 30.w,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(S.of(context).about_device_product_info,
+                              style: TextStyle(
+                                  color: groupSelect == 0
+                                      ? ColorTheme.secondary
+                                      : ColorTheme.primaryAlpha_35,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "SFProDisplay",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0.sp),
+                              textAlign: TextAlign.left),
+                        ))
                   ],
                 ),
               ),
@@ -490,6 +508,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             Positioned(
                 top: 0,
                 bottom: 0,
+                right: 120.w,
                 left: 120.w,
                 child: InkWell(
                   onTap: () {
@@ -498,33 +517,51 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                       _gotoAnchorPoint();
                     });
                   },
-                  child: Row(
+                  child: Stack(
                     children: [
-                      Radio(
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        activeColor: ColorTheme.secondary,
-                        groupValue: groupSelect,
-                        onChanged: (value) {},
-                        value: 1,
-                      ),
-                      Text(S
-                          .of(context)
-                          .about_device_info,
-                          style: TextStyle(
-                              color: groupSelect == 1
-                                  ? ColorTheme.secondary
-                                  : ColorTheme.primaryAlpha_35,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0.sp),
-                          textAlign: TextAlign.left)
+                      Positioned(
+                          top: 0,
+                          bottom: 0,
+                          child: Radio(
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            fillColor: MaterialStateProperty.all(
+                              groupSelect == 1 ? ColorTheme.secondary :ColorTheme.primaryAlpha_35,
+                            ),
+                            groupValue: groupSelect,
+                            onChanged: (value) {
+                              setState(() {
+                                groupSelect = 1;
+                                _gotoAnchorPoint();
+                              });
+                            },
+                            value: 1,
+                          )),
+                      Positioned(
+                          top: 0,
+                          bottom: 0,
+                          right: 0,
+                          left: 30.w,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(S.of(context).about_device_info,
+                                style: TextStyle(
+                                    color: groupSelect == 1
+                                        ? ColorTheme.secondary
+                                        : ColorTheme.primaryAlpha_35,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "SFProDisplay",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0.sp),
+                                textAlign: TextAlign.left),
+                          ))
                     ],
                   ),
                 )),
             Positioned(
                 top: 0,
                 bottom: 0,
+                right: 16.w,
                 left: 223.w,
                 child: InkWell(
                   onTap: () {
@@ -533,27 +570,45 @@ class _AboutDevicePage extends State<AboutDevicePage> {
                       _gotoAnchorPoint();
                     });
                   },
-                  child: Row(
+                  child: Stack(
                     children: [
-                      Radio(
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        activeColor: ColorTheme.secondary,
-                        groupValue: groupSelect,
-                        onChanged: (value) {},
-                        value: 2,
-                      ),
-                      Text(S
-                          .of(context)
-                          .device_settings_led_indicator,
-                          style: TextStyle(
-                              color: groupSelect == 2
-                                  ? ColorTheme.secondary
-                                  : ColorTheme.primaryAlpha_35,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "SFProDisplay",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0.sp),
-                          textAlign: TextAlign.left)
+                      Positioned(
+                          top: 0,
+                          bottom: 0,
+                          child: Radio(
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            fillColor: MaterialStateProperty.all(
+                              groupSelect == 2 ? ColorTheme.secondary :ColorTheme.primaryAlpha_35,
+                            ),
+                            groupValue: groupSelect,
+                            onChanged: (value) {
+                              setState(() {
+                                groupSelect = 2;
+                                _gotoAnchorPoint();
+                              });
+                            },
+                            value: 2,
+                          )),
+                      Positioned(
+                          top: 0,
+                          bottom: 0,
+                          right: 0,
+                          left: 30.w,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                                S.of(context).device_settings_led_indicator,
+                                style: TextStyle(
+                                    color: groupSelect == 2
+                                        ? ColorTheme.secondary
+                                        : ColorTheme.primaryAlpha_35,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "SFProDisplay",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0.sp),
+                                textAlign: TextAlign.left),
+                          ))
                     ],
                   ),
                 )),
@@ -583,7 +638,7 @@ class _AboutDevicePage extends State<AboutDevicePage> {
             top: 58.h,
             left: 16.w,
             child: Image.asset(
-              'assets/light_6.png',
+              'assets/light_3.png',
               width: 24.w,
               height: 24.h,
               fit: BoxFit.fill,
@@ -602,9 +657,9 @@ class _AboutDevicePage extends State<AboutDevicePage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).about_device,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
