@@ -263,7 +263,7 @@ class IvmManager {
     try {
       final list = await _sendCmd(CmdId.getValvePositionSensor.id);
       if (list != null) {
-        return ValvePositionSensor(BytesToInt.convert(list.sublist(0, 2)),
+        return ValvePositionSensor(BytesToInt.convert(list.sublist(0, 2)) / 10.0,
             _intToBool(list[2]), _intToBool(list[3]));
       } else {
         return null;
@@ -438,11 +438,12 @@ class IvmManager {
     try {
       final list = await _sendCmd(CmdId.getLedIndicatorState.id);
       if (list != null) {
-        if (list.length < 5) {
-          return LedIndicatorState.fromList([18, ...list]);
-        } else {
-          return LedIndicatorState.fromList(list);
-        }
+        // if (list.length < 5) {
+        //   return LedIndicatorState.fromList([18, ...list]);
+        // } else {
+        //   return LedIndicatorState.fromList(list);
+        // }
+        return LedIndicatorState.fromList(list);
       } else {
         return null;
       }
@@ -1111,7 +1112,7 @@ class IvmManager {
   }
 
   List<int> _toAscii(String inputString) {
-    return inputString.codeUnits;
+    return Uint8List.fromList(utf8.encode(inputString));
   }
 }
 

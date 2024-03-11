@@ -21,13 +21,51 @@ class ScanStartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return PopScope(
+      canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return;
+          }
+          Navigator.pushNamedAndRemoveUntil(
+              context, kRouteSelectLanguage, (route) => false);
+        },
+        child: Stack(
       children: [
         Container(
           width: 375.w,
           height: 812.h,
           color: ColorTheme.primary,
         ),
+        Positioned(
+            left: 0,
+            bottom: 14.h,
+            child: Container(
+                width: 294.00421142578125.w,
+                height: 424.26416015625.h,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(154)
+                    ),
+                    gradient: RadialGradient(colors: [
+                      ColorTheme.primaryVariant,
+                      ColorTheme.mask
+                    ])
+                )
+            )),
+        Positioned(child: Container(
+            width: 193.5634765625.w,
+            height: 193.5634765625.h,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                    Radius.circular(180)
+                ),
+                gradient: RadialGradient(colors: [
+                  ColorTheme.primaryVariant,
+                  ColorTheme.mask
+                ])
+            )
+        )),
         Positioned(
             top: 0,
             left: 0,
@@ -42,14 +80,18 @@ class ScanStartPage extends StatelessWidget {
             top: 64.h,
             left: 131.w,
             right: 131.w,
-            child: Text(S.of(context).ivm_service,
-                style: TextStyle(
-                    color: ColorTheme.white,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Helvetica",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20.0.sp),
-                textAlign: TextAlign.center)),
+            bottom: 728.h,
+            child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(S.of(context).ivm_service,
+                    style: TextStyle(
+                        color: ColorTheme.white,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Helvetica",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20.0.sp),
+                    textAlign: TextAlign.center)
+            )),
         Positioned(
             top: 58.h,
             left: 335.w,
@@ -107,9 +149,9 @@ class ScanStartPage extends StatelessWidget {
                 }
               },
               child: _createPairedDeviceWidget(context),
-            ))
+            )),
       ],
-    );
+    ));
   }
 
   Widget _createConnectDeviceWidget(BuildContext context) {
@@ -147,20 +189,25 @@ class ScanStartPage extends StatelessWidget {
               top: 292.h,
               left: 70.w,
               right: 107.w,
-              child: Text(S.of(context).ivm_service_device_connect,
-                  style: TextStyle(
-                      color: ColorTheme.primary,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "SFProDisplay",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 24.0.sp),
-                  textAlign: TextAlign.center)),
+              bottom: 159.2.h,
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(S.of(context).ivm_service_device_connect,
+                    style: TextStyle(
+                        color: ColorTheme.primary,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "SFProDisplay",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 24.0.sp),
+                    textAlign: TextAlign.center))
+              ),
           Positioned(
-              top: 293.h,
+              top: 295.h,
               left: 244.w,
               right: 71.w,
               child: Image.asset(
                 'assets/icon_arrow_dark.png',
+                fit: BoxFit.fill,
                 width: 28.w,
                 height: 28.h,
               )),
@@ -177,14 +224,14 @@ class ScanStartPage extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(30.h)),
         boxShadow: const [
           BoxShadow(
-              color: ColorTheme.primary,
+              color: ColorTheme.secondaryAlpha_30,
               offset: Offset(0, 10),
               blurRadius: 25,
               spreadRadius: 0)
         ],
         gradient: const LinearGradient(
-            begin: Alignment(0.6116728186607361, 0),
-            end: Alignment(0.37270376086235046, 1.0995962619781494),
+            begin: Alignment(0.8071713447570801, -0.3236607015132904),
+            end: Alignment(0.31717830896377563, 1.3271920680999756),
             colors: [ColorTheme.secondaryGradient, ColorTheme.secondary]),
       ),
       child: Center(

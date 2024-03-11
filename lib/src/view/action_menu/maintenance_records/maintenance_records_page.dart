@@ -68,7 +68,7 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
             top: 58.h,
             left: 16.w,
             child: Image.asset(
-              'assets/light_6.png',
+              'assets/light_3.png',
               width: 24.w,
               height: 24.h,
               fit: BoxFit.fill,
@@ -87,9 +87,9 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).maintenance_records,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
@@ -330,15 +330,19 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                         )),
                     Positioned(
                         top: 39.h,
+                        right: 253.h,
                         left: 24.w,
-                        child: Text(S.of(context).about_device_ball_id,
-                            style: TextStyle(
-                                color: ColorTheme.primary,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "SFProDisplay",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 13.0.sp),
-                            textAlign: TextAlign.center)),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child:Text(S.of(context).about_device_ball_id,
+                              style: TextStyle(
+                                  color: ColorTheme.primary,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "SFProDisplay",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 13.0.sp),
+                              textAlign: TextAlign.center)
+                        )),
                     Positioned(
                         top: 7.h,
                         left: 155.w,
@@ -350,15 +354,19 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                         )),
                     Positioned(
                         top: 39.h,
+                        right: 140.h,
                         left: 139.w,
-                        child: Text(S.of(context).about_device_matching_date,
-                            style: TextStyle(
-                                color: ColorTheme.primary,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "SFProDisplay",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 13.0.sp),
-                            textAlign: TextAlign.center)),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(S.of(context).about_device_matching_date,
+                              style: TextStyle(
+                                  color: ColorTheme.primary,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "SFProDisplay",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 13.0.sp),
+                              textAlign: TextAlign.center),
+                        )),
                     Positioned(
                         top: 7.h,
                         left: 270.w,
@@ -370,15 +378,19 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                         )),
                     Positioned(
                         top: 39.h,
+                        right: 19.h,
                         left: 248.w,
-                        child: Text(S.of(context).about_device_cycle_counter,
-                            style: TextStyle(
-                                color: ColorTheme.primary,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "SFProDisplay",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 13.0.sp),
-                            textAlign: TextAlign.center)),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(S.of(context).about_device_cycle_counter,
+                              style: TextStyle(
+                                  color: ColorTheme.primary,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "SFProDisplay",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 13.0.sp),
+                              textAlign: TextAlign.center),
+                        )),
                   ],
                 ),
               )),
@@ -410,14 +422,16 @@ class _maintenanceRecords extends State<MaintenanceRecordsPage> {
                               width: 343.w,
                               height: 40.h,
                               decoration: BoxDecoration(
-                                  color: (index%2 == 1) ? ColorTheme.primaryAlpha_10 : ColorTheme.white
+                                  color: (index%2 == 1) ? ColorTheme.primary.withOpacity(0.025) : ColorTheme.white
                               )
                           )),
                           Positioned(
                               top: 13.h,
                               bottom: 11.h,
+                              right: 231.w,
                               left: 15.w,
                               child: Text(item.ivmId,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: ColorTheme.primaryAlpha_50,
                                       fontWeight: FontWeight.w400,

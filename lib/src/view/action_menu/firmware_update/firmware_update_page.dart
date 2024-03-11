@@ -49,7 +49,7 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
         SmartDialog.dismiss(status: SmartStatus.allDialog);
         if (state is OnUpdating) {
           DialogLoading.showLoading('loading',
-              content: 'Updating firmware ...');
+              content: S.of(context).fw_update_updating);
         }
         if (state is OnSuccess) {
           SmartDialog.show(
@@ -221,9 +221,8 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
                                   spreadRadius: 0)
                             ],
                             gradient: const LinearGradient(
-                                begin: Alignment(0.6116728186607361, 0),
-                                end: Alignment(
-                                    0.37270376086235046, 1.0995962619781494),
+                                begin: Alignment(0.8071713447570801, -0.3236607015132904),
+                                end: Alignment(0.31717830896377563, 1.3271920680999756),
                                 colors: [
                                   ColorTheme.secondaryGradient,
                                   ColorTheme.secondary
@@ -334,9 +333,9 @@ class FirmwareUpdate extends State<FirmwareUpdatePage> {
               ),
             )),
         Positioned(
-            top: 64.h,
-            left: 0,
-            right: 0,
+            bottom: 728.h,
+            left: 56.w,
+            right: 56.w,
             child: Text(S.of(context).fw_update,
                 style: TextStyle(
                     color: ColorTheme.fontColor,
